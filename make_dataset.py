@@ -167,17 +167,19 @@ EXAMPLES = [
 # A few multi-call coordination examples (split -> run -> wait).  These teach
 # sequencing: each answer element is one call in order.
 MULTI = [
-    ("split my pane right and run the linter in the new pane, waiting for 'ok'",
+    ("split my pane right and run the linter in the new pane, waiting for it to finish",
      "split then run then wait; pane from new split, cwd current, match from query", [
         {"name": "pane_split", "arguments": {"current": True, "direction": "right",
                                              "focus": "no-focus"}},
         {"name": "pane_run", "arguments": {"pane": "w1:p2", "command": "cargo fmt --check"}},
-        {"name": "pane_wait", "arguments": {"pane": "w1:p2", "match": "ok",
+        # cargo fmt --check prints nothing on success, so match on the shell
+        # prompt return rather than a literal output string.
+        {"name": "pane_wait", "arguments": {"pane": "w1:p2", "regex": "\\$\\s*$",
                                             "timeout_ms": 60000}}]),
     ("start a codex reviewer in a fresh pane and wait for it to be ready",
      "split, start agent, wait; pane from new split", [
         {"name": "pane_split", "arguments": {"current": True, "direction": "right",
-                                             "cwd": "/home/repo", "focus": "no-focus"}},
+                                             "focus": "no-focus"}},
         {"name": "agent_start", "arguments": {"name": "reviewer", "kind": "codex", "pane": "w1:p2"}},
         {"name": "agent_wait", "arguments": {"target": "reviewer", "until": ["idle"]}}]),
 ]
@@ -368,9 +370,13 @@ def synth():
         rows.append((f"wait until agent {target} is {' or '.join(states)} up to {ms // 1000}s",
                      f"agent_wait; target, states, timeout from query",
                      [{"name": "agent_wait", "arguments": {"target": target, "until": states, "timeout_ms": ms}}]))
-    rows.append(("start a codex agent called review in w1:p2 with --dangerously-skip-permissions",
+    rows.append(("start a codex agent called review in w1:p2 with --dangerously-bypass-approvals-and-sandbox",
                  "agent_start; name, kind, pane, args from query",
                  [{"name": "agent_start", "arguments": {"name": "review", "kind": "codex", "pane": "w1:p2",
+                                                        "args": ["--dangerously-bypass-approvals-and-sandbox"]}}]))
+    rows.append(("start a claude agent called review in w1:p2 with --dangerously-skip-permissions",
+                 "agent_start; name, kind, pane, args from query",
+                 [{"name": "agent_start", "arguments": {"name": "review", "kind": "claude", "pane": "w1:p2",
                                                         "args": ["--dangerously-skip-permissions"]}}]))
     rows.append(("launch claude 'doc' in w1:p3 with --print and --output-format text",
                  "agent_start; name, kind, pane, args from query",
