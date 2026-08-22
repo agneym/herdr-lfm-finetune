@@ -9,6 +9,7 @@ Run:  .venv/bin/python make_dataset.py [out.jsonl]
 """
 import json
 import os
+import re
 import sys
 
 import herdr_tools as ht
@@ -262,9 +263,17 @@ def synth():
         rows.append((ph, f"pane_split; current pane, direction {dr}",
                      [{"name": "pane_split", "arguments": {"current": True, "direction": dr}}]))
     for ph, dr in [("split pane w1:p1 to the down", "down"),
-                   ("split w1:p3 to the right", "right")]:
+                   ("split w1:p3 to the right", "right"),
+                   ("split w1:p2 down", "down"),
+                   ("split pane w1:p4 to the right", "right")]:
+        pane = re.search(r"w\d+:p\d+", ph).group(0)
         rows.append((ph, f"pane_split; pane from query, direction {dr}",
-                     [{"name": "pane_split", "arguments": {"pane": ph.split()[2], "direction": dr}}]))
+                     [{"name": "pane_split", "arguments": {"pane": pane, "direction": dr}}]))
+    for ph, dr, ratio in [("split my pane down giving a third of the height", "down", 0.33),
+                          ("split my pane right at 30%", "right", 0.3),
+                          ("split my pane down with the new pane taking two thirds", "down", 0.67)]:
+        rows.append((ph, f"pane_split; current, direction {dr}, ratio from query",
+                     [{"name": "pane_split", "arguments": {"current": True, "direction": dr, "ratio": ratio}}]))
     for ph, dr, cwd, nofocus in [
             ("split my pane right in /home/repo without focus", "right", "/home/repo", "no-focus"),
             ("split this pane down in /home/repo/proj, don't focus", "down", "/home/repo/proj", "no-focus")]:
@@ -289,6 +298,12 @@ def synth():
                       ("w2:p2", "recent"), ("w1:p4", "visible")]:
         rows.append((f"show the {src} output from {pane}", f"pane_read; pane and source from query",
                      [{"name": "pane_read", "arguments": {"pane": pane, "source": src}}]))
+    for pane, src in [("w1:p1", "recent"), ("w1:p2", "visible")]:
+        rows.append((f"read the {src} output from {pane} as ansi", f"pane_read; pane, source, ansi format",
+                     [{"name": "pane_read", "arguments": {"pane": pane, "source": src, "format": "ansi"}}]))
+    for pane in ["w1:p1", "w1:p3"]:
+        rows.append((f"show the detection snapshot of {pane}", f"pane_read; pane and detection source",
+                     [{"name": "pane_read", "arguments": {"pane": pane, "source": "detection"}}]))
     for pane, match, ms in [("w1:p1", "test result", 120000), ("w1:p2", "BUILD SUCCESS", 60000),
                             ("w2:p1", "all tests passed", 90000), ("w1:p4", "ok", 30000),
                             ("w2:p2", "listening on", 45000)]:
@@ -298,9 +313,21 @@ def synth():
                         ("w2:p1", "No tests failed"), ("w1:p3", "launched")]:
         rows.append((f"wait until {pane} shows {match}", f"pane_wait; match from query",
                      [{"name": "pane_wait", "arguments": {"pane": pane, "match": match}}]))
+    for pane, rx, ms in [("w1:p1", r"error:\s*\d+", 60000),
+                         ("w1:p2", r"Build (succeeded|failed)", 90000),
+                         ("w2:p1", r"test result: (ok|FAILED)", None)]:
+        if ms:
+            rows.append((f"wait until {pane} matches {rx} up to {ms} ms", f"pane_wait; regex, timeout from query",
+                         [{"name": "pane_wait", "arguments": {"pane": pane, "regex": rx, "timeout_ms": ms}}]))
+        else:
+            rows.append((f"wait until {pane} matches {rx}", f"pane_wait; regex from query",
+                         [{"name": "pane_wait", "arguments": {"pane": pane, "regex": rx}}]))
     for pane, key in [("w2:p1", "Ctrl-c"), ("w1:p4", "q"), ("w1:p1", "esc"), ("w2:p2", "Ctrl-c")]:
         rows.append((f"send {key} to {pane}", f"pane_send_keys; pane and key from query",
                      [{"name": "pane_send_keys", "arguments": {"pane": pane, "keys": [key]}}]))
+    for pane, keys in [("w1:p1", ["Ctrl-c", "y"]), ("w2:p1", ["Enter"]), ("w1:p2", ["esc", "q"])]:
+        rows.append((f"send {' then '.join(keys)} to {pane}", f"pane_send_keys; pane and keys from query",
+                     [{"name": "pane_send_keys", "arguments": {"pane": pane, "keys": keys}}]))
     for pane, label in [("w1:p1", "builder"), ("w1:p2", "runner"), ("w2:p1", "test"),
                         ("w1:p4", "watch")]:
         rows.append((f"rename pane {pane} to {label}", f"pane_rename; pane and label from query",
@@ -336,20 +363,61 @@ def synth():
         rows.append((f"wait until agent {target} is {' or '.join(states)}",
                      f"agent_wait; target and states from query",
                      [{"name": "agent_wait", "arguments": {"target": target, "until": states}}]))
+    for target, states, ms in [("debug", ["idle", "working"], 120000),
+                               ("coder", ["done"], 90000)]:
+        rows.append((f"wait until agent {target} is {' or '.join(states)} up to {ms // 1000}s",
+                     f"agent_wait; target, states, timeout from query",
+                     [{"name": "agent_wait", "arguments": {"target": target, "until": states, "timeout_ms": ms}}]))
+    rows.append(("start a codex agent called review in w1:p2 with --dangerously-skip-permissions",
+                 "agent_start; name, kind, pane, args from query",
+                 [{"name": "agent_start", "arguments": {"name": "review", "kind": "codex", "pane": "w1:p2",
+                                                        "args": ["--dangerously-skip-permissions"]}}]))
+    rows.append(("launch claude 'doc' in w1:p3 with --print and --output-format text",
+                 "agent_start; name, kind, pane, args from query",
+                 [{"name": "agent_start", "arguments": {"name": "doc", "kind": "claude", "pane": "w1:p3",
+                                                        "args": ["--print", "--output-format", "text"]}}]))
 
     # worktree / integration --------------------------------------------------
     for branch in ["feature/x", "fix/y", "feat/z"]:
         rows.append((f"create a worktree for branch {branch}",
                      f"worktree_create; branch from query",
                      [{"name": "worktree_create", "arguments": {"branch": branch}}]))
+        # "open" moves focus, "create" does not (matches the hand-written seed).
+        rows.append((f"open a worktree on branch {branch}",
+                     f"worktree_create; branch and focus from query",
+                     [{"name": "worktree_create", "arguments": {"branch": branch, "focus": "focus"}}]))
     for base, path in [("main", "/tmp/repo-x"), ("HEAD", "/tmp/repo-y")]:
         rows.append((f"new worktree from {base} at {path}",
                      f"worktree_create; base and path from query",
                      [{"name": "worktree_create", "arguments": {"base": base, "path": path}}]))
+    for pane_id, branch in [("w1", "hotfix/x"), ("w2", "hotfix/y")]:
+        rows.append((f"create a worktree for branch {branch} in the workspace {pane_id}",
+                     f"worktree_create; workspace and branch from query",
+                     [{"name": "worktree_create", "arguments": {"workspace": pane_id, "branch": branch}}]))
+    rows.append(("create a worktree for branch fix/q at /home/repo",
+                 "worktree_create; cwd and branch from query",
+                 [{"name": "worktree_create", "arguments": {"cwd": "/home/repo", "branch": "fix/q"}}]))
+    rows.append(("create a worktree from main labeled ft-main",
+                 "worktree_create; base and label from query",
+                 [{"name": "worktree_create", "arguments": {"base": "main", "label": "ft-main"}}]))
     for agent in ["hermes", "codex", "opencode"]:
         rows.append((f"install the {agent} integration",
                      f"integration_install; agent from query",
                      [{"name": "integration_install", "arguments": {"agent": agent}}]))
+
+    # workspace / tab focus ---------------------------------------------------
+    rows.append(("create a workspace at /home/repo/front and focus it",
+                 "workspace_create; cwd and focus from query",
+                 [{"name": "workspace_create", "arguments": {"cwd": "/home/repo/front", "focus": "focus"}}]))
+    rows.append(("open a workspace at /home/repo/back without focus",
+                 "workspace_create; cwd and focus from query",
+                 [{"name": "workspace_create", "arguments": {"cwd": "/home/repo/back", "focus": "no-focus"}}]))
+    rows.append(("open a tab at /home/repo/tests and focus it",
+                 "tab_create; cwd and focus from query",
+                 [{"name": "tab_create", "arguments": {"cwd": "/home/repo/tests", "focus": "focus"}}]))
+    rows.append(("open a tab for /home/repo/docs without stealing focus",
+                 "tab_create; cwd and focus from query",
+                 [{"name": "tab_create", "arguments": {"cwd": "/home/repo/docs", "focus": "no-focus"}}]))
 
     # off-topic ---------------------------------------------------------------
     off = ["what is the capital of France?",
@@ -358,7 +426,12 @@ def synth():
            "tell me a joke", "write a python quickstart", "summarize the news",
            "order me a pizza", "what's the weather like?", "find me a recipe",
            "what time is it in Tokyo?", "draft an email to my boss",
-           "what does this error stack trace mean?"]
+           "what does this error stack trace mean?",
+           "recommend me a book", "who won the 1998 world cup?",
+           "how do I file my taxes?", "plan a two-week trip to Japan",
+           "what is the meaning of life?", "compare rust and go",
+           "help me name my cat", "what's the best pizza topping?",
+           "write a haiku about autumn"]
     for q in off:
         rows.append((q, "off-topic", []))
 
