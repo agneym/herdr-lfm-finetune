@@ -32,3 +32,8 @@ adapter_v2.pkl
 lfm2_ckpt*.tar.gz
 tuned.cact
 tuned_v2.cact
+lfm2_herdr_lora/adapter_model.safetensors
+lfm2_herdr_lora/tokenizer.json
+lfm2_herdr_lora/tokenizer_config.json
+lfm2_herdr_lora/chat_template.jinja
+lfm2_herdr_lora_v1/
