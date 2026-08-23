@@ -1,39 +1,32 @@
-# exploratory walkthrough artifacts (not part of the pipeline)
-build_walkthrough.py
-herdr_finetune_walkthrough.html
-google-colab-cli/
+# experiment artifacts (regenerable)
+runs/
 __pycache__/
-checkpoints/
+.cache/
+.venv/
 
-# debugging / one-off probes
-check_ckpt.py
-check_upload.py
-debug_lfm2.py
-gpu_check.py
-launch_detached.py
-launch_train_detached.py
-list_modules.py
-probe_jax_path.py
-run_lfm2_train.py
-setup_colab.py
-setup_lfm2_colab.py
-tail_log.py
-train_blocking.py
-train_colab.py
+# Colab-glue exploratory walkthrough
+google-colab-cli/
 
-# logs and eval snapshots
-training-logs.txt
-eval_*.txt
+# debugging / one-off probes (kept for reference, not part of pipeline)
+scripts/check_ckpt.py
+scripts/check_upload.py
+scripts/debug_lfm2.py
+scripts/gpu_check.py
+scripts/launch_detached.py
+scripts/list_modules.py
+scripts/tail_log.py
+
+# training logs and eval snapshots
 lfm2_train_dump*.log
+eval_*.txt
+training-logs.txt
 
 # checkpoints and archives (regenerable)
-adapter.pkl
-adapter_v2.pkl
+adapter*.pkl
+tuned*.cact
+checkpoints/
 lfm2_ckpt*.tar.gz
-tuned.cact
-tuned_v2.cact
-lfm2_herdr_lora/adapter_model.safetensors
-lfm2_herdr_lora/tokenizer.json
-lfm2_herdr_lora/tokenizer_config.json
-lfm2_herdr_lora/chat_template.jinja
-lfm2_herdr_lora_v1/
+adapters/*/adapter_model.safetensors
+adapters/*/tokenizer.json
+adapters/*/tokenizer_config.json
+adapters/*/chat_template.jinja

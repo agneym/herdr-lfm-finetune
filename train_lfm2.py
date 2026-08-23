@@ -10,6 +10,7 @@ Usage:
 """
 import argparse
 import json
+import os
 import random
 
 import torch
@@ -113,7 +114,7 @@ def main():
     ap.add_argument("--grad-accum", type=int, default=4)
     ap.add_argument("--lr", type=float, default=1e-4)
     ap.add_argument("--lora-r", type=int, default=16)
-    ap.add_argument("--out", default="lfm2_herdr_lora")
+    ap.add_argument("--out", default="adapters/lfm2_herdr_lora")
     args = ap.parse_args()
 
     from transformers import AutoModelForCausalLM, AutoTokenizer  # noqa: F811
@@ -175,6 +176,7 @@ def main():
         print(f"epoch {epoch+1}/{args.epochs}  train {tr:.4f}  val {va:.4f}", flush=True)
         if va < best_val:
             best_val = va
+            os.makedirs(args.out, exist_ok=True)
             model.save_pretrained(args.out)
             tok.save_pretrained(args.out)
             print(f"  saved -> {args.out}", flush=True)

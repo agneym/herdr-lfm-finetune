@@ -65,7 +65,7 @@ def normalize_call(call: dict) -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--adapter", default="lfm2_herdr_lora")
+    ap.add_argument("--adapter", default="adapters/lfm2_herdr_lora")
     ap.add_argument("--base", action="store_true")
     ap.add_argument("--data", default=DATA)
     ap.add_argument("--split", type=float, default=0.15)

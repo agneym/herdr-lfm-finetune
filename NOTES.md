@@ -36,19 +36,25 @@ front half of the LFM pipeline.)
 
 ## Shared files that mention needle
 
-Two kept files still import the `needle` package:
+The canonical tool schemas are now a static file,
+`reference/herdr_schemas.json` (dumped once from `herdr_tools.py` when the
+repo still used the needle toolkit). `herdr_tools.py` loads them from there —
+the repo no longer needs `cactus-needle` installed. If you change a tool's
+signature, update both the function and the JSON entry (or temporarily
+reinstall cactus-needle and re-dump).
 
-- `herdr_tools.py` — uses `needle.agent.tools.build_schema` only to derive the
-  25 Herdr op schemas that end up in `data.jsonl`. The functions themselves are
-  plain `herdr` CLI wrappers.
-- `make_dataset.py` — imports `herdr_tools.SCHEMAS` to generate `data.jsonl`.
+## Going back to the Needle track
 
-So regenerating `data.jsonl` requires `cactus-needle` installed, but training
-and inference (`train_lfm2.py`, `eval_lfm2.py`) are pure transformers+PEFT.
-If you want to drop the needle dependency entirely, extract the schemas to a
-static JSON file once (`python -c "import json, herdr_tools as ht;
-json.dump(ht.SCHEMAS, open('herdr_schemas.json','w'))"`) and point
-`make_dataset.py` at it.
+The full Needle pipeline as it stood just before the switch is commit
+**`308aa1d`** ("Created using Colab"). To revisit it:
+
+```sh
+git checkout 308aa1d -- make_dataset.py train_herdr_agent.py eval_model.py \
+    ask_herdr.py colab_herdr_finetune.ipynb
+```
+
+(`data.jsonl` and `herdr_tools.py` were never deleted — they are still part of
+the LFM pipeline.)
 
 ## Known gap
 

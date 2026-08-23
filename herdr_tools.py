@@ -1,11 +1,10 @@
-"""Herdr operations exposed as Needle 2 tools.
+"""Herdr operations + tool schemas.
 
-Each @needle.tool function wraps one `herdr` CLI operation.  Decorating with
-@needle.tool makes the function carry a `_needle_tool` schema describing its
-name, docstring (description) and parameter types -- exactly what the
-fine-tuning dataset embeds as `tools` and what the runtime grammar is compiled
-from.  Keeping the two identical is the whole game: the model is trained to emit
-calls inside a grammar derived from these schemas.
+Each function below wraps one `herdr` CLI operation.  The canonical tool
+schemas live in `reference/herdr_schemas.json` (dumped once from these
+functions when the repo still used the needle toolkit); `make_dataset.py`
+loads them from there.  Keeping the schemas and these functions in sync is
+the whole game: the model is trained to emit calls grounded in the schemas.
 
 Planner vs. executor
 --------------------
@@ -24,8 +23,6 @@ import shlex
 import subprocess
 from typing import Literal, Optional
 
-import needle
-from needle.agent.tools import build_schema
 
 EXECUTE = os.environ.get("NEEDLE_HERDR_EXECUTE") == "1"
 
@@ -66,7 +63,6 @@ def _desc(name: str, command: str, arguments: dict) -> dict:
 # --------------------------------------------------------------------------- #
 # Status / workspace / tab / session / worktree / integration
 # --------------------------------------------------------------------------- #
-@needle.tool
 def herdr_status() -> dict:
     """Return the current Herdr client and server status (version, channel, health)."""
     command = "herdr status"
@@ -74,7 +70,6 @@ def herdr_status() -> dict:
     return _desc("herdr_status", command, {})
 
 
-@needle.tool
 def workspace_list() -> dict:
     """List all Herdr workspaces with their ids, tabs, panes and labels."""
     command = "herdr workspace list"
@@ -82,7 +77,6 @@ def workspace_list() -> dict:
     return _desc("workspace_list", command, {})
 
 
-@needle.tool
 def workspace_create(
     cwd: Optional[str] = None,
     label: Optional[str] = None,
@@ -105,7 +99,6 @@ def workspace_create(
                  {"cwd": cwd, "label": label, "focus": focus})
 
 
-@needle.tool
 def workspace_get(workspace_id: str) -> dict:
     """Show a single workspace by its id (e.g. w4)."""
     command = f"herdr workspace get {workspace_id}"
@@ -113,7 +106,6 @@ def workspace_get(workspace_id: str) -> dict:
     return _desc("workspace_get", command, {"workspace_id": workspace_id})
 
 
-@needle.tool
 def tab_list(workspace: Optional[str] = None) -> dict:
     """List the tabs of a workspace. workspace: an optional workspace id; omit for all."""
     argv = ["tab", "list"]
@@ -124,7 +116,6 @@ def tab_list(workspace: Optional[str] = None) -> dict:
                  {"workspace": workspace})
 
 
-@needle.tool
 def tab_create(
     workspace: Optional[str] = None,
     cwd: Optional[str] = None,
@@ -149,7 +140,6 @@ def tab_create(
                  {"workspace": workspace, "cwd": cwd, "label": label, "focus": focus})
 
 
-@needle.tool
 def session_list() -> dict:
     """List all named persistent Herdr sessions."""
     command = "herdr session list"
@@ -157,7 +147,6 @@ def session_list() -> dict:
     return _desc("session_list", command, {})
 
 
-@needle.tool
 def worktree_list(workspace: Optional[str] = None, cwd: Optional[str] = None) -> dict:
     """List git worktree-based workspaces. Pass workspace id or cwd to filter."""
     argv = ["worktree", "list"]
@@ -170,7 +159,6 @@ def worktree_list(workspace: Optional[str] = None, cwd: Optional[str] = None) ->
                  {"workspace": workspace, "cwd": cwd})
 
 
-@needle.tool
 def worktree_create(
     workspace: Optional[str] = None,
     cwd: Optional[str] = None,
@@ -206,7 +194,6 @@ def worktree_create(
                   "base": base, "path": path, "label": label, "focus": focus})
 
 
-@needle.tool
 def integration_install(agent: Literal["pi", "omp", "claude", "codex", "copilot", "devin", "droid",
                                       "kimi", "opencode", "kilo", "hermes", "qodercli", "qwen",
                                       "cursor", "mastracode", "antigravity-cli", "grok"]) -> dict:
@@ -221,7 +208,6 @@ def integration_install(agent: Literal["pi", "omp", "claude", "codex", "copilot"
 # --------------------------------------------------------------------------- #
 # Pane primitives
 # --------------------------------------------------------------------------- #
-@needle.tool
 def pane_list(workspace: Optional[str] = None) -> dict:
     """List the panes of a workspace (defaults to the caller's workspace).
     workspace: an optional workspace id."""
@@ -233,7 +219,6 @@ def pane_list(workspace: Optional[str] = None) -> dict:
                  {"workspace": workspace})
 
 
-@needle.tool
 def pane_current() -> dict:
     """Show the calling pane: its id, workspace, tab, cwd and recognized agent."""
     command = "herdr pane current --current"
@@ -241,7 +226,6 @@ def pane_current() -> dict:
     return _desc("pane_current", command, {})
 
 
-@needle.tool
 def pane_layout(pane: str) -> dict:
     """Show the layout (geometry) of a pane so you can decide a split direction.
     pane: the pane id (e.g. w4:p1).
@@ -251,7 +235,6 @@ def pane_layout(pane: str) -> dict:
     return _desc("pane_layout", command, {"pane": pane})
 
 
-@needle.tool
 def pane_split(
     pane: Optional[str] = None,
     current: bool = False,
@@ -283,7 +266,6 @@ def pane_split(
                   "ratio": ratio, "cwd": cwd, "focus": focus})
 
 
-@needle.tool
 def pane_run(pane: str, command: str) -> dict:
     """Run a shell command in a pane (sends the text and Enter atomically).
     pane: the pane id to run in. command: the shell command text.
@@ -293,7 +275,6 @@ def pane_run(pane: str, command: str) -> dict:
     return _desc("pane_run", cmd, {"pane": pane, "command": command})
 
 
-@needle.tool
 def pane_read(
     pane: str,
     source: Literal["visible", "recent", "recent-unwrapped", "detection"] = "recent",
@@ -313,7 +294,6 @@ def pane_read(
                  {"pane": pane, "source": source, "lines": lines, "format": format})
 
 
-@needle.tool
 def pane_wait(
     pane: str,
     match: Optional[str] = None,
@@ -343,7 +323,6 @@ def pane_wait(
                   "timeout_ms": timeout_ms, "source": source, "lines": lines})
 
 
-@needle.tool
 def pane_send_keys(pane: str, keys: list) -> dict:
     """Send key presses to a pane. pane: the pane id. keys: list of key names (e.g. "esc", "Enter",
     "Ctrl-c"). Use "esc" as the canonical Escape key name.
@@ -354,7 +333,6 @@ def pane_send_keys(pane: str, keys: list) -> dict:
                  {"pane": pane, "keys": keys})
 
 
-@needle.tool
 def pane_rename(pane: str, label: str) -> dict:
     """Rename a pane. pane: the pane id. label: the new name."""
     command = f"herdr pane rename {pane} {label}"
@@ -362,7 +340,6 @@ def pane_rename(pane: str, label: str) -> dict:
     return _desc("pane_rename", command, {"pane": pane, "label": label})
 
 
-@needle.tool
 def pane_close(pane: str) -> dict:
     """Close a pane. Only close panes you created unless the user explicitly asked."""
     command = f"herdr pane close {pane}"
@@ -378,7 +355,6 @@ _AGENT_KINDS = ("pi", "claude", "codex", "gemini", "cursor", "devin", "agy", "cl
                 "amp", "grok", "hermes", "kilo", "qodercli", "qwen", "maki")
 
 
-@needle.tool
 def agent_list() -> dict:
     """List the recognized agents in Herdr with their lifecycle state."""
     command = "herdr agent list"
@@ -386,7 +362,6 @@ def agent_list() -> dict:
     return _desc("agent_list", command, {})
 
 
-@needle.tool
 def agent_start(
     name: str,
     kind: Literal["pi", "claude", "codex", "gemini", "cursor", "devin", "agy", "cline",
@@ -413,7 +388,6 @@ def agent_start(
                   "timeout_ms": timeout_ms, "args": args})
 
 
-@needle.tool
 def agent_get(target: str) -> dict:
     """Show a recognized agent's state. target: the unique live agent name or the pane id."""
     command = f"herdr agent get {target}"
@@ -421,7 +395,6 @@ def agent_get(target: str) -> dict:
     return _desc("agent_get", command, {"target": target})
 
 
-@needle.tool
 def agent_read(
     target: str,
     source: Literal["visible", "recent", "recent-unwrapped", "detection"] = "recent",
@@ -441,7 +414,6 @@ def agent_read(
                  {"target": target, "source": source, "lines": lines, "format": format})
 
 
-@needle.tool
 def agent_wait(
     target: str,
     until: Optional[list] = None,
@@ -466,7 +438,7 @@ def agent_wait(
 # --------------------------------------------------------------------------- #
 # Runtime wiring
 # --------------------------------------------------------------------------- #
-# Order matters only for readability; Needle handles any order.
+# Order matches reference/herdr_schemas.json.
 _TOOLS = [
     herdr_status, workspace_list, workspace_create, workspace_get,
     tab_list, tab_create, session_list, worktree_list, worktree_create,
@@ -475,12 +447,14 @@ _TOOLS = [
     agent_list, agent_start, agent_get, agent_read, agent_wait,
 ]
 
-SCHEMAS = [build_schema(fn) for fn in _TOOLS]
+def _load_schemas():
+    """Load canonical tool schemas dumped in reference/herdr_schemas.json."""
+    import pathlib
+    p = pathlib.Path(__file__).parent / "reference" / "herdr_schemas.json"
+    return json.loads(p.read_text())
 
 
-def get_tools():
-    """Return the decorated callables for needle.Needle(tools=[...])."""
-    return list(_TOOLS)
+SCHEMAS = _load_schemas()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,525 @@
+[
+  {
+    "name": "herdr_status",
+    "description": "Return the current Herdr client and server status (version, channel, health).",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "workspace_list",
+    "description": "List all Herdr workspaces with their ids, tabs, panes and labels.",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "workspace_create",
+    "description": "Create a new Herdr workspace with its initial tab and root pane. cwd: directory to open in the root pane. label: display name. focus: whether to move the TUI focus to the new workspace.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "cwd": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "focus",
+            "no-focus"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "name": "workspace_get",
+    "description": "Show a single workspace by its id (e.g. w4).",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "workspace_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "workspace_id"
+      ]
+    }
+  },
+  {
+    "name": "tab_list",
+    "description": "List the tabs of a workspace. workspace: an optional workspace id; omit for all.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "tab_create",
+    "description": "Open a new tab. workspace: optional workspace id (defaults to current). cwd: directory for the tab's root pane. label: display name. focus: whether to move the TUI focus to the new tab.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "type": "string"
+        },
+        "cwd": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "focus",
+            "no-focus"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "name": "session_list",
+    "description": "List all named persistent Herdr sessions.",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "worktree_list",
+    "description": "List git worktree-based workspaces. Pass workspace id or cwd to filter.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "type": "string"
+        },
+        "cwd": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "worktree_create",
+    "description": "Create a git worktree, open it as a workspace, group it with the parent repo workspace. workspace/cwd: identify the parent repo workspace. branch: branch name (created from base/HEAD if it does not exist). base: ref to branch from. path: checkout path (else under the configured worktrees directory). label: display name. focus: whether to focus it.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "type": "string"
+        },
+        "cwd": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "base": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "focus",
+            "no-focus"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "name": "integration_install",
+    "description": "Install the built-in Herdr integration for an agent so Herdr recognizes it inside panes. agent: the agent kind whose integration to install.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "agent": {
+          "type": "string",
+          "enum": [
+            "pi",
+            "omp",
+            "claude",
+            "codex",
+            "copilot",
+            "devin",
+            "droid",
+            "kimi",
+            "opencode",
+            "kilo",
+            "hermes",
+            "qodercli",
+            "qwen",
+            "cursor",
+            "mastracode",
+            "antigravity-cli",
+            "grok"
+          ]
+        }
+      },
+      "required": [
+        "agent"
+      ]
+    }
+  },
+  {
+    "name": "pane_list",
+    "description": "List the panes of a workspace (defaults to the caller's workspace). workspace: an optional workspace id.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "workspace": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "pane_current",
+    "description": "Show the calling pane: its id, workspace, tab, cwd and recognized agent.",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "pane_layout",
+    "description": "Show the layout (geometry) of a pane so you can decide a split direction. pane: the pane id (e.g. w4:p1).",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pane"
+      ]
+    }
+  },
+  {
+    "name": "pane_split",
+    "description": "Split a pane into two. pane: the pane id to split (omit to split the caller's pane). current: target the calling pane explicitly. direction: split to the right or down. ratio: the fraction of width/height for the new pane. cwd: working directory for the new pane (defaults to the caller's cwd). focus: whether to move focus to the new pane.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        },
+        "current": {
+          "type": "boolean"
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "right",
+            "down"
+          ]
+        },
+        "ratio": {
+          "type": "number"
+        },
+        "cwd": {
+          "type": "string"
+        },
+        "focus": {
+          "type": "string",
+          "enum": [
+            "focus",
+            "no-focus"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "name": "pane_run",
+    "description": "Run a shell command in a pane (sends the text and Enter atomically). pane: the pane id to run in. command: the shell command text.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pane",
+        "command"
+      ]
+    }
+  },
+  {
+    "name": "pane_read",
+    "description": "Read a pane's terminal output. pane: the pane id. source: which snapshot (visible, recent, recent-unwrapped, detection). lines: max lines to read. format: text or ansi.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "visible",
+            "recent",
+            "recent-unwrapped",
+            "detection"
+          ]
+        },
+        "lines": {
+          "type": "integer"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "text",
+            "ansi"
+          ]
+        }
+      },
+      "required": [
+        "pane"
+      ]
+    }
+  },
+  {
+    "name": "pane_wait",
+    "description": "Wait until a pane's output matches text (substring) or a regex. pane: the pane id. match: literal substring to search for. regex: Rust regular expression (use EITHER match or regex, not both). timeout_ms: fail after this many milliseconds (omit to wait forever). source: which snapshot to search. lines: restrict the searched snapshot to N lines.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        },
+        "match": {
+          "type": "string"
+        },
+        "regex": {
+          "type": "string"
+        },
+        "timeout_ms": {
+          "type": "integer"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "visible",
+            "recent",
+            "recent-unwrapped"
+          ]
+        },
+        "lines": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pane"
+      ]
+    }
+  },
+  {
+    "name": "pane_send_keys",
+    "description": "Send key presses to a pane. pane: the pane id. keys: list of key names (e.g. \"esc\", \"Enter\", \"Ctrl-c\"). Use \"esc\" as the canonical Escape key name.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        },
+        "keys": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "pane",
+        "keys"
+      ]
+    }
+  },
+  {
+    "name": "pane_rename",
+    "description": "Rename a pane. pane: the pane id. label: the new name.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pane",
+        "label"
+      ]
+    }
+  },
+  {
+    "name": "pane_close",
+    "description": "Close a pane. Only close panes you created unless the user explicitly asked.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "pane": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "pane"
+      ]
+    }
+  },
+  {
+    "name": "agent_list",
+    "description": "List the recognized agents in Herdr with their lifecycle state.",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "agent_start",
+    "description": "Start a supported interactive coding agent in an existing shell pane. name: a unique live agent name matching [a-z][a-z0-9_-]{0,31}. kind: the agent kind. pane: the pane id at an interactive shell prompt. timeout_ms: wait for readiness (default 30000, max 300000). args: optional native agent arguments passed after --",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "pi",
+            "claude",
+            "codex",
+            "gemini",
+            "cursor",
+            "devin",
+            "agy",
+            "cline",
+            "omp",
+            "mastracode",
+            "opencode",
+            "copilot",
+            "kimi",
+            "kiro",
+            "droid",
+            "amp",
+            "grok",
+            "hermes",
+            "kilo",
+            "qodercli",
+            "qwen",
+            "maki"
+          ]
+        },
+        "pane": {
+          "type": "string"
+        },
+        "timeout_ms": {
+          "type": "integer"
+        },
+        "args": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "pane"
+      ]
+    }
+  },
+  {
+    "name": "agent_get",
+    "description": "Show a recognized agent's state. target: the unique live agent name or the pane id.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "target"
+      ]
+    }
+  },
+  {
+    "name": "agent_read",
+    "description": "Read a recognized agent's terminal output. target: the unique live agent name or pane id. source: which snapshot. lines: max lines. format: text or ansi.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "visible",
+            "recent",
+            "recent-unwrapped",
+            "detection"
+          ]
+        },
+        "lines": {
+          "type": "integer"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "text",
+            "ansi"
+          ]
+        }
+      },
+      "required": [
+        "target"
+      ]
+    }
+  },
+  {
+    "name": "agent_wait",
+    "description": "Wait until an agent reaches one of the requested lifecycle states. target: the unique live agent name or pane id. until: a list of states to match (idle, working, blocked, done, unknown); omit to match idle, done or blocked. timeout_ms: fail after this many milliseconds (omit to wait forever).",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string"
+        },
+        "until": {
+          "type": "array"
+        },
+        "timeout_ms": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "target"
+      ]
+    }
+  }
+]

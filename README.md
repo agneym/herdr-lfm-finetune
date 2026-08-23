@@ -31,31 +31,37 @@ The pipeline is four steps:
 
 | File | Purpose |
 |------|---------|
-| `herdr_tools.py` | The 25 Herdr operations + ground-truth schemas (needs `cactus-needle` only for schema building). |
+| `herdr_tools.py` | The 25 Herdr operations; schemas loaded from `reference/herdr_schemas.json`. |
 | `make_dataset.py` | Generates `data.jsonl`. |
 | `make_lfm2_dataset.py` | `data.jsonl` -> chat-format `data_lfm2.jsonl`. |
 | `train_lfm2.py` | LoRA SFT driver (run on Colab GPU; see below). |
 | `eval_lfm2.py` | Holdout eval; `--base` for baseline. |
 | `validate_dataset.py` | Live-validates dataset labels against a real `herdr` server. |
-| `lfm2_herdr_lora/` | Current tuned adapter. `lfm2_herdr_lora_v1/` is the previous run. |
+| `adapters/lfm2_herdr_lora/` | Current tuned adapter. `lfm2_herdr_lora_v1/` is the previous run. |
+| `reference/` | Herdr tool schemas, captured CLI help (`cli_help/`), API schema, skill doc. |
+| `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`) and one-off probes. |
+| `runs/` | Experiment artifacts (gitignored): checkpoint tarballs, training logs, eval snapshots. |
 | `NOTES.md` | Why we dropped Needle 2; how to recover that track. |
-| `cli_help/` | Captured `herdr` CLI help texts (dataset source of truth). |
+| `Makefile` | `make data` / `make eval` / `make validate`; `make train` prints the Colab recipe. |
 
-Everything else (`run_detached_*.py`, `setup_lfm2_colab.py`, `fix_torchao.py`,
-`*_dump*.log`, `eval_lfm2_*.txt`, ...) is Colab-glue and experiment artifacts;
-see `.gitignore`.
+The pipeline chain is: `make data` -> train on Colab -> unpack the dumped
+checkpoint into `adapters/lfm2_herdr_lora/` -> `make eval`.
 
 ## Train on Google Colab
 
-A T4 is enough for 350M (~15 min). Use the `colab` CLI:
+A T4 is enough for 350M (~15 min). Use the `colab` CLI (or just run
+`make train` to print this recipe):
 
 ```sh
 colab new -s NAME --gpu T4
-colab exec -s NAME -f setup_lfm2_colab.py            # transformers>=4.55 peft datasets accelerate
-colab exec -s NAME --timeout 400 -f fix_torchao.py   # torchao>=0.16 (peft 0.20 requires it)
+colab exec -s NAME -f scripts/setup_lfm2_colab.py   # transformers>=4.55 peft datasets accelerate
+colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py   # torchao>=0.16 (peft 0.20 requires it)
 colab upload -s NAME data_lfm2.jsonl /content/data_lfm2.jsonl
 colab upload -s NAME train_lfm2.py /content/train_lfm2.py
 ```
+
+(The Colab scripts write the adapter flat at `/content/lfm2_herdr_lora`; after
+reconstructing the dumped tarball locally, unpack it into `adapters/`.)
 
 NEVER run training inside one blocking `colab exec` — an exec timeout or a dead
 keep-alive daemon lets Colab idle-prune the VM and you lose the checkpoint.
@@ -71,15 +77,15 @@ in_proj/out_proj — PEFT routes them through torchao and crashes).
 ## Evaluate
 
 ```sh
-.venv/bin/python eval_lfm2.py --adapter lfm2_herdr_lora --split 0.15
+.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --split 0.15
 .venv/bin/python eval_lfm2.py --base          # baseline
 ```
 
 Current numbers (40-row holdout, seed 42): exact-call **65.7% raw / 77.1%
 normalized**, tool-selection **97.1%**, off-topic restraint **100%**
-(`eval_lfm2_v2_norm.txt`). Baselines: base model 7.4% exact / 22.2%
-tool-selection (`eval_lfm2_base.txt`); first adapter version 40.7% /
-92.6% (`eval_lfm2_full.txt`).
+(`runs/eval_v2_norm.txt`). Baselines: base model 7.4% exact / 22.2%
+tool-selection (`runs/eval_base.txt`); first adapter version 40.7% /
+92.6% (`runs/eval_v1_40rows.txt`).
 
 Runtime invariant: `pane_split` without explicit pane/current targets the
 caller's pane; normalization makes it explicit (`current: true`). Eval reports
