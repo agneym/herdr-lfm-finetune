@@ -1,0 +1,1647 @@
+[
+ {
+  "row": 0,
+  "query": "what's the herdr status?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 1,
+  "query": "is the herdr server healthy?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 2,
+  "query": "list all workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 3,
+  "query": "show every workspace i have open",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 4,
+  "query": "list the tabs in my current workspace",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 5,
+  "query": "what tabs are in w1?",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 6,
+  "query": "show me the panes in workspace w2",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 7,
+  "query": "which pane am i in right now?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 8,
+  "query": "list the agents running right now",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 9,
+  "query": "show all recognized coding agents",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 10,
+  "query": "what named sessions exist?",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 11,
+  "query": "list my persistent sessions",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 12,
+  "query": "which worktrees are open?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 13,
+  "query": "list worktrees for the repo at /home/repo",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 14,
+  "query": "what is workspace w3?",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 15,
+  "query": "make a new workspace",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 16,
+  "query": "open a new workspace at /home/repo/proj",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 17,
+  "query": "create a workspace called frontend",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 18,
+  "query": "new tab please",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 19,
+  "query": "open a tab for /home/repo/tests",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 20,
+  "query": "make a tab named deploy in w1",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 21,
+  "query": "show me the layout of pane w1:p2",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 22,
+  "query": "split this pane to the right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p2"
+ },
+ {
+  "row": 23,
+  "query": "split my pane down",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p3"
+ },
+ {
+  "row": 24,
+  "query": "split pane w1:p1 to the right and focus it",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p4"
+ },
+ {
+  "row": 25,
+  "query": "split my pane to the right in /home/repo without stealing focus",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p5"
+ },
+ {
+  "row": 26,
+  "query": "split my pane down and give half the height",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p6"
+ },
+ {
+  "row": 27,
+  "query": "run `just test` in pane w1:p3",
+  "call": "pane_run('just test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 28,
+  "query": "in w1:p1 run the test suite",
+  "call": "pane_run('cargo test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 29,
+  "query": "run `npm run build` in my other pane",
+  "call": "pane_run('npm run build')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 30,
+  "query": "read the last 120 lines of w1:p1",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 31,
+  "query": "show the recent output from pane w2:p1",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 32,
+  "query": "dump everything visible in w1:p3",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 33,
+  "query": "wait for 'test result' in w1:p1 up to 2 minutes",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 34,
+  "query": "wait until w1:p2 prints 'BUILD SUCCESS'",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 35,
+  "query": "send ctrl-c to pane w2:p1",
+  "call": "pane_send_keys['Ctrl-c']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 36,
+  "query": "send `q` to the pane w1:p4 (quit pager)",
+  "call": "pane_send_keys['q']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 37,
+  "query": "rename pane w1:p1 to builder",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 38,
+  "query": "close pane w1:p4",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 41,
+  "query": "start an opencode agent called debug in w1:p3",
+  "call": "agent_start(kind=opencode)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 43,
+  "query": "check agent reviewer",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 44,
+  "query": "what's the state of w1:p2's agent?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 45,
+  "query": "read the last 120 lines of agent reviewer",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 46,
+  "query": "show recent output from the coder agent",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 47,
+  "query": "wait until agent reviewer is done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 48,
+  "query": "wait for agent debug to be idle or working",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 49,
+  "query": "create a worktree for branch feature/x",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 50,
+  "query": "new worktree from main at /tmp/repo-x",
+  "call": "worktree_create.base='main'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 51,
+  "query": "open a worktree on branch fix/y",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 52,
+  "query": "install the hermes integration for herdr",
+  "call": "integration_install(hermes)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 53,
+  "query": "set up the codex integration",
+  "call": "integration_install(codex)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 59,
+  "query": "split my pane right and run the linter in the new pane, waiting for it to finish",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p7"
+ },
+ {
+  "row": 59,
+  "query": "split my pane right and run the linter in the new pane, waiting for it to finish",
+  "call": "pane_run('cargo fmt --check')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 59,
+  "query": "split my pane right and run the linter in the new pane, waiting for it to finish",
+  "call": "pane_wait.regex='\\\\$\\\\s*$'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 60,
+  "query": "start a codex reviewer in a fresh pane and wait for it to be ready",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p8"
+ },
+ {
+  "row": 60,
+  "query": "start a codex reviewer in a fresh pane and wait for it to be ready",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 61,
+  "query": "check herdr status",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 62,
+  "query": "how is herdr running?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 63,
+  "query": "show my workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 64,
+  "query": "what workspaces are open?",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 65,
+  "query": "list every workspace",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 66,
+  "query": "list the agents",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 67,
+  "query": "show running agents",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 68,
+  "query": "what agents are active?",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 69,
+  "query": "list sessions",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 70,
+  "query": "show my sessions",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 71,
+  "query": "list the panes in w1",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 72,
+  "query": "show panes in workspace w1",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 73,
+  "query": "list the tabs in w1",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 74,
+  "query": "show tabs of w1",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 75,
+  "query": "which pane am I in?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 76,
+  "query": "show my current pane",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 77,
+  "query": "what's the current pane?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 78,
+  "query": "show me w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 79,
+  "query": "describe workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 80,
+  "query": "list worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 81,
+  "query": "what worktrees are open?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 82,
+  "query": "show open worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 83,
+  "query": "worktrees for /home/repo",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 84,
+  "query": "list worktrees at /home/repo",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 85,
+  "query": "create a workspace",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 86,
+  "query": "new workspace",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 87,
+  "query": "create a workspace at /home/repo/proj",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 88,
+  "query": "open a workspace in /home/repo/proj",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 89,
+  "query": "make a workspace called api",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 90,
+  "query": "create a workspace named api",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 91,
+  "query": "new tab",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 92,
+  "query": "open a tab",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 93,
+  "query": "make a tab",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 94,
+  "query": "open a tab at /home/repo/tests",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 95,
+  "query": "new tab in /home/repo/tests",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 96,
+  "query": "tab named deploy",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 97,
+  "query": "create a tab labeled deploy",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 98,
+  "query": "show the layout of w1:p2",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 99,
+  "query": "what's the layout of pane w1:p2?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 100,
+  "query": "split this pane right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p9"
+ },
+ {
+  "row": 101,
+  "query": "divide my pane on the right side",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pA"
+ },
+ {
+  "row": 102,
+  "query": "split the current pane vertically",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pB"
+ },
+ {
+  "row": 103,
+  "query": "split the current pane horizontally",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pC"
+ },
+ {
+  "row": 104,
+  "query": "give me a new pane on the right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pD"
+ },
+ {
+  "row": 105,
+  "query": "give me a new pane below",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pE"
+ },
+ {
+  "row": 106,
+  "query": "open a split to the right of this pane",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pF"
+ },
+ {
+  "row": 107,
+  "query": "open a split below this pane",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pG"
+ },
+ {
+  "row": 108,
+  "query": "split here to the right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pH"
+ },
+ {
+  "row": 109,
+  "query": "split here downward",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pJ"
+ },
+ {
+  "row": 110,
+  "query": "split the active pane right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pK"
+ },
+ {
+  "row": 111,
+  "query": "split the active pane down",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pM"
+ },
+ {
+  "row": 112,
+  "query": "make a vertical split",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pN"
+ },
+ {
+  "row": 113,
+  "query": "make a horizontal split",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pP"
+ },
+ {
+  "row": 114,
+  "query": "split pane down",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pQ"
+ },
+ {
+  "row": 115,
+  "query": "split pane right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pR"
+ },
+ {
+  "row": 116,
+  "query": "split to the right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pS"
+ },
+ {
+  "row": 117,
+  "query": "split downward",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pT"
+ },
+ {
+  "row": 118,
+  "query": "split pane w1:p1 to the down",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pV"
+ },
+ {
+  "row": 119,
+  "query": "split w1:p3 to the right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pW"
+ },
+ {
+  "row": 120,
+  "query": "split w1:p2 down",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pX"
+ },
+ {
+  "row": 121,
+  "query": "split pane w1:p4 to the right",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pY"
+ },
+ {
+  "row": 122,
+  "query": "split my pane down giving a third of the height",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:pZ"
+ },
+ {
+  "row": 123,
+  "query": "split my pane right at 30%",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p0"
+ },
+ {
+  "row": 124,
+  "query": "split my pane down with the new pane taking two thirds",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p11"
+ },
+ {
+  "row": 125,
+  "query": "split my pane right at 70 percent",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p12"
+ },
+ {
+  "row": 126,
+  "query": "split my pane down at 25%",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p13"
+ },
+ {
+  "row": 127,
+  "query": "split this pane right, 40% for the new one",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p14"
+ },
+ {
+  "row": 128,
+  "query": "split the pane down; new pane gets 60%",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p15"
+ },
+ {
+  "row": 129,
+  "query": "split my pane right with the new pane taking half the width",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p16"
+ },
+ {
+  "row": 130,
+  "query": "split my pane down quarter height",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p17"
+ },
+ {
+  "row": 131,
+  "query": "give me a right split at three quarters",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p18"
+ },
+ {
+  "row": 132,
+  "query": "split right 20 percent",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p19"
+ },
+ {
+  "row": 133,
+  "query": "split down 80%",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p1A"
+ },
+ {
+  "row": 134,
+  "query": "split my pane right in /home/repo without focus",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p1B"
+ },
+ {
+  "row": 135,
+  "query": "split this pane down in /home/repo/proj, don't focus",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wA:p1C"
+ },
+ {
+  "row": 136,
+  "query": "run `just test` in w1:p3",
+  "call": "pane_run('just test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 137,
+  "query": "in w1:p3 run just test",
+  "call": "pane_run('just test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 138,
+  "query": "run `cargo test` in w1:p1",
+  "call": "pane_run('cargo test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 139,
+  "query": "in w1:p1 run cargo test",
+  "call": "pane_run('cargo test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 140,
+  "query": "run `npm run build` in w1:p2",
+  "call": "pane_run('npm run build')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 141,
+  "query": "in w1:p2 run npm run build",
+  "call": "pane_run('npm run build')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 142,
+  "query": "run `pytest -q` in w2:p1",
+  "call": "pane_run('pytest -q')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 143,
+  "query": "in w2:p1 run pytest -q",
+  "call": "pane_run('pytest -q')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 144,
+  "query": "run `go test ./...` in w1:p4",
+  "call": "pane_run('go test ./...')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 145,
+  "query": "in w1:p4 run go test ./...",
+  "call": "pane_run('go test ./...')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 146,
+  "query": "run `bun run dev` in w2:p2",
+  "call": "pane_run('bun run dev')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 147,
+  "query": "in w2:p2 run bun run dev",
+  "call": "pane_run('bun run dev')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 148,
+  "query": "run `git status` in w1:p1",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 149,
+  "query": "in w1:p1 run git status",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 150,
+  "query": "run `cargo fmt --check` in w2:p1",
+  "call": "pane_run('cargo fmt --check')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 151,
+  "query": "in w2:p1 run cargo fmt --check",
+  "call": "pane_run('cargo fmt --check')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 152,
+  "query": "run the test suite in w1:p1",
+  "call": "pane_run('cargo test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 153,
+  "query": "run the test suite in w2:p1",
+  "call": "pane_run('cargo test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 154,
+  "query": "in w1:p1 run the full test suite",
+  "call": "pane_run('cargo test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 155,
+  "query": "in w2:p1 run the full test suite",
+  "call": "pane_run('cargo test')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 156,
+  "query": "start the dev server in w1:p1",
+  "call": "pane_run('npm run dev')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 157,
+  "query": "start the dev server in w2:p1",
+  "call": "pane_run('npm run dev')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 158,
+  "query": "build the project in w1:p1",
+  "call": "pane_run('npm run build')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 159,
+  "query": "build the project in w2:p1",
+  "call": "pane_run('npm run build')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 160,
+  "query": "in w1:p1 run the linter",
+  "call": "pane_run('cargo clippy')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 161,
+  "query": "in w2:p1 run the linter",
+  "call": "pane_run('cargo clippy')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 162,
+  "query": "format the code in w1:p1",
+  "call": "pane_run('cargo fmt')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 163,
+  "query": "format the code in w2:p1",
+  "call": "pane_run('cargo fmt')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 164,
+  "query": "check formatting in w1:p1",
+  "call": "pane_run('cargo fmt --check')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 165,
+  "query": "check formatting in w2:p1",
+  "call": "pane_run('cargo fmt --check')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 166,
+  "query": "show git status in w1:p1",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 167,
+  "query": "show git status in w2:p1",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 168,
+  "query": "run typecheck in w1:p1",
+  "call": "pane_run('tsc --noEmit')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 169,
+  "query": "run typecheck in w2:p1",
+  "call": "pane_run('tsc --noEmit')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 170,
+  "query": "update dependencies in w1:p1",
+  "call": "pane_run('npm update')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 171,
+  "query": "update dependencies in w2:p1",
+  "call": "pane_run('npm update')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 172,
+  "query": "read the last 50 lines of w1:p4",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 173,
+  "query": "read the last 80 lines of w2:p1",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 174,
+  "query": "read the last 200 lines of w1:p2",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 175,
+  "query": "read the last 150 lines of w2:p2",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 176,
+  "query": "read the last 40 lines of w1:p3",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 177,
+  "query": "show the recent output from w2:p1",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 178,
+  "query": "show the visible output from w1:p3",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 179,
+  "query": "show the recent-unwrapped output from w1:p1",
+  "call": "pane_read(source=recent-unwrapped)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f"
+ },
+ {
+  "row": 180,
+  "query": "show the recent output from w2:p2",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 181,
+  "query": "show the visible output from w1:p4",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 182,
+  "query": "read the recent output from w1:p1 as ansi",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\n\u001b[0m\u001b[38;5;4mdsval-reihcraf\u001b[0m  \u001b[0m\u001b[38;5;8mmain\u001b[0m\u001b[38;5;6m \u001b[0m\n\u001b[0m\u001b[38;5;5m\u276f\u001b[0m "
+ },
+ {
+  "row": 183,
+  "query": "read the visible output from w1:p2 as ansi",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u001b[0m\u001b[38;5;4mdsval-reihcraf\u001b[0m  \u001b[0m\u001b[38;5;8mmain\u001b[0m\u001b[38;5;6m \u001b[0m\n\u001b[0m\u001b[38;5;5m\u276f\u001b[0m "
+ },
+ {
+  "row": 184,
+  "query": "show the detection snapshot of w1:p1",
+  "call": "pane_read(source=detection)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 185,
+  "query": "show the detection snapshot of w1:p3",
+  "call": "pane_read(source=detection)",
+  "status": "PASS",
+  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+ },
+ {
+  "row": 186,
+  "query": "wait for 'test result' in w1:p1 up to 120000 ms",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 187,
+  "query": "wait for 'BUILD SUCCESS' in w1:p2 up to 60000 ms",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 188,
+  "query": "wait for 'all tests passed' in w2:p1 up to 90000 ms",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 189,
+  "query": "wait for 'ok' in w1:p4 up to 30000 ms",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 190,
+  "query": "wait for 'listening on' in w2:p2 up to 45000 ms",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 191,
+  "query": "wait until w1:p2 shows Build succeeded",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 192,
+  "query": "wait until w1:p1 shows error:",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 193,
+  "query": "wait until w2:p1 shows No tests failed",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 194,
+  "query": "wait until w1:p3 shows launched",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 195,
+  "query": "wait until w1:p1 matches error:\\s*\\d+ up to 60000 ms",
+  "call": "pane_wait.regex='error:\\\\s*\\\\d+'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 196,
+  "query": "wait until w1:p2 matches Build (succeeded|failed) up to 90000 ms",
+  "call": "pane_wait.regex='Build (succeeded|failed)'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 197,
+  "query": "wait until w2:p1 matches test result: (ok|FAILED)",
+  "call": "pane_wait.regex='test result: (ok|FAILED)'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 198,
+  "query": "send Ctrl-c to w2:p1",
+  "call": "pane_send_keys['Ctrl-c']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 199,
+  "query": "send q to w1:p4",
+  "call": "pane_send_keys['q']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 200,
+  "query": "send esc to w1:p1",
+  "call": "pane_send_keys['esc']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 201,
+  "query": "send Ctrl-c to w2:p2",
+  "call": "pane_send_keys['Ctrl-c']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 202,
+  "query": "send Ctrl-c then y to w1:p1",
+  "call": "pane_send_keys['Ctrl-c', 'y']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 203,
+  "query": "send Enter to w2:p1",
+  "call": "pane_send_keys['Enter']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 204,
+  "query": "send esc then q to w1:p2",
+  "call": "pane_send_keys['esc', 'q']",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 205,
+  "query": "rename pane w1:p2 to runner",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 206,
+  "query": "rename pane w2:p1 to test",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 207,
+  "query": "rename pane w1:p4 to watch",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 208,
+  "query": "close pane w1:p3",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 209,
+  "query": "close pane w2:p2",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 214,
+  "query": "start a opencode agent called debug in w1:p3",
+  "call": "agent_start(kind=opencode)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 215,
+  "query": "launch opencode 'debug' in w1:p3",
+  "call": "agent_start(kind=opencode)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 221,
+  "query": "check agent coder",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 222,
+  "query": "check agent w1:p2",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 223,
+  "query": "read the last 60 lines of agent coder",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 224,
+  "query": "read the last 200 lines of agent w1:p2",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 225,
+  "query": "wait until agent debug is idle or working",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 226,
+  "query": "wait until agent coder is blocked or done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 227,
+  "query": "wait until agent debug is idle or working up to 120s",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 228,
+  "query": "wait until agent coder is done up to 90s",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 229,
+  "query": "start a codex agent called review in w1:p2 with --dangerously-bypass-approvals-and-sandbox",
+  "call": "agent_start codex --dangerously-bypass-approvals-and-sandbox",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 230,
+  "query": "start a claude agent called review in w1:p2 with --dangerously-skip-permissions",
+  "call": "agent_start claude --dangerously-skip-permissions",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 231,
+  "query": "launch claude 'doc' in w1:p3 with --print and --output-format text",
+  "call": "agent_start claude --print",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 231,
+  "query": "launch claude 'doc' in w1:p3 with --print and --output-format text",
+  "call": "agent_start claude --output-format",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 232,
+  "query": "open a worktree on branch feature/x",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 233,
+  "query": "create a worktree for branch fix/y",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 234,
+  "query": "create a worktree for branch feat/z",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 235,
+  "query": "open a worktree on branch feat/z",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 236,
+  "query": "new worktree from HEAD at /tmp/repo-y",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 237,
+  "query": "create a worktree for branch hotfix/x in the workspace w1",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 238,
+  "query": "create a worktree for branch hotfix/y in the workspace w2",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 239,
+  "query": "create a worktree for branch fix/q at /home/repo",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 240,
+  "query": "create a worktree from main labeled ft-main",
+  "call": "worktree_create.base='main'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 241,
+  "query": "install the hermes integration",
+  "call": "integration_install(hermes)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 242,
+  "query": "install the codex integration",
+  "call": "integration_install(codex)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 243,
+  "query": "install the opencode integration",
+  "call": "integration_install(opencode)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 244,
+  "query": "create a workspace at /home/repo/front and focus it",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 245,
+  "query": "open a workspace at /home/repo/back without focus",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 246,
+  "query": "open a tab at /home/repo/tests and focus it",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 247,
+  "query": "open a tab for /home/repo/docs without stealing focus",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ }
+]

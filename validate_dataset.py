@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Live-validate data.jsonl against a real herdr server.
+"""Live-validate dataset.jsonl against a real herdr server.
 
 Creates a scratch workspace, replays every executable call pattern from the
 dataset via the herdr CLI, checks agent flags against the real binaries,
@@ -14,7 +14,7 @@ import sys
 import tempfile
 
 HERDR = shutil.which("herdr")
-DATA = os.path.join(os.path.dirname(__file__), "data.jsonl")
+DATA = os.path.join(os.path.dirname(__file__), "dataset.jsonl")
 results = []  # (row_idx, query, call, status, detail)
 
 
@@ -79,10 +79,10 @@ def split(direction="right", ratio=None):
 
 # --------------------------------------------------------------- replay ----
 for i, row in enumerate(rows):
-    q = row["query"]
-    if not row["answers"]:
+    q = row["messages"][1]["content"]
+    if not row["expected"]:
         continue
-    for ans in row["answers"]:
+    for ans in row["expected"]:
         name, a = ans["name"], ans["arguments"]
         try:
             if name == "pane_split":

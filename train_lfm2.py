@@ -6,7 +6,7 @@ single T4/L4: bf16, gradient accumulation, small batch. Saves the adapter to
 --out (default lfm2_herdr_lora).
 
 Usage:
-  python train_lfm2.py --data data_lfm2.jsonl --epochs 8 --out lfm2_herdr_lora
+  python train_lfm2.py --data dataset.jsonl --epochs 8 --out lfm2_herdr_lora
 """
 import argparse
 import json
@@ -108,7 +108,7 @@ def run_epoch(model, ds, indices, tok, args, optimizer=None, scheduler=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data", default="data_lfm2.jsonl")
+    ap.add_argument("--data", default="dataset.jsonl")
     ap.add_argument("--epochs", type=int, default=8)
     ap.add_argument("--batch-size", type=int, default=2)
     ap.add_argument("--grad-accum", type=int, default=4)

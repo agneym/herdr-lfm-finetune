@@ -1,9 +1,14 @@
-"""Build the Herdr -> Needle 2 fine-tuning dataset.
+"""Build the Herdr -> LFM2 fine-tuning dataset.
 
-Writes data.jsonl: one JSON object per line, each embedding the SAME tool
-catalogue (`tools`) as the runtime, a representative environment `system`, a
-natural-language `query`, a one-line `reasoning`, and the `answers` (exact
-tool calls with arguments grounded in the query).
+Writes dataset.jsonl: one JSON object per line, each row
+`{messages, tools, expected}` ready for
+`tokenizer.apply_chat_template(tools=...)` during SFT:
+- `tools`: the SAME tool catalogue as the runtime,
+- `messages`: system env prompt + natural-language user query + an assistant
+  turn keeping the one-line reasoning then emitting calls in native LFM2
+  syntax `[name(arg=val)]`; off-topic rows learn a text-only refusal,
+- `expected`: the structured labels (exact tool calls with arguments grounded
+  in the query) so validate/eval never have to parse rendered text back.
 
 Run:  .venv/bin/python make_dataset.py [out.jsonl]
 """
@@ -484,30 +489,56 @@ def synth():
     return rows
 
 
-def main(out="data.jsonl"):
+OFF_TOPIC_REPLY = ("This request isn't a Herdr terminal operation, so no tool "
+                   "call is needed.")
+
+
+def render_call(a):
+    """Native LFM2 call syntax: [name(arg=\"val\", ...)]."""
+    args = ", ".join(
+        json.dumps(v) if not isinstance(v, str)
+        else f"{k}={json.dumps(v)}"
+        for k, v in (a.get("arguments") or {}).items())
+    return a["name"] + "(" + args + ")"
+
+
+def build_row(query, reasoning, answers):
+    messages = [{"role": "system", "content": SYSTEM},
+                {"role": "user", "content": query}]
+    if answers:
+        calls = ", ".join(render_call(a) for a in answers)
+        content = f"[{calls}]"
+        if reasoning:
+            content = reasoning + "\n" + content
+    else:
+        content = reasoning if reasoning else OFF_TOPIC_REPLY
+    messages.append({"role": "assistant", "content": content})
+    return {"messages": messages, "tools": TOOLS, "expected": answers}
+
+
+def main(out="dataset.jsonl"):
     rows = []
     seen = set()
 
-    def push(query, reasoning, answers, tag):
+    def push(query, reasoning, answers):
         key = (query.strip().lower(), json.dumps(answers, sort_keys=True))
         if key in seen:
             return
         seen.add(key)
-        rows.append({"query": query, "reasoning": reasoning, "answers": answers,
-                     "tools": TOOLS, "system": SYSTEM})
+        rows.append(build_row(query, reasoning, answers))
 
     for query, reasoning, answers in EXAMPLES + MULTI:
-        push(query, reasoning, answers, "hand")
+        push(query, reasoning, answers)
     for query, reasoning, answers in synth():
-        push(query, reasoning, answers, "synth")
+        push(query, reasoning, answers)
 
     with open(out, "w") as handle:
         for row in rows:
             handle.write(json.dumps(row) + "\n")
-    off = sum(1 for r in rows if not r["answers"])
+    off = sum(1 for r in rows if not r["expected"])
     print(f"wrote {out}: {len(rows)} examples ({off} off-topic)")
     return out
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "data.jsonl")
+    main(sys.argv[1] if len(sys.argv) > 1 else "dataset.jsonl")

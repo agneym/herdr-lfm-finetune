@@ -12,19 +12,18 @@ right Herdr operation and run the result.
 
 ## How it works
 
-The pipeline is four steps:
+The pipeline is three steps:
 
-1. `make_dataset.py` generates `data.jsonl` — 270 examples of
-   `{system, tools, query, reasoning, answers}` covering all 25 Herdr ops,
-   ~12% off-topic. The tool schemas come from `herdr_tools.py`.
-2. `make_lfm2_dataset.py` converts it to chat format: each row of
-   `data_lfm2.jsonl` is `{messages, tools}` ready for
-   `tokenizer.apply_chat_template(tools=...)`. Assistant turns keep the
-   reasoning line, then emit calls in native LFM2 syntax `[name(arg=val)]`;
-   off-topic rows learn a text-only refusal.
-3. `train_lfm2.py` — PEFT LoRA SFT (loss masked to assistant tokens only),
+1. `make_dataset.py` generates `dataset.jsonl` — 270 examples of
+   `{messages, tools, expected}` covering all 25 Herdr ops, ~12% off-topic.
+   The tool schemas come from `herdr_tools.py`. `messages` are chat-format,
+   ready for `tokenizer.apply_chat_template(tools=...)`: assistant turns keep
+   the reasoning line, then emit calls in native LFM2 syntax `[name(arg=val)]`;
+   off-topic rows learn a text-only refusal. `expected` carries the structured
+   tool-call labels for validate/eval.
+2. `train_lfm2.py` — PEFT LoRA SFT (loss masked to assistant tokens only),
    saves the best-validation checkpoint.
-4. `eval_lfm2.py` — scores on a deterministic holdout (seed 42, last 15%),
+3. `eval_lfm2.py` — scores on a deterministic holdout (seed 42, last 15%),
    reporting raw AND normalized exact-call accuracy.
 
 ## Files
@@ -32,8 +31,7 @@ The pipeline is four steps:
 | File | Purpose |
 |------|---------|
 | `herdr_tools.py` | The 25 Herdr operations; schemas loaded from `reference/herdr_schemas.json`. |
-| `make_dataset.py` | Generates `data.jsonl`. |
-| `make_lfm2_dataset.py` | `data.jsonl` -> chat-format `data_lfm2.jsonl`. |
+| `make_dataset.py` | Generates `dataset.jsonl` (chat format + structured labels). |
 | `train_lfm2.py` | LoRA SFT driver (run on Colab GPU; see below). |
 | `eval_lfm2.py` | Holdout eval; `--base` for baseline. |
 | `validate_dataset.py` | Live-validates dataset labels against a real `herdr` server. |
@@ -56,7 +54,7 @@ A T4 is enough for 350M (~15 min). Use the `colab` CLI (or just run
 colab new -s NAME --gpu T4
 colab exec -s NAME -f scripts/setup_lfm2_colab.py   # transformers>=4.55 peft datasets accelerate
 colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py   # torchao>=0.16 (peft 0.20 requires it)
-colab upload -s NAME data_lfm2.jsonl /content/data_lfm2.jsonl
+colab upload -s NAME dataset.jsonl /content/dataset.jsonl
 colab upload -s NAME train_lfm2.py /content/train_lfm2.py
 ```
 

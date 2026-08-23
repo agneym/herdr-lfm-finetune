@@ -13,7 +13,7 @@ def keepalive():
 t = threading.Thread(target=keepalive, daemon=True)
 t.start()
 
-subprocess.run("nohup python train_lfm2.py --data data_lfm2.jsonl "
+subprocess.run("nohup python train_lfm2.py --data dataset.jsonl "
                "--epochs 8 --batch-size 1 --grad-accum 8 --lr 1e-4 "
                "--out lfm2_herdr_lora > train.log 2>&1 &", shell=True)
 print('launched detached; polling train.log', flush=True)

@@ -26,8 +26,7 @@ expert, training on Google Colab via `colab` CLI, and evaluating locally.
 
 | file | purpose |
 |---|---|
-| `make_dataset.py` | generates `data.jsonl` (query/reasoning/answers/tools/system) |
-| `make_lfm2_dataset.py` | converts to chat format: `data_lfm2.jsonl` rows = {messages, tools} |
+| `make_dataset.py` | generates `dataset.jsonl` ({messages, tools, expected}) |
 | `train_lfm2.py` | PEFT LoRA SFT; masks loss to assistant tokens only; saves best-val checkpoint |
 | `eval_lfm2.py` | same holdout split as old eval_model.py (seed 42, last 15%); reports raw AND normalized exact-call accuracy |
 | `ask_herdr.py` | runtime harness; includes `normalize_call()` invariant |
@@ -39,7 +38,7 @@ expert, training on Google Colab via `colab` CLI, and evaluating locally.
    colab new -s NAME --gpu T4
    colab exec -s NAME -f setup_lfm2_colab.py        # pip transformers>=4.55 peft datasets accelerate
    colab exec -s NAME --timeout 400 -f fix_torchao.py   # pip -U "torchao>=0.16"  (peft 0.20 requires it)
-   colab upload -s NAME data_lfm2.jsonl /content/data_lfm2.jsonl
+   colab upload -s NAME dataset.jsonl /content/dataset.jsonl
    colab upload -s NAME train_lfm2.py /content/train_lfm2.py
    ```
 

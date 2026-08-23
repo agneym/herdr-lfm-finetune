@@ -11,7 +11,7 @@ import random
 import re
 from collections import Counter
 
-DATA = "data.jsonl"
+DATA = "dataset.jsonl"
 MODEL_ID = "LiquidAI/LFM2-350M"
 
 
@@ -100,12 +100,8 @@ def main():
     model.eval()
 
     def ask(row):
-        msgs = []
-        if row.get("system"):
-            msgs.append({"role": "system", "content": row["system"]})
-        msgs.append({"role": "user", "content": row["query"]})
         prompt = tok.apply_chat_template(
-            msgs, tools=row.get("tools") or [], tokenize=False,
+            row["messages"], tools=row.get("tools") or [], tokenize=False,
             add_generation_prompt=True)
         ids = tok(prompt, return_tensors="pt").to(model.device)
         with torch.no_grad():
@@ -120,11 +116,11 @@ def main():
     detail = []
     for i in eval_run:
         row = rows[i]
-        expected = row["answers"]
+        expected = row["expected"]
         try:
             text = ask(row)
         except Exception as exc:  # noqa: BLE001
-            detail.append((i, row["query"], expected, [], f"ERROR: {exc!r}"))
+            detail.append((i, row["messages"][1]["content"], expected, [], f"ERROR: {exc!r}"))
             continue
         predicted = parse_calls(text)
         normalized = [normalize_call(c) for c in predicted]
@@ -145,11 +141,11 @@ def main():
             n_offtopic += 1
             off_ok += (not predicted)
             if predicted:
-                detail.append((i, row["query"], [], predicted,
+                detail.append((i, row["messages"][1]["content"], [], predicted,
                                "OFF-TOPIC but called a tool"))
                 continue
         if en and pn != en:
-            detail.append((i, row["query"], expected, predicted, ""))
+            detail.append((i, row["messages"][1]["content"], expected, predicted, ""))
 
     print("== summary ==")
     print(f"  eval rows            : {len(eval_run)}")
