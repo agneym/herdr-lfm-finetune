@@ -35,10 +35,12 @@ command itself.
 |------|---------|
 | `herdr_tools.py` | 25 Herdr ops as `@needle.tool` functions + the ground-truth `SCHEMAS`. Runtime executor (set `NEEDLE_HERDR_EXECUTE=1` to actually run herdr). |
 | `make_dataset.py` | Generates `data.jsonl` (curated + templated examples, ~1-in-8 off-topic). |
-| `data.jsonl` | The training set (186 examples, all 25 tools used, 11% off-topic). |
+| `data.jsonl` | The training set (225 examples, all 25 tools used, 12% off-topic). |
 | `train_herdr_agent.py` | Portable training driver (auto batch-size: 2 on GPU, 1 on CPU). |
 | `colab_herdr_finetune.ipynb` | One-click Google Colab notebook (GPU) to train the adapter. |
 | `ask_herdr.py` | The query harness Hermes calls: turns a natural-language request into `herdr` operation(s). |
+| `eval_model.py` | Scores a tuned (or base) model against held-out dataset labels. |
+| `validate_dataset.py` | Live-validates the dataset's labels against a real `herdr` server. |
 | `tuned.cact` | (build output) the tuned archive you load into `needle.Needle(weights=...)`. |
 
 `tuned.cact` is not present yet — it is produced by the train + build steps
@@ -84,6 +86,47 @@ low-level `herdr_tools.py` catalogue but trim the training `tools` list.
 .venv/bin/needle finetune data_focused.jsonl --epochs 12 --batch-size 1 --max-len 1024 --out adapter.pkl
 .venv/bin/needle build checkpoints/needle2.pkl --lora adapter.pkl --out tuned.cact
 ```
+
+---
+
+## Evaluate the tuned model
+
+`eval_model.py` runs the model in planner mode over dataset queries and compares
+the emitted tool calls to the ground-truth labels (no side effects). Metrics:
+**exact-call accuracy** (tool name + every argument, order-insensitive),
+**tool-selection accuracy**, per-tool argument grounding, and off-topic
+behaviour (rows with `answers: []` must not call a tool). Mismatches print with
+expected vs predicted so weak tools are easy to spot.
+
+```sh
+# baseline — the UNTUNED model, same queries (separate process: the engine
+# holds one set of weights per process)
+.venv/bin/python eval_model.py --base --split 0.15
+
+# the real eval — the tuned model on a held-out slice
+.venv/bin/python eval_model.py --weights tuned.cact --split 0.15
+```
+
+The holdout split is deterministic (seed 42) and its row indices are printed.
+Hold exactly those rows out of training, or the numbers are optimistic:
+
+```sh
+.venv/bin/python eval_model.py --weights tuned.cact --split 0.15 \
+    --save-train data_train.jsonl     # data.jsonl minus the holdout
+# train on data_train.jsonl instead of data.jsonl, then eval with the same
+# --split 0.15 --seed 42
+```
+
+Reference numbers (base model, 12-row slice, seed 42): exact-call 22.2%,
+tool-selection 33.3%, off-topic 66.7% — the tuned model should clear these.
+Expect noise on a 12-row slice; run the full 34-row holdout
+(no `--limit`) for trustworthy numbers, and re-run each config a couple of
+times (the sampler is unseeded) to gauge variance.
+
+A second, optional layer: `--save-preds preds.jsonl` dumps every prediction;
+feeding those predicted calls through the same live-herdr replay that
+`validate_dataset.py` uses catches calls that are valid-shaped but reference
+nonexistent panes/workspaces.
 
 ---
 

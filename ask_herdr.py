@@ -38,6 +38,20 @@ def build_system() -> str:
     )
 
 
+def normalize_call(call: dict) -> dict:
+    """Apply Herdr API invariants to a model-emitted call.
+
+    pane_split with neither `pane` nor `current` targets the caller's pane;
+    making that explicit keeps runtime execution unambiguous.
+    """
+    if call.get("name") == "pane_split":
+        args = dict(call.get("arguments") or {})
+        if not args.get("pane") and "current" not in args:
+            args["current"] = True
+        return {"name": call["name"], "arguments": args}
+    return call
+
+
 def render_operation(call: dict) -> dict:
     """Map a model call {name, arguments} back to a herdr command using the
     same command-builder the tool functions use (EXECUTE off => no side effect)."""
@@ -96,7 +110,7 @@ def main() -> int:
         print(json.dumps(out, indent=2))
         return 0
 
-    operations = [render_operation(call) for call in calls]
+    operations = [render_operation(normalize_call(call)) for call in calls]
     print(json.dumps({"type": "call", "operations": operations}, indent=2))
     return 0
 

@@ -261,7 +261,23 @@ def synth():
     for ph, dr in [("split this pane to the right", "right"),
                    ("split my pane down", "down"),
                    ("split this pane right", "right"),
-                   ("divide my pane on the right side", "right")]:
+                   ("divide my pane on the right side", "right"),
+                   ("split the current pane vertically", "down"),
+                   ("split the current pane horizontally", "right"),
+                   ("give me a new pane on the right", "right"),
+                   ("give me a new pane below", "down"),
+                   ("open a split to the right of this pane", "right"),
+                   ("open a split below this pane", "down"),
+                   ("split here to the right", "right"),
+                   ("split here downward", "down"),
+                   ("split the active pane right", "right"),
+                   ("split the active pane down", "down"),
+                   ("make a vertical split", "down"),
+                   ("make a horizontal split", "right"),
+                   ("split pane down", "down"),
+                   ("split pane right", "right"),
+                   ("split to the right", "right"),
+                   ("split downward", "down")]:
         rows.append((ph, f"pane_split; current pane, direction {dr}",
                      [{"name": "pane_split", "arguments": {"current": True, "direction": dr}}]))
     for ph, dr in [("split pane w1:p1 to the down", "down"),
@@ -273,7 +289,16 @@ def synth():
                      [{"name": "pane_split", "arguments": {"pane": pane, "direction": dr}}]))
     for ph, dr, ratio in [("split my pane down giving a third of the height", "down", 0.33),
                           ("split my pane right at 30%", "right", 0.3),
-                          ("split my pane down with the new pane taking two thirds", "down", 0.67)]:
+                          ("split my pane down with the new pane taking two thirds", "down", 0.67),
+                          ("split my pane right at 70 percent", "right", 0.7),
+                          ("split my pane down at 25%", "down", 0.25),
+                          ("split this pane right, 40% for the new one", "right", 0.4),
+                          ("split the pane down; new pane gets 60%", "down", 0.6),
+                          ("split my pane right with the new pane taking half the width", "right", 0.5),
+                          ("split my pane down quarter height", "down", 0.25),
+                          ("give me a right split at three quarters", "right", 0.75),
+                          ("split right 20 percent", "right", 0.2),
+                          ("split down 80%", "down", 0.8)]:
         rows.append((ph, f"pane_split; current, direction {dr}, ratio from query",
                      [{"name": "pane_split", "arguments": {"current": True, "direction": dr, "ratio": ratio}}]))
     for ph, dr, cwd, nofocus in [
@@ -292,6 +317,21 @@ def synth():
                      [{"name": "pane_run", "arguments": {"pane": pane, "command": cmd}}]))
         rows.append((f"in {pane} run {cmd}", f"pane_run; pane and command from query",
                      [{"name": "pane_run", "arguments": {"pane": pane, "command": cmd}}]))
+    # natural-language command mapping: phrase -> literal shell command
+    for ph, cmd in [
+            ("run the test suite in {p}", "cargo test"),
+            ("in {p} run the full test suite", "cargo test"),
+            ("start the dev server in {p}", "npm run dev"),
+            ("build the project in {p}", "npm run build"),
+            ("in {p} run the linter", "cargo clippy"),
+            ("format the code in {p}", "cargo fmt"),
+            ("check formatting in {p}", "cargo fmt --check"),
+            ("show git status in {p}", "git status"),
+            ("run typecheck in {p}", "tsc --noEmit"),
+            ("update dependencies in {p}", "npm update")]:
+        for pane in ["w1:p1", "w2:p1"]:
+            rows.append((ph.format(p=pane), f"pane_run; pane from query, command maps to `{cmd}`",
+                         [{"name": "pane_run", "arguments": {"pane": pane, "command": cmd}}]))
     for pane, lines in [("w1:p1", 120), ("w1:p4", 50), ("w2:p1", 80), ("w1:p2", 200),
                         ("w2:p2", 150), ("w1:p3", 40)]:
         rows.append((f"read the last {lines} lines of {pane}", f"pane_read; pane and lines from query",
