@@ -1,3 +1,12 @@
+---
+name: lfm2-herdr-train-eval
+description: Fine-tune LiquidAI/LFM2-350M as a Herdr terminal-multiplexer expert via PEFT LoRA, train on Google Colab GPUs using the colab CLI, and evaluate locally against a deterministic holdout split. Use when training, retraining, or evaluating the herdr needle model in this repo.
+compatibility: Requires this repo's pipeline scripts in the repo root, the `colab` CLI (google-colab-cli) with ADC auth for Colab training, and a local Python venv for eval.
+metadata:
+  author: agney
+  version: "1.0"
+---
+
 # LFM2 Herdr Expert — Train & Eval Workflow
 
 Skill for fine-tuning LiquidAI/LFM2-350M as a Herdr terminal-multiplexer
