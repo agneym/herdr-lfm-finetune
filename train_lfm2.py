@@ -6,7 +6,7 @@ single T4/L4: bf16, gradient accumulation, small batch. Saves the adapter to
 --out (default lfm2_herdr_lora).
 
 Usage:
-  python train_lfm2.py --data dataset.jsonl --epochs 8 --out lfm2_herdr_lora
+  python train_lfm2.py --data dataset.jsonl --epochs 12 --out lfm2_herdr_lora
 """
 import argparse
 import json
@@ -111,7 +111,7 @@ def run_epoch(model, ds, indices, tok, args, optimizer=None, scheduler=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="dataset.jsonl")
-    ap.add_argument("--epochs", type=int, default=8)
+    ap.add_argument("--epochs", type=int, default=12)
     ap.add_argument("--batch-size", type=int, default=2)
     ap.add_argument("--grad-accum", type=int, default=4)
     ap.add_argument("--lr", type=float, default=1e-4)
@@ -126,9 +126,15 @@ def main():
     model.config.use_cache = False
     model.gradient_checkpointing_enable()
 
+    # v4 LoRA targets. LFM2 naming differs from Llama:
+    #   - attention: q_proj/k_proj/v_proj exist, but the output projection is
+    #     `out_proj` — NOT o_proj (which matches nothing), and out_proj ALSO
+    #     exists on Lfm2ShortConv, so targeting it crashes PEFT via torchao.
+    #   - MLP: gate/up/down are named w1/w3/w2 in Lfm2MLP. Targeting them
+    #     adds ~2x trainable params for argument grounding (the v3 weak spot).
     lconf = LoraConfig(
         r=args.lora_r, lora_alpha=2 * args.lora_r, lora_dropout=0.05,
-        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+        target_modules=["q_proj", "k_proj", "v_proj", "w1", "w3", "w2"],
         task_type="CAUSAL_LM")
     model = get_peft_model(model, lconf)
     model.print_trainable_parameters()

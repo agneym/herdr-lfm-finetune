@@ -14,8 +14,11 @@ right Herdr operation and run the result.
 
 The pipeline is three steps:
 
-1. `make_dataset.py` generates `dataset.jsonl` — 270 examples of
-   `{messages, tools, expected}` covering all 25 Herdr ops, ~12% off-topic.
+1. `make_dataset.py` generates `dataset.jsonl` — ~656 examples of
+   `{messages, tools, expected}` covering all 25 Herdr ops, ~12% off-topic
+   including hard negatives that reuse Herdr verbs but act outside Herdr.
+   Tail tools get >=10 surface forms; contrastive minimal pairs separate
+   confusable ops (list/create worktrees, get/install).
    The tool schemas come from `herdr_tools.py`. `messages` are chat-format,
    ready for `tokenizer.apply_chat_template(tools=...)`: assistant turns keep
    the reasoning line, then emit calls in native LFM2 syntax `[name(arg=val)]`;
@@ -68,9 +71,16 @@ keep-alive every 60 s, then tar+base64-dump the checkpoint to stdout on
 completion (the VM can be reaped seconds after training finishes). Reconstruct
 locally with the snippet in `NOTES.md` / the script's docstring.
 
-Hyperparameters that worked (270 rows): epochs 8, batch 1, grad-accum 8,
-lr 1e-4, LoRA r=16 alpha=32 on q/k/v/o_proj ONLY (do NOT target conv
+Hyperparameters that worked (v3, 314 rows): epochs 8, batch 1, grad-accum 8,
+lr 1e-4, LoRA r=16 alpha=32 on q/k/v_proj ONLY (do NOT target conv
 in_proj/out_proj — PEFT routes them through torchao and crashes).
+
+v4 recipe (656 rows): epochs 12 (v3 val loss still improving at 8), same
+r/alpha/lr, targets q/k/v_proj + w1/w3/w2. LFM2 naming gotcha: the MLP
+projections are `w1`/`w3`/`w2`, NOT gate/up/down_proj (those match nothing),
+and attention output is `out_proj` which is SHARED with Lfm2ShortConv —
+there is no `o_proj` at all, so the old "o_proj" target silently trained
+q/k/v only.
 
 ## Evaluate
 

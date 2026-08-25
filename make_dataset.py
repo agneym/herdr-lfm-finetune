@@ -213,6 +213,16 @@ def _queries(phrasings, glue=("please", "would you", "")):
     return out
 
 
+def _prefixed(phrasings):
+    """Deterministic glue variants: each phrasing bare + politely prefixed.
+    Doubles surface-form coverage without hand-writing duplicates."""
+    out = []
+    for ph in phrasings:
+        out.append(ph)
+        out.append("please, " + ph)
+    return out
+
+
 def synth():
     from itertools import product
 
@@ -524,6 +534,230 @@ def synth():
                      f"worktree_create; base and path from query",
                      [{"name": "worktree_create", "arguments": {"base": base, "path": path}}]))
 
+    # --------------------------------------------------------------------- #
+    # v4 fix A: paraphrase expansion for tail tools.  v3 under-called on
+    # novel phrasings of ops with <=7 surface forms (workspace_list had 5,
+    # session_list 4).  Give every thin op >=10 more across
+    # imperative/question/noun-phrase forms; _prefixed() doubles coverage.
+    # --------------------------------------------------------------------- #
+    for ph in _prefixed([
+            "show my open workspaces", "what workspaces do i have?",
+            "give me the workspace list", "which workspaces exist right now?",
+            "display all workspaces", "workspaces overview",
+            "how many workspaces are open? show them", "print my workspaces"]):
+        rows.append((ph, "workspace_list; no args",
+                     [{"name": "workspace_list", "arguments": {}}]))
+    for ph in _prefixed([
+            "what sessions do i have?", "list named sessions",
+            "show persistent sessions", "which sessions exist?",
+            "sessions overview", "do i have any saved sessions? list them",
+            "print session names", "give me my session list"]):
+        rows.append((ph, "session_list; no args",
+                     [{"name": "session_list", "arguments": {}}]))
+    for ph in _prefixed([
+            "who's running?", "which agents are active right now?",
+            "list running coding agents", "any agents running? list them",
+            "agents overview", "what agents does herdr have running?",
+            "enumerate active agents", "agent roster"]):
+        rows.append((ph, "agent_list; no args",
+                     [{"name": "agent_list", "arguments": {}}]))
+    for ph in _prefixed([
+            "herdr status", "is herdr ok?", "server status",
+            "health check", "am i connected to herdr?",
+            "version and health of herdr", "run herdr diagnostics",
+            "status report"]):
+        rows.append((ph, "status; no args",
+                     [{"name": "herdr_status", "arguments": {}}]))
+    for ph in _prefixed([
+            "show me the worktrees", "what worktrees exist?",
+            "worktree overview", "which worktrees are checked out?",
+            "all worktrees", "print open worktrees",
+            "any worktrees? show them", "give me the worktree list"]):
+        rows.append((ph, "worktree_list; no filter",
+                     [{"name": "worktree_list", "arguments": {}}]))
+    for repo in ["/home/repo", "/home/repo/proj"]:
+        for ph in _prefixed([f"worktrees under {repo}",
+                             f"which worktrees belong to {repo}?",
+                             f"show worktrees whose repo is {repo}"]):
+            rows.append((ph, "worktree_list; cwd from query",
+                         [{"name": "worktree_list", "arguments": {"cwd": repo}}]))
+    for ph in _prefixed([
+            "which pane has focus right now?", "current pane id?",
+            "where am i?", "what's the active pane?",
+            "tell me which pane i'm on",
+            "which pane would a command target?"]):
+        rows.append((ph, "pane_current; no args",
+                     [{"name": "pane_current", "arguments": {}}]))
+    for ws in ["w2", "w3", "w4"]:
+        for ph in _prefixed([f"details on workspace {ws}",
+                             f"describe workspace {ws}",
+                             f"info about workspace {ws}",
+                             f"inspect workspace {ws}"]):
+            rows.append((ph, "workspace_get; id from query",
+                         [{"name": "workspace_get", "arguments": {"workspace_id": ws}}]))
+    for ws in ["w3", "w4", "w5"]:
+        for ph in _prefixed([f"tabs of workspace {ws}",
+                             f"enumerate tabs in workspace {ws}",
+                             f"show tabs belonging to {ws}"]):
+            rows.append((ph, "tab_list; workspace from query",
+                         [{"name": "tab_list", "arguments": {"workspace": ws}}]))
+    for ws in ["w3", "w4"]:
+        for ph in _prefixed([f"panes of workspace {ws}",
+                             f"which panes are in {ws}?"]):
+            rows.append((ph, "pane_list; workspace from query",
+                         [{"name": "pane_list", "arguments": {"workspace": ws}}]))
+    # NOTE: integration_install.agent enum differs from agent_start.kind;
+    # only names valid for THIS tool (no gemini here).  Bare phrasings only
+    # (no _prefixed): this tool otherwise overshoots and skews the mix.
+    for agent in ["claude", "cursor", "copilot", "devin", "droid", "kilo"]:
+        for ph in [f"set up the {agent} integration",
+                   f"add the {agent} integration",
+                   f"enable {agent} support in herdr",
+                   f"hook up the {agent} integration"]:
+            rows.append((ph, "integration_install; agent from query",
+                         [{"name": "integration_install", "arguments": {"agent": agent}}]))
+    for kind in ["gemini", "cline", "amp"]:
+        for ph in _prefixed([f"start a {kind} agent called scout in w1:p1",
+                             f"launch {kind} 'scout' in w1:p1"]):
+            rows.append((ph, "agent_start; name, kind, pane from query",
+                         [{"name": "agent_start", "arguments": {"name": "scout",
+                                                                "kind": kind,
+                                                                "pane": "w1:p1"}}]))
+
+    # --------------------------------------------------------------------- #
+    # v4 fix B: contrastive minimal pairs.  Eval confused list-vs-create
+    # (worktrees), get-vs-install (hermes), start-vs-get (agents).  Adjacent
+    # same-noun rows force the model to key on the VERB, not the noun.
+    # --------------------------------------------------------------------- #
+    for branch in ["fix/pair-a", "feat/pair-b"]:
+        rows.append((f"list worktrees that contain branch {branch}",
+                     "worktree_list; listing, not creating",
+                     [{"name": "worktree_list", "arguments": {}}]))
+        rows.append((f"create a worktree for branch {branch}",
+                     "worktree_create; branch from query",
+                     [{"name": "worktree_create", "arguments": {"branch": branch}}]))
+    for name in ["hermes", "codex"]:
+        rows.append((f"is the {name} agent there? check on it",
+                     "agent_get; inspecting an agent, not installing",
+                     [{"name": "agent_get", "arguments": {"target": name}}]))
+        rows.append((f"set up the {name} integration for herdr",
+                     "integration_install; installing, not inspecting",
+                     [{"name": "integration_install", "arguments": {"agent": name}}]))
+    for t in ["reviewer", "coder"]:
+        rows.append((f"start a codex agent called {t}2 in w2:p1",
+                     "agent_start; launching, not checking",
+                     [{"name": "agent_start", "arguments": {"name": f"{t}2",
+                                                           "kind": "codex",
+                                                           "pane": "w2:p1"}}]))
+        rows.append((f"check agent {t}2",
+                     "agent_get; target from query",
+                     [{"name": "agent_get", "arguments": {"target": f"{t}2"}}]))
+    for pane in ["w1:p2", "w2:p2"]:
+        rows.append((f"read what's currently in {pane}",
+                     "pane_read; pane from query",
+                     [{"name": "pane_read", "arguments": {"pane": pane}}]))
+        rows.append((f"wait until {pane} prints done",
+                     "pane_wait; match from query",
+                     [{"name": "pane_wait", "arguments": {"pane": pane,
+                                                          "match": "done"}}]))
+
+    # Tail boost: tools the v3 rebalance missed (agent_read 6, pane_close 6,
+    # pane_layout 7, ...).  Same >=10-surface-forms rule as fix A.
+    for t in ["reviewer", "coder", "debug"]:
+        for ph in [f"show me agent {t}'s output",
+                   f"what has agent {t} printed?",
+                   f"tail agent {t}"]:
+            rows.append((ph, "agent_read; target from query",
+                         [{"name": "agent_read", "arguments": {"target": t}}]))
+    for p, lbl in [("w1:p2", "watcher"), ("w2:p1", "api"), ("w3:p1", "notes")]:
+        for ph in _prefixed([f"rename {p} to {lbl}",
+                             f"give pane {p} the name {lbl}"]):
+            rows.append((ph, "pane_rename; pane and label from query",
+                         [{"name": "pane_rename", "arguments": {"pane": p,
+                                                               "label": lbl}}]))
+    for p in ["w2:p3", "w3:p2", "w4:p1", "w1:p5"]:
+        for ph in _prefixed([f"close pane {p}", f"kill pane {p}"]):
+            rows.append((ph, "pane_close; pane from query",
+                         [{"name": "pane_close", "arguments": {"pane": p}}]))
+    for p in ["w1:p4", "w2:p2", "w3:p1", "w4:p1"]:
+        for ph in _prefixed([f"how is {p} laid out?",
+                             f"show me the split layout of pane {p}"]):
+            rows.append((ph, "pane_layout; pane from query",
+                         [{"name": "pane_layout", "arguments": {"pane": p}}]))
+    for ws in ["backend", "research"]:
+        for ph in _prefixed([f"create a workspace called {ws}",
+                             f"i need a workspace named {ws}"]):
+            rows.append((ph, "workspace_create; label from query",
+                         [{"name": "workspace_create", "arguments": {"label": ws}}]))
+    for ws, lbl in [("w2", "ci"), ("w3", "docs")]:
+        for ph in _prefixed([f"open a tab named {lbl} in {ws}",
+                             f"new tab labeled {lbl} in workspace {ws}"]):
+            rows.append((ph, "tab_create; workspace and label from query",
+                         [{"name": "tab_create", "arguments": {"workspace": ws,
+                                                              "label": lbl}}]))
+    for t in ["reviewer", "coder", "triage", "scout"]:
+        for ph in _prefixed([f"hold until agent {t} reports done",
+                             f"block on agent {t} reaching done"]):
+            rows.append((ph, "agent_wait; target and state from query",
+                         [{"name": "agent_wait", "arguments": {"target": t,
+                                                              "until": ["done"]}}]))
+
+    # --------------------------------------------------------------------- #
+    # v4 fix C: hard-negative off-topic.  Trivia-only refusals taught a
+    # SURFACE boundary ("unfamiliar -> refuse"), which made the model emit []
+    # on novel ON-topic phrasings while still leaking on action-y trivia.
+    # These reuse Herdr verbs/nouns but act OUTSIDE Herdr (no herdr tool can
+    # serve them), so refusal must be semantic.  Deliberately excludes generic
+    # shell-command requests ("clone the repo") since pane_run could argue
+    # those are in scope.
+    # --------------------------------------------------------------------- #
+    hard_off = [
+        "split the dinner bill three ways",
+        "read that PDF for me and summarize it",
+        "create a github issue for this crash",
+        "open a browser tab with the react docs",
+        "rename all files in ~/downloads to lowercase",
+        "launch vscode in the current folder",
+        "schedule a cron job that runs nightly",
+        "search the web for herdr release notes",
+        "summarize this article about terminal multiplexers",
+        "translate the readme to japanese",
+        "what's the difference between tmux and zellij?",
+        "fix the failing unit test in src/util.py",
+        "start my podcast editor app",
+        "book me a flight to berlin",
+        "write a blog post about our launch",
+        "clean up my desktop icons",
+        "set a reminder for the standup at 10am",
+        "archive last year's slack channels",
+        "fix my wifi connection",
+        "write the sql for monthly active users",
+        "generate some lorem ipsum placeholder text",
+        "refactor this javascript class into hooks",
+        "what's my public ip address?",
+        "order a birthday cake for sam",
+        "make a meme out of this screenshot",
+        "calculate the compound interest on 5000 at 4%",
+        "draft a linkedin post about the release",
+        "hey, could you write a sonnet about debugging?",
+        "sorry, wrong window - ignore that last message",
+        "can you water my virtual plants in that game?",
+        "what should i name my new laptop?",
+        "how do i unblock someone on mastodon?",
+        "recommend a chair for long coding sessions",
+        "explain docker networking to me like i'm five",
+        "what year did the berlin wall fall?",
+        "convert this recipe to metric for me",
+        "find me a cheap flight to lisbon",
+        "write alt text for this photo of a cat",
+        "is it going to rain tomorrow?",
+        "suggest a name for our team offsite channel",
+        "help me pick a font for the landing page",
+        "summarize the meeting notes i pasted above",
+    ]
+    for q in hard_off:
+        rows.append((q, "off-topic", []))
+
     # off-topic ---------------------------------------------------------------
     off = ["what is the capital of France?",
            "write me a limerick", "explain quantum computing",
@@ -536,7 +770,18 @@ def synth():
            "how do I file my taxes?", "plan a two-week trip to Japan",
            "what is the meaning of life?", "compare rust and go",
            "help me name my cat", "what's the best pizza topping?",
-           "write a haiku about autumn"]
+           "write a haiku about autumn",
+           # prefixed trivia: same refusals under conversational glue
+           "hey, what's the weather like?",
+           "sorry to interrupt, but what time is it in tokyo?",
+           "btw, recommend me a keyboard",
+           "quick question, explain recursion in one line",
+           "unrelated: who directed blade runner?",
+           "before i forget, convert 100 usd to euros",
+           "also, tell me a fun fact about octopuses",
+           "one more thing, plan a weekend in lisbon",
+           "switching topics entirely: best coffee beans?",
+           "ignore herdr for a second, what's 9 * 9?"]
     for q in off:
         rows.append((q, "off-topic", []))
 
