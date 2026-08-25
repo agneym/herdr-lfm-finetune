@@ -158,35 +158,35 @@
   "query": "split this pane to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p2"
+  "detail": "new pane wE:p2"
  },
  {
   "row": 23,
   "query": "split my pane down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p3"
+  "detail": "new pane wE:p3"
  },
  {
   "row": 24,
   "query": "split pane w1:p1 to the right and focus it",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p4"
+  "detail": "new pane wE:p4"
  },
  {
   "row": 25,
   "query": "split my pane to the right in /home/repo without stealing focus",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p5"
+  "detail": "new pane wE:p5"
  },
  {
   "row": 26,
   "query": "split my pane down and give half the height",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p6"
+  "detail": "new pane wE:p6"
  },
  {
   "row": 27,
@@ -214,21 +214,21 @@
   "query": "read the last 120 lines of w1:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\ndsval-oto8pwub  ma\nin\n\u276f\n"
  },
  {
   "row": 31,
   "query": "show the recent output from pane w2:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\ndsval-oto8pwub  ma\nin\n\u276f\n"
  },
  {
   "row": 32,
   "query": "dump everything visible in w1:p3",
   "call": "pane_read(source=visible)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\ndsval-oto8pwub  ma\nin\n\u276f\n"
  },
  {
   "row": 33,
@@ -361,7 +361,7 @@
   "query": "split my pane right and run the linter in the new pane, waiting for it to finish",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p7"
+  "detail": "new pane wE:p7"
  },
  {
   "row": 59,
@@ -382,7 +382,7 @@
   "query": "start a codex reviewer in a fresh pane and wait for it to be ready",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p8"
+  "detail": "new pane wE:p8"
  },
  {
   "row": 60,
@@ -669,252 +669,252 @@
   "query": "split this pane right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p9"
+  "detail": "new pane wE:p9"
  },
  {
   "row": 101,
   "query": "divide my pane on the right side",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pA"
+  "detail": "new pane wE:pA"
  },
  {
   "row": 102,
   "query": "split the current pane vertically",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pB"
+  "detail": "new pane wE:pB"
  },
  {
   "row": 103,
   "query": "split the current pane horizontally",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pC"
+  "detail": "new pane wE:pC"
  },
  {
   "row": 104,
   "query": "give me a new pane on the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pD"
+  "detail": "new pane wE:pD"
  },
  {
   "row": 105,
   "query": "give me a new pane below",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pE"
+  "detail": "new pane wE:pE"
  },
  {
   "row": 106,
   "query": "open a split to the right of this pane",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pF"
+  "detail": "new pane wE:pF"
  },
  {
   "row": 107,
   "query": "open a split below this pane",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pG"
+  "detail": "new pane wE:pG"
  },
  {
   "row": 108,
   "query": "split here to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pH"
+  "detail": "new pane wE:pH"
  },
  {
   "row": 109,
   "query": "split here downward",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pJ"
+  "detail": "new pane wE:pJ"
  },
  {
   "row": 110,
   "query": "split the active pane right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pK"
+  "detail": "new pane wE:pK"
  },
  {
   "row": 111,
   "query": "split the active pane down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pM"
+  "detail": "new pane wE:pM"
  },
  {
   "row": 112,
   "query": "make a vertical split",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pN"
+  "detail": "new pane wE:pN"
  },
  {
   "row": 113,
   "query": "make a horizontal split",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pP"
+  "detail": "new pane wE:pP"
  },
  {
   "row": 114,
   "query": "split pane down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pQ"
+  "detail": "new pane wE:pQ"
  },
  {
   "row": 115,
   "query": "split pane right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pR"
+  "detail": "new pane wE:pR"
  },
  {
   "row": 116,
   "query": "split to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pS"
+  "detail": "new pane wE:pS"
  },
  {
   "row": 117,
   "query": "split downward",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pT"
+  "detail": "new pane wE:pT"
  },
  {
   "row": 118,
   "query": "split pane w1:p1 to the down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pV"
+  "detail": "new pane wE:pV"
  },
  {
   "row": 119,
   "query": "split w1:p3 to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pW"
+  "detail": "new pane wE:pW"
  },
  {
   "row": 120,
   "query": "split w1:p2 down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pX"
+  "detail": "new pane wE:pX"
  },
  {
   "row": 121,
   "query": "split pane w1:p4 to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pY"
+  "detail": "new pane wE:pY"
  },
  {
   "row": 122,
   "query": "split my pane down giving a third of the height",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:pZ"
+  "detail": "new pane wE:pZ"
  },
  {
   "row": 123,
   "query": "split my pane right at 30%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p0"
+  "detail": "new pane wE:p0"
  },
  {
   "row": 124,
   "query": "split my pane down with the new pane taking two thirds",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p11"
+  "detail": "new pane wE:p11"
  },
  {
   "row": 125,
   "query": "split my pane right at 70 percent",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p12"
+  "detail": "new pane wE:p12"
  },
  {
   "row": 126,
   "query": "split my pane down at 25%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p13"
+  "detail": "new pane wE:p13"
  },
  {
   "row": 127,
   "query": "split this pane right, 40% for the new one",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p14"
+  "detail": "new pane wE:p14"
  },
  {
   "row": 128,
   "query": "split the pane down; new pane gets 60%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p15"
+  "detail": "new pane wE:p15"
  },
  {
   "row": 129,
   "query": "split my pane right with the new pane taking half the width",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p16"
+  "detail": "new pane wE:p16"
  },
  {
   "row": 130,
   "query": "split my pane down quarter height",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p17"
+  "detail": "new pane wE:p17"
  },
  {
   "row": 131,
   "query": "give me a right split at three quarters",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p18"
+  "detail": "new pane wE:p18"
  },
  {
   "row": 132,
   "query": "split right 20 percent",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p19"
+  "detail": "new pane wE:p19"
  },
  {
   "row": 133,
   "query": "split down 80%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p1A"
+  "detail": "new pane wE:p1A"
  },
  {
   "row": 134,
   "query": "split my pane right in /home/repo without focus",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p1B"
+  "detail": "new pane wE:p1B"
  },
  {
   "row": 135,
   "query": "split this pane down in /home/repo/proj, don't focus",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wA:p1C"
+  "detail": "new pane wE:p1C"
  },
  {
   "row": 136,
@@ -1173,98 +1173,98 @@
   "query": "read the last 50 lines of w1:p4",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
  },
  {
   "row": 173,
   "query": "read the last 80 lines of w2:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
  },
  {
   "row": 174,
   "query": "read the last 200 lines of w1:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
  },
  {
   "row": 175,
   "query": "read the last 150 lines of w2:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
  },
  {
   "row": 176,
   "query": "read the last 40 lines of w1:p3",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
  },
  {
   "row": 177,
   "query": "show the recent output from w2:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
  },
  {
   "row": 178,
   "query": "show the visible output from w1:p3",
   "call": "pane_read(source=visible)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\u276f\n"
  },
  {
   "row": 179,
   "query": "show the recent-unwrapped output from w1:p1",
   "call": "pane_read(source=recent-unwrapped)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f"
+  "detail": "\n\n\ndsval-ot\ndsval-ot\ndsval-oto8pwub  main\ndsval-oto8pwub  main\n\u276f"
  },
  {
   "row": 180,
   "query": "show the recent output from w2:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
  },
  {
   "row": 181,
   "query": "show the visible output from w1:p4",
   "call": "pane_read(source=visible)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\u276f\n"
  },
  {
   "row": 182,
   "query": "read the recent output from w1:p1 as ansi",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\u001b[0m\u001b[38;5;4mdsval-reihcraf\u001b[0m  \u001b[0m\u001b[38;5;8mmain\u001b[0m\u001b[38;5;6m \u001b[0m\n\u001b[0m\u001b[38;5;5m\u276f\u001b[0m "
+  "detail": "\n\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b[38;5;4ml-ot\u001b[0m\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b[38;5;4ml-ot\u001b[0m\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b"
  },
  {
   "row": 183,
   "query": "read the visible output from w1:p2 as ansi",
   "call": "pane_read(source=visible)",
   "status": "PASS",
-  "detail": "\n\u001b[0m\u001b[38;5;4mdsval-reihcraf\u001b[0m  \u001b[0m\u001b[38;5;8mmain\u001b[0m\u001b[38;5;6m \u001b[0m\n\u001b[0m\u001b[38;5;5m\u276f\u001b[0m "
+  "detail": "\u001b[0m\u001b[38;5;6m \u001b[0m\n\u001b[0m\u001b[38;5;5m\u276f\u001b[0m "
  },
  {
   "row": 184,
   "query": "show the detection snapshot of w1:p1",
   "call": "pane_read(source=detection)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\u276f\n"
  },
  {
   "row": 185,
   "query": "show the detection snapshot of w1:p3",
   "call": "pane_read(source=detection)",
   "status": "PASS",
-  "detail": "\ndsval-reihcraf  main\n\u276f\n"
+  "detail": "\n\u276f\n"
  },
  {
   "row": 186,
@@ -1643,5 +1643,2329 @@
   "call": "tab_create",
   "status": "SKIP",
   "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 248,
+  "query": "check if herdr is up",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 249,
+  "query": "is herdr healthy right now?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 250,
+  "query": "herdr health check",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 251,
+  "query": "list the panes of workspace w2",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 252,
+  "query": "list the panes of workspace w3",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 253,
+  "query": "list the panes of workspace w4",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 254,
+  "query": "list the panes of workspace w5",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 255,
+  "query": "what tabs does w2 have?",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 256,
+  "query": "what tabs does w3 have?",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 257,
+  "query": "what tabs does w4 have?",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 258,
+  "query": "show me workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 259,
+  "query": "show me workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 260,
+  "query": "show me workspace w5",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 261,
+  "query": "which pane has focus?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 262,
+  "query": "what pane is this?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 263,
+  "query": "rename w1:p1 to main",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 264,
+  "query": "rename w2:p1 to server",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 265,
+  "query": "rename w2:p2 to logs",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 266,
+  "query": "rename w1:p3 to shell",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 267,
+  "query": "rename w3:p1 to scratch",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 268,
+  "query": "close w2:p3 please",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 269,
+  "query": "close w3:p1 please",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 270,
+  "query": "close w2:p2 please",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 271,
+  "query": "show me the layout of w1:p1",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 272,
+  "query": "show me the layout of w2:p2",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 273,
+  "query": "show me the layout of w1:p3",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 274,
+  "query": "show me the layout of w3:p1",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 275,
+  "query": "is agent reviewer still running?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 276,
+  "query": "is agent coder still running?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 277,
+  "query": "is agent debug still running?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 278,
+  "query": "is agent doc still running?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 279,
+  "query": "show agent reviewer's recent output",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 280,
+  "query": "show agent coder's recent output",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 281,
+  "query": "install the claude integration for herdr",
+  "call": "integration_install(claude)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 282,
+  "query": "install the cursor integration for herdr",
+  "call": "integration_install(cursor)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 283,
+  "query": "install the copilot integration for herdr",
+  "call": "integration_install(copilot)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 284,
+  "query": "wait until agent reviewer finishes",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 285,
+  "query": "wait until agent coder finishes",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 286,
+  "query": "wait until agent debug finishes",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 287,
+  "query": "wait until agent triage finishes",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 288,
+  "query": "wait until agent test finishes",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 289,
+  "query": "create a worktree from main checked out at /tmp/wt-a",
+  "call": "worktree_create.base='main'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 290,
+  "query": "create a worktree from develop checked out at /tmp/wt-b",
+  "call": "worktree_create.base='develop'",
+  "status": "FAIL",
+  "detail": "base ref does not exist in a fresh repo"
+ },
+ {
+  "row": 291,
+  "query": "create a worktree from HEAD checked out at /tmp/wt-c",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 292,
+  "query": "show my open workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 293,
+  "query": "please, show my open workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 294,
+  "query": "what workspaces do i have?",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 295,
+  "query": "please, what workspaces do i have?",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 296,
+  "query": "give me the workspace list",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 297,
+  "query": "please, give me the workspace list",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 298,
+  "query": "which workspaces exist right now?",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 299,
+  "query": "please, which workspaces exist right now?",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 300,
+  "query": "display all workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 301,
+  "query": "please, display all workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 302,
+  "query": "workspaces overview",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 303,
+  "query": "please, workspaces overview",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 304,
+  "query": "how many workspaces are open? show them",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 305,
+  "query": "please, how many workspaces are open? show them",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 306,
+  "query": "print my workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 307,
+  "query": "please, print my workspaces",
+  "call": "workspace_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 308,
+  "query": "what sessions do i have?",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 309,
+  "query": "please, what sessions do i have?",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 310,
+  "query": "list named sessions",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 311,
+  "query": "please, list named sessions",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 312,
+  "query": "show persistent sessions",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 313,
+  "query": "please, show persistent sessions",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 314,
+  "query": "which sessions exist?",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 315,
+  "query": "please, which sessions exist?",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 316,
+  "query": "sessions overview",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 317,
+  "query": "please, sessions overview",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 318,
+  "query": "do i have any saved sessions? list them",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 319,
+  "query": "please, do i have any saved sessions? list them",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 320,
+  "query": "print session names",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 321,
+  "query": "please, print session names",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 322,
+  "query": "give me my session list",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 323,
+  "query": "please, give me my session list",
+  "call": "session_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 324,
+  "query": "who's running?",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 325,
+  "query": "please, who's running?",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 326,
+  "query": "which agents are active right now?",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 327,
+  "query": "please, which agents are active right now?",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 328,
+  "query": "list running coding agents",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 329,
+  "query": "please, list running coding agents",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 330,
+  "query": "any agents running? list them",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 331,
+  "query": "please, any agents running? list them",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 332,
+  "query": "agents overview",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 333,
+  "query": "please, agents overview",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 334,
+  "query": "what agents does herdr have running?",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 335,
+  "query": "please, what agents does herdr have running?",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 336,
+  "query": "enumerate active agents",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 337,
+  "query": "please, enumerate active agents",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 338,
+  "query": "agent roster",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 339,
+  "query": "please, agent roster",
+  "call": "agent_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 340,
+  "query": "herdr status",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 341,
+  "query": "please, herdr status",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 342,
+  "query": "is herdr ok?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 343,
+  "query": "please, is herdr ok?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 344,
+  "query": "server status",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 345,
+  "query": "please, server status",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 346,
+  "query": "health check",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 347,
+  "query": "please, health check",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 348,
+  "query": "am i connected to herdr?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 349,
+  "query": "please, am i connected to herdr?",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 350,
+  "query": "version and health of herdr",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 351,
+  "query": "please, version and health of herdr",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 352,
+  "query": "run herdr diagnostics",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 353,
+  "query": "please, run herdr diagnostics",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 354,
+  "query": "status report",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 355,
+  "query": "please, status report",
+  "call": "herdr_status",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 356,
+  "query": "show me the worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 357,
+  "query": "please, show me the worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 358,
+  "query": "what worktrees exist?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 359,
+  "query": "please, what worktrees exist?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 360,
+  "query": "worktree overview",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 361,
+  "query": "please, worktree overview",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 362,
+  "query": "which worktrees are checked out?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 363,
+  "query": "please, which worktrees are checked out?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 364,
+  "query": "all worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 365,
+  "query": "please, all worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 366,
+  "query": "print open worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 367,
+  "query": "please, print open worktrees",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 368,
+  "query": "any worktrees? show them",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 369,
+  "query": "please, any worktrees? show them",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 370,
+  "query": "give me the worktree list",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 371,
+  "query": "please, give me the worktree list",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 372,
+  "query": "worktrees under /home/repo",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 373,
+  "query": "please, worktrees under /home/repo",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 374,
+  "query": "which worktrees belong to /home/repo?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 375,
+  "query": "please, which worktrees belong to /home/repo?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 376,
+  "query": "show worktrees whose repo is /home/repo",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 377,
+  "query": "please, show worktrees whose repo is /home/repo",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 378,
+  "query": "worktrees under /home/repo/proj",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 379,
+  "query": "please, worktrees under /home/repo/proj",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 380,
+  "query": "which worktrees belong to /home/repo/proj?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 381,
+  "query": "please, which worktrees belong to /home/repo/proj?",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 382,
+  "query": "show worktrees whose repo is /home/repo/proj",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 383,
+  "query": "please, show worktrees whose repo is /home/repo/proj",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 384,
+  "query": "which pane has focus right now?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 385,
+  "query": "please, which pane has focus right now?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 386,
+  "query": "current pane id?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 387,
+  "query": "please, current pane id?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 388,
+  "query": "where am i?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 389,
+  "query": "please, where am i?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 390,
+  "query": "what's the active pane?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 391,
+  "query": "please, what's the active pane?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 392,
+  "query": "tell me which pane i'm on",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 393,
+  "query": "please, tell me which pane i'm on",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 394,
+  "query": "which pane would a command target?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 395,
+  "query": "please, which pane would a command target?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 396,
+  "query": "details on workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 397,
+  "query": "please, details on workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 398,
+  "query": "describe workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 399,
+  "query": "please, describe workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 400,
+  "query": "info about workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 401,
+  "query": "please, info about workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 402,
+  "query": "inspect workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 403,
+  "query": "please, inspect workspace w2",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 404,
+  "query": "details on workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 405,
+  "query": "please, details on workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 406,
+  "query": "please, describe workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 407,
+  "query": "info about workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 408,
+  "query": "please, info about workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 409,
+  "query": "inspect workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 410,
+  "query": "please, inspect workspace w3",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 411,
+  "query": "details on workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 412,
+  "query": "please, details on workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 413,
+  "query": "describe workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 414,
+  "query": "please, describe workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 415,
+  "query": "info about workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 416,
+  "query": "please, info about workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 417,
+  "query": "inspect workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 418,
+  "query": "please, inspect workspace w4",
+  "call": "workspace_get",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 419,
+  "query": "tabs of workspace w3",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 420,
+  "query": "please, tabs of workspace w3",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 421,
+  "query": "enumerate tabs in workspace w3",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 422,
+  "query": "please, enumerate tabs in workspace w3",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 423,
+  "query": "show tabs belonging to w3",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 424,
+  "query": "please, show tabs belonging to w3",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 425,
+  "query": "tabs of workspace w4",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 426,
+  "query": "please, tabs of workspace w4",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 427,
+  "query": "enumerate tabs in workspace w4",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 428,
+  "query": "please, enumerate tabs in workspace w4",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 429,
+  "query": "show tabs belonging to w4",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 430,
+  "query": "please, show tabs belonging to w4",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 431,
+  "query": "tabs of workspace w5",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 432,
+  "query": "please, tabs of workspace w5",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 433,
+  "query": "enumerate tabs in workspace w5",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 434,
+  "query": "please, enumerate tabs in workspace w5",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 435,
+  "query": "show tabs belonging to w5",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 436,
+  "query": "please, show tabs belonging to w5",
+  "call": "tab_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 437,
+  "query": "panes of workspace w3",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 438,
+  "query": "please, panes of workspace w3",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 439,
+  "query": "which panes are in w3?",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 440,
+  "query": "please, which panes are in w3?",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 441,
+  "query": "panes of workspace w4",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 442,
+  "query": "please, panes of workspace w4",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 443,
+  "query": "which panes are in w4?",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 444,
+  "query": "please, which panes are in w4?",
+  "call": "pane_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 445,
+  "query": "set up the claude integration",
+  "call": "integration_install(claude)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 446,
+  "query": "add the claude integration",
+  "call": "integration_install(claude)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 447,
+  "query": "enable claude support in herdr",
+  "call": "integration_install(claude)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 448,
+  "query": "hook up the claude integration",
+  "call": "integration_install(claude)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 449,
+  "query": "set up the cursor integration",
+  "call": "integration_install(cursor)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 450,
+  "query": "add the cursor integration",
+  "call": "integration_install(cursor)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 451,
+  "query": "enable cursor support in herdr",
+  "call": "integration_install(cursor)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 452,
+  "query": "hook up the cursor integration",
+  "call": "integration_install(cursor)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 453,
+  "query": "set up the copilot integration",
+  "call": "integration_install(copilot)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 454,
+  "query": "add the copilot integration",
+  "call": "integration_install(copilot)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 455,
+  "query": "enable copilot support in herdr",
+  "call": "integration_install(copilot)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 456,
+  "query": "hook up the copilot integration",
+  "call": "integration_install(copilot)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 457,
+  "query": "set up the devin integration",
+  "call": "integration_install(devin)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 458,
+  "query": "add the devin integration",
+  "call": "integration_install(devin)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 459,
+  "query": "enable devin support in herdr",
+  "call": "integration_install(devin)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 460,
+  "query": "hook up the devin integration",
+  "call": "integration_install(devin)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 461,
+  "query": "set up the droid integration",
+  "call": "integration_install(droid)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 462,
+  "query": "add the droid integration",
+  "call": "integration_install(droid)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 463,
+  "query": "enable droid support in herdr",
+  "call": "integration_install(droid)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 464,
+  "query": "hook up the droid integration",
+  "call": "integration_install(droid)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 465,
+  "query": "set up the kilo integration",
+  "call": "integration_install(kilo)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 466,
+  "query": "add the kilo integration",
+  "call": "integration_install(kilo)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 467,
+  "query": "enable kilo support in herdr",
+  "call": "integration_install(kilo)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 468,
+  "query": "hook up the kilo integration",
+  "call": "integration_install(kilo)",
+  "status": "FAIL",
+  "detail": ""
+ },
+ {
+  "row": 469,
+  "query": "start a gemini agent called scout in w1:p1",
+  "call": "agent_start(kind=gemini)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 470,
+  "query": "please, start a gemini agent called scout in w1:p1",
+  "call": "agent_start(kind=gemini)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 471,
+  "query": "launch gemini 'scout' in w1:p1",
+  "call": "agent_start(kind=gemini)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 472,
+  "query": "please, launch gemini 'scout' in w1:p1",
+  "call": "agent_start(kind=gemini)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 473,
+  "query": "start a cline agent called scout in w1:p1",
+  "call": "agent_start(kind=cline)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 474,
+  "query": "please, start a cline agent called scout in w1:p1",
+  "call": "agent_start(kind=cline)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 475,
+  "query": "launch cline 'scout' in w1:p1",
+  "call": "agent_start(kind=cline)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 476,
+  "query": "please, launch cline 'scout' in w1:p1",
+  "call": "agent_start(kind=cline)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 477,
+  "query": "start a amp agent called scout in w1:p1",
+  "call": "agent_start(kind=amp)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 478,
+  "query": "please, start a amp agent called scout in w1:p1",
+  "call": "agent_start(kind=amp)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 479,
+  "query": "launch amp 'scout' in w1:p1",
+  "call": "agent_start(kind=amp)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 480,
+  "query": "please, launch amp 'scout' in w1:p1",
+  "call": "agent_start(kind=amp)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 481,
+  "query": "list worktrees that contain branch fix/pair-a",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 482,
+  "query": "create a worktree for branch fix/pair-a",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 483,
+  "query": "list worktrees that contain branch feat/pair-b",
+  "call": "worktree_list",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 484,
+  "query": "create a worktree for branch feat/pair-b",
+  "call": "worktree_create.base='HEAD'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 485,
+  "query": "is the hermes agent there? check on it",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 486,
+  "query": "set up the hermes integration for herdr",
+  "call": "integration_install(hermes)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 487,
+  "query": "is the codex agent there? check on it",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 488,
+  "query": "set up the codex integration for herdr",
+  "call": "integration_install(codex)",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 490,
+  "query": "check agent reviewer2",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 492,
+  "query": "check agent coder2",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 493,
+  "query": "read what's currently in w1:p2",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+ },
+ {
+  "row": 494,
+  "query": "wait until w1:p2 prints done",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 495,
+  "query": "read what's currently in w2:p2",
+  "call": "pane_read(source=recent)",
+  "status": "PASS",
+  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+ },
+ {
+  "row": 496,
+  "query": "wait until w2:p2 prints done",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 497,
+  "query": "show me agent reviewer's output",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 498,
+  "query": "what has agent reviewer printed?",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 499,
+  "query": "tail agent reviewer",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 500,
+  "query": "show me agent coder's output",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 501,
+  "query": "what has agent coder printed?",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 502,
+  "query": "tail agent coder",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 503,
+  "query": "show me agent debug's output",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 504,
+  "query": "what has agent debug printed?",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 505,
+  "query": "tail agent debug",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 506,
+  "query": "rename w1:p2 to watcher",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 507,
+  "query": "please, rename w1:p2 to watcher",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 508,
+  "query": "give pane w1:p2 the name watcher",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 509,
+  "query": "please, give pane w1:p2 the name watcher",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 510,
+  "query": "rename w2:p1 to api",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 511,
+  "query": "please, rename w2:p1 to api",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 512,
+  "query": "give pane w2:p1 the name api",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 513,
+  "query": "please, give pane w2:p1 the name api",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 514,
+  "query": "rename w3:p1 to notes",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 515,
+  "query": "please, rename w3:p1 to notes",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 516,
+  "query": "give pane w3:p1 the name notes",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 517,
+  "query": "please, give pane w3:p1 the name notes",
+  "call": "pane_rename",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 518,
+  "query": "close pane w2:p3",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 519,
+  "query": "please, close pane w2:p3",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 520,
+  "query": "kill pane w2:p3",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 521,
+  "query": "please, kill pane w2:p3",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 522,
+  "query": "close pane w3:p2",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 523,
+  "query": "please, close pane w3:p2",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 524,
+  "query": "kill pane w3:p2",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 525,
+  "query": "please, kill pane w3:p2",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 526,
+  "query": "close pane w4:p1",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 527,
+  "query": "please, close pane w4:p1",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 528,
+  "query": "kill pane w4:p1",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 529,
+  "query": "please, kill pane w4:p1",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 530,
+  "query": "close pane w1:p5",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 531,
+  "query": "please, close pane w1:p5",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 532,
+  "query": "kill pane w1:p5",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 533,
+  "query": "please, kill pane w1:p5",
+  "call": "pane_close",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 534,
+  "query": "how is w1:p4 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 535,
+  "query": "please, how is w1:p4 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 536,
+  "query": "show me the split layout of pane w1:p4",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 537,
+  "query": "please, show me the split layout of pane w1:p4",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 538,
+  "query": "how is w2:p2 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 539,
+  "query": "please, how is w2:p2 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 540,
+  "query": "show me the split layout of pane w2:p2",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 541,
+  "query": "please, show me the split layout of pane w2:p2",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 542,
+  "query": "how is w3:p1 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 543,
+  "query": "please, how is w3:p1 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 544,
+  "query": "show me the split layout of pane w3:p1",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 545,
+  "query": "please, show me the split layout of pane w3:p1",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 546,
+  "query": "how is w4:p1 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 547,
+  "query": "please, how is w4:p1 laid out?",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 548,
+  "query": "show me the split layout of pane w4:p1",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 549,
+  "query": "please, show me the split layout of pane w4:p1",
+  "call": "pane_layout",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 550,
+  "query": "create a workspace called backend",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 551,
+  "query": "please, create a workspace called backend",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 552,
+  "query": "i need a workspace named backend",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 553,
+  "query": "please, i need a workspace named backend",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 554,
+  "query": "create a workspace called research",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 555,
+  "query": "please, create a workspace called research",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 556,
+  "query": "i need a workspace named research",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 557,
+  "query": "please, i need a workspace named research",
+  "call": "workspace_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 558,
+  "query": "open a tab named ci in w2",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 559,
+  "query": "please, open a tab named ci in w2",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 560,
+  "query": "new tab labeled ci in workspace w2",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 561,
+  "query": "please, new tab labeled ci in workspace w2",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 562,
+  "query": "open a tab named docs in w3",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 563,
+  "query": "please, open a tab named docs in w3",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 564,
+  "query": "new tab labeled docs in workspace w3",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 565,
+  "query": "please, new tab labeled docs in workspace w3",
+  "call": "tab_create",
+  "status": "SKIP",
+  "detail": "covered elsewhere / mutating"
+ },
+ {
+  "row": 566,
+  "query": "hold until agent reviewer reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 567,
+  "query": "please, hold until agent reviewer reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 568,
+  "query": "block on agent reviewer reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 569,
+  "query": "please, block on agent reviewer reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 570,
+  "query": "hold until agent coder reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 571,
+  "query": "please, hold until agent coder reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 572,
+  "query": "block on agent coder reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 573,
+  "query": "please, block on agent coder reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 574,
+  "query": "hold until agent triage reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 575,
+  "query": "please, hold until agent triage reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 576,
+  "query": "block on agent triage reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 577,
+  "query": "please, block on agent triage reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 578,
+  "query": "hold until agent scout reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 579,
+  "query": "please, hold until agent scout reports done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 580,
+  "query": "block on agent scout reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 581,
+  "query": "please, block on agent scout reaching done",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
  }
 ]

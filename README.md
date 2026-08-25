@@ -89,12 +89,14 @@ q/k/v only.
 .venv/bin/python eval_lfm2.py --base          # baseline
 ```
 
-Current numbers (47-row holdout, seed 42, strictly disjoint from training):
-exact-call **31.7%** / exact-norm **46.3%**, tool-selection **63.4%**,
-off-topic restraint **66.7%** (`runs/eval_v3_new.txt`). Baselines on the same
-split: base model 17.1% exact / 34.1% tool-selection (`runs/eval_v3_base.txt`);
-old v2 adapter 24.4% / 56.1% (`runs/eval_v3_old.txt`). See `NOTES.md` /
-`runs/eval_v3_summary.md`.
+Current numbers (98-row holdout, seed 42, strictly disjoint from training,
+all 25 tools represented):
+exact-call **50.0%** / exact-norm **50.0%**, tool-selection **64.6%**,
+off-topic restraint **100.0%** (`runs/eval_v4_new.log`). Baselines on the same
+split: base model 20.7% exact / 34.1% tool-selection / 56.2% off-topic
+(`runs/eval_v4_base.log`). See `runs/eval_v4_summary.md`. The v3 table
+(31.7%/63.4%/66.7%, `runs/eval_v3_summary.md`) used a smaller 47-row split —
+directionally comparable only.
 
 > The previously-listed 65.7% / 77.1% was measured on rows the model had
 > TRAINED on (the old trainer's train set included the seed-42 eval holdout),
