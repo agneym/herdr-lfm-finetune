@@ -7,9 +7,10 @@ Planner mode: one turn, greedy, parse tool calls from the native LFM2
 """
 import argparse
 import json
-import random
 import re
 from collections import Counter
+
+from split import eval_holdout
 
 DATA = "dataset.jsonl"
 MODEL_ID = "LiquidAI/LFM2-350M"
@@ -75,11 +76,8 @@ def main():
     args = ap.parse_args()
 
     rows = [json.loads(l) for l in open(args.data)]
-    idx = list(range(len(rows)))
     if args.split > 0:
-        random.Random(args.seed).shuffle(idx)
-        n_eval = max(1, int(len(rows) * args.split))
-        eval_idx = sorted(idx[-n_eval:])
+        eval_idx = eval_holdout(len(rows), args.split, args.seed)
     else:
         eval_idx = list(range(len(rows)))
     eval_run = eval_idx[: args.limit] if args.limit else eval_idx

@@ -79,11 +79,17 @@ in_proj/out_proj — PEFT routes them through torchao and crashes).
 .venv/bin/python eval_lfm2.py --base          # baseline
 ```
 
-Current numbers (40-row holdout, seed 42): exact-call **65.7% raw / 77.1%
-normalized**, tool-selection **97.1%**, off-topic restraint **100%**
-(`runs/eval_v2_norm.txt`). Baselines: base model 7.4% exact / 22.2%
-tool-selection (`runs/eval_base.txt`); first adapter version 40.7% /
-92.6% (`runs/eval_v1_40rows.txt`).
+Current numbers (47-row holdout, seed 42, strictly disjoint from training):
+exact-call **31.7%** / exact-norm **46.3%**, tool-selection **63.4%**,
+off-topic restraint **66.7%** (`runs/eval_v3_new.txt`). Baselines on the same
+split: base model 17.1% exact / 34.1% tool-selection (`runs/eval_v3_base.txt`);
+old v2 adapter 24.4% / 56.1% (`runs/eval_v3_old.txt`). See `NOTES.md` /
+`runs/eval_v3_summary.md`.
+
+> The previously-listed 65.7% / 77.1% was measured on rows the model had
+> TRAINED on (the old trainer's train set included the seed-42 eval holdout),
+> so it is NOT comparable to held-out results. The numbers above are the honest,
+> disjoint-split baseline.
 
 Runtime invariant: `pane_split` without explicit pane/current targets the
 caller's pane; normalization makes it explicit (`current: true`). Eval reports

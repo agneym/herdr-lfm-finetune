@@ -11,7 +11,6 @@ Usage:
 import argparse
 import json
 import os
-import random
 
 import torch
 from torch.utils.data import Dataset
@@ -20,6 +19,8 @@ from transformers import (AutoModelForCausalLM, AutoTokenizer,
                           get_cosine_schedule_with_warmup)
 from peft import LoraConfig, get_peft_model
 
+from split import train_val
+
 MODEL_ID = "LiquidAI/LFM2-350M"
 
 
@@ -27,12 +28,13 @@ class HerdrDataset(Dataset):
     def __init__(self, path, tokenizer, max_len=4096):
         self.examples = []
         rows = [json.loads(l) for l in open(path) if l.strip()]
-        # deterministic split: last 10% = validation (same spirit as needle's split)
-        rng = random.Random(0)
-        order = list(range(len(rows)))
-        rng.shuffle(order)
-        n_val = max(1, int(len(rows) * 0.1))
-        self.val_idx = set(order[-n_val:])
+        # Shared split module: the train-time val slice is drawn from rows
+        # OUTSIDE the eval holdout, and the eval holdout is excluded from
+        # training entirely, so best-checkpoint selection and the reported
+        # eval numbers never see training data.
+        _, val_idx, eval_idx = train_val(len(rows))
+        self.val_idx = set(val_idx)
+        self.eval_idx = set(eval_idx)
         for i, row in enumerate(rows):
             full_ids = tokenizer.apply_chat_template(
                 row["messages"], tools=row.get("tools") or [], tokenize=True)
@@ -132,7 +134,9 @@ def main():
     model.print_trainable_parameters()
 
     ds = HerdrDataset(args.data, tok)
-    train_idx = [i for i in range(len(ds)) if not ds.is_val(i)]
+    # Train on rows that are neither val nor the eval holdout.
+    train_idx = [i for i in range(len(ds))
+                 if not ds.is_val(i) and i not in ds.eval_idx]
     val_idx = [i for i in range(len(ds)) if ds.is_val(i)]
     print(f"train {len(train_idx)}  val {len(val_idx)}")
 

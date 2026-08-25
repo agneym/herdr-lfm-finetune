@@ -15,6 +15,12 @@ scripts/gpu_check.py
 scripts/launch_detached.py
 scripts/list_modules.py
 scripts/tail_log.py
+scripts/hold_test.py
+scripts/probe_drive.py
+
+# checkpoint transfer artifacts (regenerable from Drive copy)
+ckpt.tar.gz
+adapters/lfm2_herdr_lora_old/
 
 # training logs and eval snapshots
 lfm2_train_dump*.log

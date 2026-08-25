@@ -470,6 +470,60 @@ def synth():
                  "tab_create; cwd and focus from query",
                  [{"name": "tab_create", "arguments": {"cwd": "/home/repo/docs", "focus": "no-focus"}}]))
 
+    # rare-tool rebalance -----------------------------------------------------
+    # The first dataset version left several tools at <=4 labels while
+    # pane_split/pane_run dominated; eval showed argument grounding failing
+    # exactly there. Oversample the thin tools.
+    for ph in ["what's the herdr status?", "check if herdr is up",
+               "is herdr healthy right now?", "herdr health check"]:
+        rows.append((ph, "status; no args", [{"name": "herdr_status", "arguments": {}}]))
+    for ws in ["w2", "w3", "w4", "w5"]:
+        rows.append((f"list the panes of workspace {ws}",
+                     "pane_list; workspace from query",
+                     [{"name": "pane_list", "arguments": {"workspace": ws}}]))
+    for ws in ["w2", "w3", "w4"]:
+        rows.append((f"what tabs does {ws} have?",
+                     "tab_list; workspace from query",
+                     [{"name": "tab_list", "arguments": {"workspace": ws}}]))
+    for ws in ["w2", "w3", "w5"]:
+        rows.append((f"show me workspace {ws}", "workspace_get; id from query",
+                     [{"name": "workspace_get", "arguments": {"workspace_id": ws}}]))
+    for ph in ["which pane has focus?", "what pane is this?"]:
+        rows.append((ph, "pane_current; no args",
+                     [{"name": "pane_current", "arguments": {}}]))
+    for p, lbl in [("w1:p1", "main"), ("w2:p1", "server"), ("w2:p2", "logs"),
+                   ("w1:p3", "shell"), ("w3:p1", "scratch")]:
+        rows.append((f"rename {p} to {lbl}", "pane_rename; pane and label from query",
+                     [{"name": "pane_rename", "arguments": {"pane": p, "label": lbl}}]))
+    for p in ["w2:p3", "w3:p1", "w2:p2"]:
+        rows.append((f"close {p} please", "pane_close; pane from query",
+                     [{"name": "pane_close", "arguments": {"pane": p}}]))
+    for p in ["w1:p1", "w2:p2", "w1:p3", "w3:p1"]:
+        rows.append((f"show me the layout of {p}", "pane_layout; pane from query",
+                     [{"name": "pane_layout", "arguments": {"pane": p}}]))
+    for t in ["reviewer", "coder", "debug", "doc"]:
+        rows.append((f"is agent {t} still running?", "agent_get; target from query",
+                     [{"name": "agent_get", "arguments": {"target": t}}]))
+    for t in ["reviewer", "coder"]:
+        rows.append((f"show agent {t}'s recent output", "agent_read; target from query",
+                     [{"name": "agent_read", "arguments": {"target": t}}]))
+    for a in ["claude", "cursor", "copilot"]:
+        rows.append((f"install the {a} integration for herdr",
+                     "integration_install; agent from query",
+                     [{"name": "integration_install", "arguments": {"agent": a}}]))
+
+    # confusion fixes: agent_wait uses `until` (list), never `state`
+    for t in ["reviewer", "coder", "debug", "triage", "test"]:
+        rows.append((f"wait until agent {t} finishes",
+                     f"agent_wait; target from query, until done",
+                     [{"name": "agent_wait", "arguments": {"target": t, "until": ["done"]}}]))
+    # confusion fixes: worktree_create takes `path`, not `cwd`, for checkout path
+    for base, path in [("main", "/tmp/wt-a"), ("develop", "/tmp/wt-b"),
+                       ("HEAD", "/tmp/wt-c")]:
+        rows.append((f"create a worktree from {base} checked out at {path}",
+                     f"worktree_create; base and path from query",
+                     [{"name": "worktree_create", "arguments": {"base": base, "path": path}}]))
+
     # off-topic ---------------------------------------------------------------
     off = ["what is the capital of France?",
            "write me a limerick", "explain quantum computing",
