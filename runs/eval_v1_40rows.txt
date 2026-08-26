@@ -1,0 +1,61 @@
+data rows: 225   eval rows: 33
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 8352.60it/s]
+adapter: lfm2_herdr_lora
+[transformers] The following generation flags are not valid and may be ignored: ['min_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+== summary ==
+  eval rows            : 33
+  exact-call accuracy  : 11/27 = 40.7%
+  tool-selection acc   : 25/27 = 92.6%
+  off-topic (no call)  : 5/6 = 83.3%
+
+== per-tool argument grounding ==
+  agent_list             1/1 exact (100%)
+  agent_read             0/1 exact (0%)
+  agent_start            2/2 exact (100%)
+  agent_wait             0/1 exact (0%)
+  herdr_status           0/1 exact (0%)
+  pane_close             1/1 exact (100%)
+  pane_current           1/1 exact (100%)
+  pane_list              1/1 exact (100%)
+  pane_read              0/2 exact (0%)
+  pane_run               1/3 exact (33%)
+  pane_send_keys         0/2 exact (0%)
+  pane_split             0/6 exact (0%)
+  pane_wait              0/3 exact (0%)
+  session_list           1/1 exact (100%)
+  worktree_create        3/3 exact (100%)
+
+== mismatches (first 10) ==
+  row 22: split this pane to the right
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right"}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "right"}}]
+  row 23: split my pane down
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down"}}]
+    predicted: [{"name": "pane_split", "arguments": {}}]
+  row 26: split my pane down and give half the height
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down", "ratio": 0.5}}]
+    predicted: [{"name": "pane_split", "arguments": {"pane": "pane_current", "direction": "down", "ratio": 0.5}}]
+  row 28: in w1:p1 run the test suite
+    expected : [{"name": "pane_run", "arguments": {"pane": "w1:p1", "command": "cargo test"}}]
+    predicted: [{"name": "pane_run", "arguments": {"pane": "w1:p1", "command": "test suite"}}]
+  row 35: send ctrl-c to pane w2:p1
+    expected : [{"name": "pane_send_keys", "arguments": {"pane": "w2:p1", "keys": ["Ctrl-c"]}}]
+    predicted: [{"name": "pane_send_keys", "arguments": {"pane": "w2:p1"}}]
+  row 59: split my pane right and run the linter in the new pane, waiting for it to finish
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right", "focus": "no-focus"}}, {"name": "pane_run", "arguments": {"pane": "w1:p2"
+    predicted: [{"name": "pane_split", "arguments": {"direction": "right"}}, {"name": "pane_run", "arguments": {"command": "linter"}}]
+  row 62: how is herdr running?
+    expected : [{"name": "herdr_status", "arguments": {}}]
+    predicted: [{"name": "list", "arguments": {}}]
+  row 107: split my pane right at 30%
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right", "ratio": 0.3}}]
+    predicted: [{"name": "pane_split", "arguments": {"pane": "pane_current", "direction": "right", "ratio": 30, "cwd": ""}}]
+  row 108: split my pane down with the new pane taking two thirds
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down", "ratio": 0.67}}]
+    predicted: [{"name": "pane_split", "arguments": {"pane": "w1:p2", "direction": "down"}}]
+  row 129: read the last 200 lines of w1:p2
+    expected : [{"name": "pane_read", "arguments": {"pane": "w1:p2", "lines": 200}}]
+    predicted: [{"name": "pane_read", "arguments": {"pane": "w1:p2"}}]
+EXIT=0

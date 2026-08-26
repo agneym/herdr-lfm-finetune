@@ -1,0 +1,57 @@
+data rows: 314   eval rows: 47
+model: BASE (untuned)
+== summary ==
+  eval rows            : 47
+  exact-call accuracy  : 7/41 = 17.1%
+  exact (normalized)   : 8/41 = 19.5%
+  tool-selection acc   : 14/41 = 34.1%
+  off-topic (no call)  : 3/6 = 50.0%
+
+== per-tool argument grounding ==
+  agent_get              0/1 exact (0%)
+  agent_read             0/1 exact (0%)
+  agent_start            0/4 exact (0%)
+  agent_wait             0/2 exact (0%)
+  integration_install    0/1 exact (0%)
+  pane_list              0/1 exact (0%)
+  pane_read              3/5 exact (60%)
+  pane_run               2/3 exact (67%)
+  pane_split             0/9 exact (0%)
+  pane_wait              2/2 exact (100%)
+  workspace_create       0/2 exact (0%)
+  workspace_get          0/2 exact (0%)
+  workspace_list         0/2 exact (0%)
+  worktree_create        0/3 exact (0%)
+  worktree_list          0/3 exact (0%)
+
+== mismatches (first 10) ==
+  row 3: show every workspace i have open
+    expected : [{"name": "workspace_list", "arguments": {}}]
+    predicted: [{"name": "pane_list", "arguments": {"workspace": ""}}]
+  row 12: which worktrees are open?
+    expected : [{"name": "worktree_list", "arguments": {}}]
+    predicted: [{"name": "list_worktrees", "arguments": {}}]
+  row 13: list worktrees for the repo at /home/repo
+    expected : [{"name": "worktree_list", "arguments": {"cwd": "/home/repo"}}]
+    predicted: []
+  row 15: make a new workspace
+    expected : [{"name": "workspace_create", "arguments": {}}]
+    predicted: []
+  row 16: open a new workspace at /home/repo/proj
+    expected : [{"name": "workspace_create", "arguments": {"cwd": "/home/repo/proj"}}]
+    predicted: []
+  row 22: split this pane to the right
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right"}}]
+    predicted: []
+  row 40: launch claude agent 'coder' in w1:p1
+    expected : [{"name": "agent_start", "arguments": {"name": "coder", "kind": "claude", "pane": "w1:p1"}}]
+    predicted: []
+  row 44: what's the state of w1:p2's agent?
+    expected : [{"name": "agent_get", "arguments": {"target": "w1:p2"}}]
+    predicted: [{"name": "agent_read", "arguments": {"target": "w1:p2"}}]
+  row 47: wait until agent reviewer is done
+    expected : [{"name": "agent_wait", "arguments": {"target": "reviewer", "until": ["done"]}}]
+    predicted: [{"name": "agent_wait", "arguments": {"target": "reviewer"}}, {"name": "agent_get", "arguments": {"pane_name": "reviewer"}}, {"name": "agent_get", "ar
+  row 49: create a worktree for branch feature/x
+    expected : [{"name": "worktree_create", "arguments": {"branch": "feature/x"}}]
+    predicted: []

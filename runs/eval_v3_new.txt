@@ -1,0 +1,58 @@
+data rows: 314   eval rows: 47
+adapter: adapters/lfm2_herdr_lora
+== summary ==
+  eval rows            : 47
+  exact-call accuracy  : 13/41 = 31.7%
+  exact (normalized)   : 19/41 = 46.3%
+  tool-selection acc   : 26/41 = 63.4%
+  off-topic (no call)  : 4/6 = 66.7%
+
+== per-tool argument grounding ==
+  agent_get              1/1 exact (100%)
+  agent_read             0/1 exact (0%)
+  agent_start            0/4 exact (0%)
+  agent_wait             0/2 exact (0%)
+  integration_install    0/1 exact (0%)
+  pane_list              0/1 exact (0%)
+  pane_read              2/5 exact (40%)
+  pane_run               3/3 exact (100%)
+  pane_split             1/9 exact (11%)
+  pane_wait              2/2 exact (100%)
+  workspace_create       1/2 exact (50%)
+  workspace_get          2/2 exact (100%)
+  workspace_list         0/2 exact (0%)
+  worktree_create        1/3 exact (33%)
+  worktree_list          0/3 exact (0%)
+
+== mismatches (first 10) ==
+  row 3: show every workspace i have open
+    expected : [{"name": "workspace_list", "arguments": {}}]
+    predicted: []
+  row 12: which worktrees are open?
+    expected : [{"name": "worktree_list", "arguments": {}}]
+    predicted: [{"name": "worktree_create", "arguments": {}}]
+  row 13: list worktrees for the repo at /home/repo
+    expected : [{"name": "worktree_list", "arguments": {"cwd": "/home/repo"}}]
+    predicted: [{"name": "worktree_create", "arguments": {"base": "./", "cwd": "/home/repo"}}]
+  row 15: make a new workspace
+    expected : [{"name": "workspace_create", "arguments": {}}]
+    predicted: []
+  row 22: split this pane to the right
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right"}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "right"}}]
+  row 40: launch claude agent 'coder' in w1:p1
+    expected : [{"name": "agent_start", "arguments": {"name": "coder", "kind": "claude", "pane": "w1:p1"}}]
+    predicted: []
+  row 47: wait until agent reviewer is done
+    expected : [{"name": "agent_wait", "arguments": {"target": "reviewer", "until": ["done"]}}]
+    predicted: []
+  row 49: create a worktree for branch feature/x
+    expected : [{"name": "worktree_create", "arguments": {"branch": "feature/x"}}]
+    predicted: []
+  row 52: install the hermes integration for herdr
+    expected : [{"name": "integration_install", "arguments": {"agent": "hermes"}}]
+    predicted: [{"name": "agent_get", "arguments": {"target": "hermes"}}]
+  row 57: generate a fractal pattern
+    OFF-TOPIC but called a tool
+    expected : []
+    predicted: [{"name": "pane_read", "arguments": {"pane": "w1"}}]

@@ -1,0 +1,61 @@
+data rows: 270   eval rows: 40
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 7230.97it/s]
+adapter: lfm2_herdr_lora
+[transformers] The following generation flags are not valid and may be ignored: ['min_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+== summary ==
+  eval rows            : 40
+  exact-call accuracy  : 23/35 = 65.7%
+  exact (normalized)   : 27/35 = 77.1%
+  tool-selection acc   : 34/35 = 97.1%
+  off-topic (no call)  : 5/5 = 100.0%
+
+== per-tool argument grounding ==
+  agent_get              2/2 exact (100%)
+  agent_start            3/3 exact (100%)
+  agent_wait             0/1 exact (0%)
+  herdr_status           0/1 exact (0%)
+  integration_install    1/1 exact (100%)
+  pane_list              0/1 exact (0%)
+  pane_read              2/3 exact (67%)
+  pane_rename            2/2 exact (100%)
+  pane_run               5/5 exact (100%)
+  pane_split             0/6 exact (0%)
+  pane_wait              1/2 exact (50%)
+  workspace_create       5/5 exact (100%)
+  worktree_create        0/1 exact (0%)
+  worktree_list          2/2 exact (100%)
+
+== mismatches (first 10) ==
+  row 1: is the herdr server healthy?
+    expected : [{"name": "herdr_status", "arguments": {}}]
+    predicted: [{"name": "pane_read", "arguments": {"target": "herdr_server", "source": "off"}}]
+  row 47: wait until agent reviewer is done
+    expected : [{"name": "agent_wait", "arguments": {"target": "reviewer", "until": ["done"]}}]
+    predicted: [{"name": "agent_wait", "arguments": {"target": "reviewer", "state": "done"}}]
+  row 50: new worktree from main at /tmp/repo-x
+    expected : [{"name": "worktree_create", "arguments": {"base": "main", "path": "/tmp/repo-x"}}]
+    predicted: [{"name": "worktree_create", "arguments": {"base": "main", "cwd": "/tmp/repo-x", "focus": "focus"}}]
+  row 71: list the panes in w1
+    expected : [{"name": "pane_list", "arguments": {"workspace": "w1"}}]
+    predicted: [{"name": "pane_list", "arguments": {}}]
+  row 107: open a split below this pane
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down"}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "down"}}]
+  row 108: split here to the right
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right"}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "right"}}]
+  row 111: split the active pane down
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down"}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "down"}}]
+  row 114: split pane down
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down"}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "down"}}]
+  row 119: split w1:p3 to the right
+    expected : [{"name": "pane_split", "arguments": {"pane": "w1:p3", "direction": "right"}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "right"}}]
+  row 125: split my pane right at 70 percent
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right", "ratio": 0.7}}]
+    predicted: [{"name": "pane_split", "arguments": {"direction": "right"}}]
+EXIT=0

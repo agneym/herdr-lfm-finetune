@@ -1,0 +1,71 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+data rows: 656   eval rows: 98
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  55%|█████▌    | 82/148 [00:00<00:00, 782.88it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 726.83it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['min_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+adapter: adapters/lfm2_herdr_lora
+== summary ==
+  eval rows            : 98
+  exact-call accuracy  : 41/82 = 50.0%
+  exact (normalized)   : 41/82 = 50.0%
+  tool-selection acc   : 53/82 = 64.6%
+  off-topic (no call)  : 16/16 = 100.0%
+
+== per-tool argument grounding ==
+  agent_get              2/2 exact (100%)
+  agent_list             2/2 exact (100%)
+  agent_read             0/3 exact (0%)
+  agent_start            6/7 exact (86%)
+  agent_wait             0/5 exact (0%)
+  herdr_status           0/4 exact (0%)
+  integration_install    0/3 exact (0%)
+  pane_close             0/1 exact (0%)
+  pane_current           2/3 exact (67%)
+  pane_layout            5/6 exact (83%)
+  pane_list              2/3 exact (67%)
+  pane_read              1/3 exact (33%)
+  pane_rename            1/2 exact (50%)
+  pane_run               5/7 exact (71%)
+  pane_send_keys         0/1 exact (0%)
+  pane_split             0/5 exact (0%)
+  pane_wait              0/1 exact (0%)
+  session_list           1/2 exact (50%)
+  tab_create             3/4 exact (75%)
+  tab_list               0/3 exact (0%)
+  workspace_create       1/1 exact (100%)
+  workspace_get          1/2 exact (50%)
+  workspace_list         2/2 exact (100%)
+  worktree_create        0/3 exact (0%)
+  worktree_list          7/7 exact (100%)
+
+== mismatches (first 10) ==
+  row 25: split my pane to the right in /home/repo without stealing focus
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right", "cwd": "/home/repo", "focus": "no-focus"}}]
+    predicted: []
+  row 30: read the last 120 lines of w1:p1
+    expected : [{"name": "pane_read", "arguments": {"pane": "w1:p1", "lines": 120}}]
+    predicted: [{"name": "pane_read", "arguments": {"pane": "w1:p1"}}]
+  row 46: show recent output from the coder agent
+    expected : [{"name": "agent_read", "arguments": {"target": "coder"}}]
+    predicted: []
+  row 73: list the tabs in w1
+    expected : [{"name": "tab_list", "arguments": {"workspace": "w1"}}]
+    predicted: []
+  row 95: new tab in /home/repo/tests
+    expected : [{"name": "tab_create", "arguments": {"cwd": "/home/repo/tests"}}]
+    predicted: [{"name": "tab_list", "arguments": {"cwd": "/home/repo/tests"}}]
+  row 103: split the current pane horizontally
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right"}}]
+    predicted: []
+  row 104: give me a new pane on the right
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right"}}]
+    predicted: []
+  row 114: split pane down
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down"}}]
+    predicted: []
+  row 127: split this pane right, 40% for the new one
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right", "ratio": 0.4}}]
+    predicted: []
+  row 166: show git status in w1:p1
+    expected : [{"name": "pane_run", "arguments": {"pane": "w1:p1", "command": "git status"}}]
+    predicted: [{"name": "pane_read", "arguments": {"pane": "w1:p1", "command": "git status"}}]

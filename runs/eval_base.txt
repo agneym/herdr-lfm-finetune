@@ -1,0 +1,61 @@
+data rows: 225   eval rows: 33
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 5643.04it/s]
+model: BASE (untuned)
+[transformers] The following generation flags are not valid and may be ignored: ['min_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+== summary ==
+  eval rows            : 33
+  exact-call accuracy  : 2/27 = 7.4%
+  tool-selection acc   : 6/27 = 22.2%
+  off-topic (no call)  : 4/6 = 66.7%
+
+== per-tool argument grounding ==
+  agent_list             0/1 exact (0%)
+  agent_read             0/1 exact (0%)
+  agent_start            0/2 exact (0%)
+  agent_wait             0/1 exact (0%)
+  herdr_status           1/1 exact (100%)
+  pane_close             0/1 exact (0%)
+  pane_current           0/1 exact (0%)
+  pane_list              1/1 exact (100%)
+  pane_read              0/2 exact (0%)
+  pane_run               0/3 exact (0%)
+  pane_send_keys         0/2 exact (0%)
+  pane_split             0/6 exact (0%)
+  pane_wait              0/3 exact (0%)
+  session_list           0/1 exact (0%)
+  worktree_create        0/3 exact (0%)
+
+== mismatches (first 10) ==
+  row 7: which pane am i in right now?
+    expected : [{"name": "pane_current", "arguments": {}}]
+    predicted: [{"name": "pane_list", "arguments": {"pane": "pane"}}]
+  row 8: list the agents running right now
+    expected : [{"name": "agent_list", "arguments": {}}]
+    predicted: [{"name": "agents_list", "arguments": {}}]
+  row 22: split this pane to the right
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right"}}]
+    predicted: [{"name": "pane_split", "arguments": {"pane": "current"}}, {"name": "pane_split", "arguments": {"pane": "current"}}]
+  row 23: split my pane down
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down"}}]
+    predicted: [{"name": "pane_split", "arguments": {"pane": "current"}}]
+  row 26: split my pane down and give half the height
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "down", "ratio": 0.5}}]
+    predicted: [{"name": "pane_split", "arguments": {"pane": "current"}}, {"name": "pane_split", "arguments": {"pane": "current"}}]
+  row 28: in w1:p1 run the test suite
+    expected : [{"name": "pane_run", "arguments": {"pane": "w1:p1", "command": "cargo test"}}]
+    predicted: []
+  row 35: send ctrl-c to pane w2:p1
+    expected : [{"name": "pane_send_keys", "arguments": {"pane": "w2:p1", "keys": ["Ctrl-c"]}}]
+    predicted: [{"name": "send_ctrl_c", "arguments": {"pane": "w2:p1", "target": "ctrl-c"}}]
+  row 50: new worktree from main at /tmp/repo-x
+    expected : [{"name": "worktree_create", "arguments": {"base": "main", "path": "/tmp/repo-x"}}]
+    predicted: [{"name": "worktree_list", "arguments": {"workspace_dir": "/tmp/repo-x"}}]
+  row 59: split my pane right and run the linter in the new pane, waiting for it to finish
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right", "focus": "no-focus"}}, {"name": "pane_run", "arguments": {"pane": "w1:p2"
+    predicted: [{"name": "pane_split", "arguments": {"pane": "current"}}, {"name": "pane_run", "arguments": {"command": "linter"}}, {"name": "pane_close", "arguments
+  row 70: show my sessions
+    expected : [{"name": "session_list", "arguments": {}}]
+    predicted: [{"name": "list_sessions", "arguments": {}}]
+EXIT=0
