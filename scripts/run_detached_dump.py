@@ -1,4 +1,3 @@
-import argparse
 import subprocess, threading, time, base64, os
 
 stop = False
@@ -12,12 +11,10 @@ def keepalive():
 t = threading.Thread(target=keepalive, daemon=True)
 t.start()
 
-ap = argparse.ArgumentParser()
-ap.add_argument("--holdout", default=None,
-                help="pinned holdout JSON path on the VM (e.g. /content/eval_v5_holdout.json); "
-                     "also read from the HOLDOUT env var (colab exec --env HOLDOUT=...).")
-args = ap.parse_args()
-holdout = args.holdout or os.environ.get("HOLDOUT")
+# colab exec --env HOLDOUT=... sets this in the remote kernel.  Read the
+# env var directly (NOT argparse): in a colab exec context sys.argv carries
+# the kernel launcher's `-f <kernel.json>`, which parse_args() would choke on.
+holdout = os.environ.get("HOLDOUT")
 
 cmd = ("rm -rf lfm2_herdr_lora; nohup python train_lfm2.py --data dataset.jsonl "
        "--epochs 12 --batch-size 1 --grad-accum 8 --lr 1e-4 "

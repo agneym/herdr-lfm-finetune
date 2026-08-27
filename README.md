@@ -119,12 +119,14 @@ gold answer back into the prompt for every prior run:
 |---|---:|---:|---:|---:|
 | base (untuned)              | 9.8%  | 9.8%  | 26.8% | 68.8% |
 | v4 (bare format)            | 70.7% | 75.6% | 91.5% | 100.0% |
-| **v5 (native format)**      | **85.4%** | **85.4%** | **95.1%** | **100.0%** |
+| v5 (native format)          | 85.4% | 85.4% | 95.1% | 100.0% |
+| **v6 (targeted fixes)**     | **93.9%** | **93.9%** | **96.3%** | **100.0%** |
 
-See `runs/eval_v5_summary.md` (and `runs/eval_v5_new.log` / `eval_v4_honest.log`
-/ `eval_base_honest.log`). v5 emits tool calls in the model's native
-`<|tool_call_start|>[name(k=v)]<|tool_call_end|>` syntax, so no arg-key
-normalization is needed; v4's 75.6-vs-70.7 gap is the old dropped-arg-key bug.
+See `runs/eval_v6_summary.md` (and `runs/eval_v6_new.log` /
+`eval_v5_new.log` / `eval_v4_honest.log` / `eval_base_honest.log`). v6 keeps
+v5's native `<|tool_call_start|>[name(k=v)]<|tool_call_end|>` syntax and adds
+append-only rows targeting the v5 holdout failures; the eval holdout is pinned
+(`runs/eval_v5_holdout.json`) so all versions score the same 98 rows.
 
 > All previously-published numbers (v1-v4, e.g. 50.0% / 65.7%) are invalid:
 > eval's `ask()` rendered `row["messages"]` (including the gold assistant
