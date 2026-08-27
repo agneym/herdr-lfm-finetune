@@ -785,6 +785,198 @@ def synth():
     for q in off:
         rows.append((q, "off-topic", []))
 
+    # --------------------------------------------------------------------- #
+    # v6 fixes: targeted data for the v5 holdout failures (see
+    # runs/eval_v5_summary.md "Remaining failure modes").  All additions are
+    # NEW query strings, so the pinned 98-row holdout stays frozen.
+    # --------------------------------------------------------------------- #
+
+    # fix 1: agent_read `lines` was nearly absent (1 train example with
+    # target+lines; eval rows 223/224 dropped `lines`).  Oversample.
+    for target, lines in [("reviewer", 120), ("coder", 60), ("w1:p2", 200),
+                          ("debug", 80), ("doc", 40), ("triage", 100),
+                          ("scout", 150), ("w2:p1", 50), ("w1:p3", 300),
+                          ("w3:p1", 90)]:
+        for ph in [f"read the last {lines} lines of agent {target}",
+                   f"tail the last {lines} lines of agent {target}",
+                   f"show me the last {lines} lines from agent {target}"]:
+            rows.append((ph, "agent_read; target and lines from query",
+                         [{"name": "agent_read", "arguments": {
+                             "target": target, "lines": lines}}]))
+
+    # fix 2: agent_start `timeout_ms` had ZERO train examples (eval row 220
+    # emitted `timeout_ms: 120`).  Teach seconds/minutes -> ms.
+    for name, kind, pane, ms in [("reviewer", "codex", "w1:p2", 120000),
+                                 ("coder", "claude", "w1:p1", 90000),
+                                 ("debug", "opencode", "w1:p3", 60000),
+                                 ("triage", "hermes", "w2:p1", 30000),
+                                 ("scout", "codex", "w1:p4", 45000)]:
+        sec = ms // 1000
+        for ph in [f"start {name} ({kind}) in {pane}, wait up to {sec}s",
+                   f"launch {name} ({kind}) in {pane} and wait up to {sec} seconds",
+                   f"start {kind} agent {name} in {pane}, give it up to {sec}s to come up"]:
+            rows.append((ph, "agent_start; name, kind, pane, timeout_ms from query",
+                         [{"name": "agent_start", "arguments": {
+                             "name": name, "kind": kind, "pane": pane,
+                             "timeout_ms": ms}}]))
+    rows.append(("start reviewer (codex) in w1:p2, wait up to 2 minutes",
+                 "agent_start; name, kind, pane, timeout_ms (2 minutes -> 120000 ms)",
+                 [{"name": "agent_start", "arguments": {
+                     "name": "reviewer", "kind": "codex", "pane": "w1:p2",
+                     "timeout_ms": 120000}}]))
+    rows.append(("start reviewer (codex) in w1:p2, wait up to 90 seconds",
+                 "agent_start; name, kind, pane, timeout_ms (90s -> 90000 ms)",
+                 [{"name": "agent_start", "arguments": {
+                     "name": "reviewer", "kind": "codex", "pane": "w1:p2",
+                     "timeout_ms": 90000}}]))
+
+    # fix 3: agent_wait `timeout_ms` is thin (1 train example).
+    for target, states, ms in [("reviewer", ["done"], 120000),
+                               ("coder", ["done"], 90000),
+                               ("debug", ["idle", "working"], 60000),
+                               ("triage", ["idle"], 30000),
+                               ("scout", ["done"], 45000)]:
+        rows.append((f"wait until agent {target} is {' or '.join(states)} up to {ms // 1000}s",
+                     "agent_wait; target, states, timeout_ms from query",
+                     [{"name": "agent_wait", "arguments": {
+                         "target": target, "until": states, "timeout_ms": ms}}]))
+
+    # fix 4: pane_wait regex+timeout_ms (eval row 196 said `match` and glued
+    # the timeout).  More regex-with-timeout examples + literal-vs-pattern
+    # contrast on the same pane.
+    for pane, rx, ms in [("w1:p3", r"Tests: \d+ passed", 60000),
+                         ("w2:p1", r"ERROR|FAIL", 30000),
+                         ("w1:p4", r"Listening on \d+", 45000),
+                         ("w2:p2", r"Ready in \d+\.\d+s", None),
+                         ("w1:p1", r"exit code \d+", 15000)]:
+        if ms:
+            rows.append((f"wait until {pane} matches {rx} up to {ms} ms",
+                         "pane_wait; regex (pattern) and timeout_ms from query",
+                         [{"name": "pane_wait", "arguments": {
+                             "pane": pane, "regex": rx, "timeout_ms": ms}}]))
+        else:
+            rows.append((f"wait until {pane} matches {rx}",
+                         "pane_wait; regex (pattern), no timeout",
+                         [{"name": "pane_wait", "arguments": {
+                             "pane": pane, "regex": rx}}]))
+    for pane in ["w1:p2", "w2:p1"]:
+        rows.append((f"wait for the exact text 'Build succeeded' in {pane}",
+                     "pane_wait; match (literal string), NOT regex",
+                     [{"name": "pane_wait", "arguments": {
+                         "pane": pane, "match": "Build succeeded"}}]))
+        rows.append((f"wait until {pane} matches Build (succeeded|failed)",
+                     "pane_wait; regex (pattern), NOT literal match",
+                     [{"name": "pane_wait", "arguments": {
+                         "pane": pane, "regex": "Build (succeeded|failed)"}}]))
+
+    # fix 5: agent_get with a PANE-ID target had 1 train example (eval row 44
+    # said `pane=`).  More "state/status of X's agent" phrasings.
+    for pane in ["w1:p2", "w2:p1", "w1:p3", "w2:p2", "w3:p1"]:
+        for ph in [f"what's the state of {pane}'s agent?",
+                   f"how is the agent in {pane} doing?",
+                   f"status of the agent running in {pane}",
+                   f"check the agent on {pane}"]:
+            rows.append((ph, "agent_get; target (pane id) from query",
+                         [{"name": "agent_get", "arguments": {"target": pane}}]))
+
+    # fix 6: "show <command>" -> pane_run (eval rows 166/167 said pane_list).
+    # "show" + a recognizable shell command = run it, not list it.
+    for pane in ["w1:p2", "w2:p2", "w1:p3", "w1:p4", "w2:p1", "w3:p1"]:
+        for cmd in ["git status", "git log --oneline", "ps aux",
+                    "cargo test -- --list"]:
+            rows.append((f"show {cmd} in {pane}",
+                         f"pane_run; pane from query, command `{cmd}` (show = run)",
+                         [{"name": "pane_run", "arguments": {
+                             "pane": pane, "command": cmd}}]))
+
+    # fix 7: pane_split horizontal/vertical adjectives (eval row 103 said
+    # `down` for "horizontally").  tmux convention: horizontal = side-by-side
+    # = new pane RIGHT; vertical = stacked = new pane DOWN.  Encode it in the
+    # reasoning line so the model learns the mapping, not just the words.
+    for ph, dr, why in [
+            ("split the current pane horizontally", "right",
+             "horizontal = left-right = new pane to the right"),
+            ("split the current pane vertically", "down",
+             "vertical = top-bottom = new pane below"),
+            ("make a horizontal split of this pane", "right",
+             "horizontal = side-by-side = right"),
+            ("make a vertical split of this pane", "down",
+             "vertical = stacked = down"),
+            ("split horizontally to give me a right-hand pane", "right",
+             "horizontally = right-hand pane"),
+            ("split vertically to give me a pane below", "down",
+             "vertically = below"),
+            ("divide this pane horizontally", "right",
+             "horizontal split = right"),
+            ("divide this pane vertically", "down",
+             "vertical split = down")]:
+        rows.append((ph, f"pane_split; current pane, direction {dr} ({why})",
+                     [{"name": "pane_split", "arguments": {
+                         "current": True, "direction": dr}}]))
+
+    # fix 8: pane_read source=visible (eval row 32 dropped `source`).
+    # "dump everything visible" is a novel phrasing; add dump/on-screen forms.
+    for pane in ["w1:p3", "w1:p4", "w2:p1", "w2:p2"]:
+        for ph in [f"dump everything visible in {pane}",
+                   f"dump all visible output from {pane}",
+                   f"show everything on screen in {pane}",
+                   f"print the visible content of {pane}"]:
+            rows.append((ph, "pane_read; pane and source=visible from query",
+                         [{"name": "pane_read", "arguments": {
+                             "pane": pane, "source": "visible"}}]))
+
+    # fix 9: pane_current is no-arg (2 hidden eval failures likely emitted a
+    # spurious arg).  Reinforce "which pane am I in" -> {}.
+    for ph in ["which pane am i in right now?",
+               "what pane is my shell in?",
+               "identify the current pane",
+               "which pane would my next command hit?"]:
+        rows.append((ph, "pane_current; NO arguments",
+                     [{"name": "pane_current", "arguments": {}}]))
+
+    # fix 10: "launch <kind> '<name>'" (eval row 217 read the quoted task
+    # name as kind and dropped the framework word).  More framework-word +
+    # quoted-name launches, especially kind=hermes.
+    for kind, name, pane in [("hermes", "triage", "w2:p2"),
+                             ("hermes", "review", "w1:p3"),
+                             ("hermes", "scout", "w1:p1"),
+                             ("codex", "triage", "w1:p2"),
+                             ("opencode", "triage", "w1:p4"),
+                             ("claude", "triage", "w2:p1"),
+                             ("hermes", "debug", "w1:p4")]:
+        rows.append((f"launch {kind} '{name}' in {pane}",
+                     f"agent_start; kind={kind} is the framework word, name={name} is the quoted task, pane from query",
+                     [{"name": "agent_start", "arguments": {
+                         "name": name, "kind": kind, "pane": pane}}]))
+
+    # v6 off-topic: keep the off-topic:on-topic ratio near 12% after the
+    # on-topic additions above (79/785 -> 10.1%).  Semantically outside Herdr;
+    # several reuse Herdr verbs (split/read/close/rename) so refusal stays
+    # semantic, matching v4 fix C.
+    off_v6 = [
+        "split this video into two clips",
+        "read my gmail inbox and flag the unread ones",
+        "create a calendar event for tomorrow at 3pm",
+        "rename the photos in my camera roll",
+        "show me the weather radar for this area",
+        "launch a minecraft server for my kids",
+        "check my bank balance",
+        "wait for my food delivery to arrive",
+        "install a new icon theme for my desktop",
+        "convert this markdown file to pdf",
+        "summarize the article i linked earlier",
+        "book a table for two tonight",
+        "what's the stock price of aapl?",
+        "write a cover letter for the job posting",
+        "draw a diagram of the system architecture",
+        "send a slack message to the team channel",
+        "format my usb drive to fat32",
+        "close my browser window",
+        "explain this regex to me",
+    ]
+    for q in off_v6:
+        rows.append((q, "off-topic", []))
+
     return rows
 
 
