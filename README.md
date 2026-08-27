@@ -20,9 +20,11 @@ The pipeline is three steps:
    Tail tools get >=10 surface forms; contrastive minimal pairs separate
    confusable ops (list/create worktrees, get/install).
    The tool schemas come from `herdr_tools.py`. `messages` are chat-format,
-   ready for `tokenizer.apply_chat_template(tools=...)`: assistant turns keep
-   the reasoning line, then emit calls in native LFM2 syntax `[name(arg=val)]`;
-   off-topic rows learn a text-only refusal. `expected` carries the structured
+   ready for `tokenizer.apply_chat_template(tools=...)`: on-topic assistant
+   turns keep the reasoning line and carry a structured `tool_calls` field,
+   which the chat template renders in native
+   `<|tool_call_start|>[name(k=v, ...)]<|tool_call_end|>` syntax; off-topic
+   rows learn a natural-language refusal. `expected` carries the structured
    tool-call labels for validate/eval.
 2. `train_lfm2.py` — PEFT LoRA SFT (loss masked to assistant tokens only),
    saves the best-validation checkpoint.
@@ -59,7 +61,14 @@ colab exec -s NAME -f scripts/setup_lfm2_colab.py   # transformers>=4.55 peft da
 colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py   # torchao>=0.16 (peft 0.20 requires it)
 colab upload -s NAME dataset.jsonl /content/dataset.jsonl
 colab upload -s NAME train_lfm2.py /content/train_lfm2.py
+colab upload -s NAME split.py /content/split.py     # train_lfm2.py imports it
 ```
+
+Optional but recommended — mirror the checkpoint to Google Drive so it
+survives a VM reap: `colab drivemount -s NAME` (interactive OAuth once), then
+queue `scripts/copy_to_drive.py` as a second `colab exec` (it waits for the
+checkpoint tarball and copies it to `/content/drive/MyDrive/herdr/`, sha256
+verified).
 
 (The Colab scripts write the adapter flat at `/content/lfm2_herdr_lora`; after
 reconstructing the dumped tarball locally, unpack it into `adapters/`.)
@@ -89,19 +98,27 @@ q/k/v only.
 .venv/bin/python eval_lfm2.py --base          # baseline
 ```
 
-Current numbers (98-row holdout, seed 42, strictly disjoint from training,
-all 25 tools represented):
-exact-call **50.0%** / exact-norm **50.0%**, tool-selection **64.6%**,
-off-topic restraint **100.0%** (`runs/eval_v4_new.log`). Baselines on the same
-split: base model 20.7% exact / 34.1% tool-selection / 56.2% off-topic
-(`runs/eval_v4_base.log`). See `runs/eval_v4_summary.md`. The v3 table
-(31.7%/63.4%/66.7%, `runs/eval_v3_summary.md`) used a smaller 47-row split —
-directionally comparable only.
+Honest numbers (98-row holdout, seed 42, strictly disjoint from training,
+all 25 tools represented) — after fixing an eval bug that had been feeding the
+gold answer back into the prompt for every prior run:
 
-> The previously-listed 65.7% / 77.1% was measured on rows the model had
-> TRAINED on (the old trainer's train set included the seed-42 eval holdout),
-> so it is NOT comparable to held-out results. The numbers above are the honest,
-> disjoint-split baseline.
+| model | exact-call | exact-norm | tool-selection | off-topic |
+|---|---:|---:|---:|---:|
+| base (untuned)              | 9.8%  | 9.8%  | 26.8% | 68.8% |
+| v4 (bare format)            | 70.7% | 75.6% | 91.5% | 100.0% |
+| **v5 (native format)**      | **85.4%** | **85.4%** | **95.1%** | **100.0%** |
+
+See `runs/eval_v5_summary.md` (and `runs/eval_v5_new.log` / `eval_v4_honest.log`
+/ `eval_base_honest.log`). v5 emits tool calls in the model's native
+`<|tool_call_start|>[name(k=v)]<|tool_call_end|>` syntax, so no arg-key
+normalization is needed; v4's 75.6-vs-70.7 gap is the old dropped-arg-key bug.
+
+> All previously-published numbers (v1-v4, e.g. 50.0% / 65.7%) are invalid:
+> eval's `ask()` rendered `row["messages"]` (including the gold assistant
+> answer) with `add_generation_prompt=True`, scoring a *continuation* rather
+> than a from-scratch answer. Fixed to `row["messages"][:-1]` to match
+> `train_lfm2.py`. Re-run any adapter with the fixed `eval_lfm2.py` before
+> comparing against the table above.
 
 Runtime invariant: `pane_split` without explicit pane/current targets the
 caller's pane; normalization makes it explicit (`current: true`). Eval reports

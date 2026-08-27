@@ -1,0 +1,71 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+data rows: 656   eval rows: 98
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 2778.95it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['min_p']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+model: BASE (untuned)
+== summary ==
+  eval rows            : 98
+  exact-call accuracy  : 8/82 = 9.8%
+  exact (normalized)   : 8/82 = 9.8%
+  tool-selection acc   : 22/82 = 26.8%
+  off-topic (no call)  : 11/16 = 68.8%
+
+== per-tool argument grounding ==
+  agent_get              0/2 exact (0%)
+  agent_list             1/2 exact (50%)
+  agent_read             0/3 exact (0%)
+  agent_start            0/7 exact (0%)
+  agent_wait             0/5 exact (0%)
+  herdr_status           3/4 exact (75%)
+  integration_install    0/3 exact (0%)
+  pane_close             0/1 exact (0%)
+  pane_current           0/3 exact (0%)
+  pane_layout            0/6 exact (0%)
+  pane_list              2/3 exact (67%)
+  pane_read              0/3 exact (0%)
+  pane_rename            0/2 exact (0%)
+  pane_run               0/7 exact (0%)
+  pane_send_keys         0/1 exact (0%)
+  pane_split             0/5 exact (0%)
+  pane_wait              0/1 exact (0%)
+  session_list           0/2 exact (0%)
+  tab_create             0/4 exact (0%)
+  tab_list               0/3 exact (0%)
+  workspace_create       0/1 exact (0%)
+  workspace_get          0/2 exact (0%)
+  workspace_list         0/2 exact (0%)
+  worktree_create        0/3 exact (0%)
+  worktree_list          2/7 exact (29%)
+
+== mismatches (first 10) ==
+  row 25: split my pane to the right in /home/repo without stealing focus
+    expected : [{"name": "pane_split", "arguments": {"current": true, "direction": "right", "cwd": "/home/repo", "focus": "no-focus"}}]
+    predicted: [{"name": "pane_split", "arguments": {"pane": "pane", "direction": "right", "cwd": "/home/repo"}}]
+  row 27: run `just test` in pane w1:p3
+    expected : [{"name": "pane_run", "arguments": {"pane": "w1:p3", "command": "just test"}}]
+    predicted: [{"name": "run_command", "arguments": {"pane_id": "w1:p3", "command": "just test"}}]
+  row 30: read the last 120 lines of w1:p1
+    expected : [{"name": "pane_read", "arguments": {"pane": "w1:p1", "lines": 120}}]
+    predicted: [{"name": "pane_list", "arguments": {"pane": "w1:p1"}}]
+  row 32: dump everything visible in w1:p3
+    expected : [{"name": "pane_read", "arguments": {"pane": "w1:p3", "source": "visible"}}]
+    predicted: [{"name": "pane_list", "arguments": {"pane": "w1:p3"}}]
+  row 44: what's the state of w1:p2's agent?
+    expected : [{"name": "agent_get", "arguments": {"target": "w1:p2"}}]
+    predicted: [{"name": "agents", "arguments": {"w1": "w1:p2", "agent_type": "pi"}}]
+  row 46: show recent output from the coder agent
+    expected : [{"name": "agent_read", "arguments": {"target": "coder"}}]
+    predicted: [{"name": "pane_list", "arguments": {"pane": "coder"}}]
+  row 67: show running agents
+    expected : [{"name": "agent_list", "arguments": {}}]
+    predicted: [{"name": "agents_list", "arguments": {}}]
+  row 71: list the panes in w1
+    expected : [{"name": "pane_list", "arguments": {"workspace": "w1"}}]
+    predicted: [{"name": "pane_list", "arguments": {"workspace_id": "w1"}}]
+  row 73: list the tabs in w1
+    expected : [{"name": "tab_list", "arguments": {"workspace": "w1"}}]
+    predicted: [{"name": "tab_list", "arguments": {"workspace_id": "w1"}}]
+  row 81: what worktrees are open?
+    expected : [{"name": "worktree_list", "arguments": {}}]
+    predicted: [{"name": "list_open_worktrees", "arguments": {}}]

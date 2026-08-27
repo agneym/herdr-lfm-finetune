@@ -792,26 +792,26 @@ OFF_TOPIC_REPLY = ("This request isn't a Herdr terminal operation, so no tool "
                    "call is needed.")
 
 
-def render_call(a):
-    """Native LFM2 call syntax: [name(arg=\"val\", ...)]."""
-    args = ", ".join(
-        json.dumps(v) if not isinstance(v, str)
-        else f"{k}={json.dumps(v)}"
-        for k, v in (a.get("arguments") or {}).items())
-    return a["name"] + "(" + args + ")"
-
-
 def build_row(query, reasoning, answers):
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": query}]
     if answers:
-        calls = ", ".join(render_call(a) for a in answers)
-        content = f"[{calls}]"
-        if reasoning:
-            content = reasoning + "\n" + content
+        # Emit the assistant turn as structured tool_calls so the LFM2 chat
+        # template renders the NATIVE syntax:
+        #   reasoning<|tool_call_start|>[name(k=v, ...)]<|tool_call_end|>
+        # Previously we hand-rendered bare "[name(...)]" and DROPPED the key
+        # of every non-string argument (json.dumps(v) with no key), so the
+        # model learned malformed positional args like
+        #   [pane_split(true, direction="right")]   (current -> bare true)
+        # and the bare "\n[" trigger was too weak to learn at all for some
+        # tools (model emitted EOS right after the reasoning line).
+        tool_calls = [{"name": a["name"], "arguments": a["arguments"]}
+                      for a in answers]
+        messages.append({"role": "assistant", "content": reasoning,
+                         "tool_calls": tool_calls})
     else:
-        content = reasoning if reasoning else OFF_TOPIC_REPLY
-    messages.append({"role": "assistant", "content": content})
+        # Natural-language refusal — never the bare magic token "off-topic".
+        messages.append({"role": "assistant", "content": OFF_TOPIC_REPLY})
     return {"messages": messages, "tools": TOOLS, "expected": answers}
 
 

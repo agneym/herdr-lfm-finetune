@@ -6,6 +6,7 @@ Planner mode: one turn, greedy, parse tool calls from the native LFM2
 [tool_call(...)] syntax in the generated text.
 """
 import argparse
+import ast
 import json
 import re
 from collections import Counter
@@ -32,24 +33,158 @@ def arg_key(name, calls):
         for c in calls if c.get("name") == name)
 
 
-def parse_calls(text):
-    """Parse native LFM2 tool-call syntax: [name(k=v, ...) ...] inside
-    <|tool_call_start|>...<|tool_call_end|> (or bare [name(...)] lines)."""
-    m = re.search(r"<\|tool_call_start\|>(.*?)<\|tool_call_end\|>", text, re.S)
-    body = m.group(1) if m else text
-    calls = []
-    for name, argstr in re.findall(r"([a-z_][a-z0-9_]*)\((.*?)\)", body, re.S):
-        args = {}
-        # k=json-value pairs
-        for km in re.finditer(
-                r"([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(\"(?:[^\"\\]|\\.)*\"|\[[^\]]*\]|-?\d+(?:\.\d+)?|true|false|null)",
-                argstr):
-            k, v = km.group(1), km.group(2)
+def _split_top_level(s, sep=","):
+    """Split s on sep, ignoring separators inside (), [], {} or quotes."""
+    parts, cur, depth, quote = [], [], 0, None
+    i = 0
+    while i < len(s):
+        c = s[i]
+        if quote:
+            cur.append(c)
+            if c == "\\" and i + 1 < len(s):
+                cur.append(s[i + 1])
+                i += 1
+            elif c == quote:
+                quote = None
+        elif c in "'\"":
+            quote = c
+            cur.append(c)
+        elif c in "([{":
+            depth += 1
+            cur.append(c)
+        elif c in ")]}":
+            depth -= 1
+            cur.append(c)
+        elif c == sep and depth == 0:
+            parts.append("".join(cur).strip())
+            cur = []
+        else:
+            cur.append(c)
+        i += 1
+    if cur:
+        parts.append("".join(cur).strip())
+    return [p for p in parts if p]
+
+
+def _parse_value(v):
+    """Parse one rendered arg value: 'str', \"json\", True/False/None,
+    number, [list], {dict}."""
+    v = v.strip()
+    if v in ("true", "True"):
+        return True
+    if v in ("false", "False"):
+        return False
+    if v in ("null", "None"):
+        return None
+    if len(v) >= 2 and v[0] == v[-1] and v[0] in "'\"":
+        if v[0] == "'":
+            # Single-quoted (chat-template format_arg_value) — literal_eval
+            # unescapes \\, \', \n the same way the template escaped them.
             try:
-                args[k] = json.loads(v)
-            except json.JSONDecodeError:
-                args[k] = v
+                return ast.literal_eval(v)
+            except (ValueError, SyntaxError):
+                return v[1:-1]
+        try:
+            return json.loads(v)
+        except json.JSONDecodeError:
+            return v[1:-1]
+    if v[:1] in ("[", "{"):
+        try:
+            return json.loads(v)
+        except json.JSONDecodeError:
+            return v
+    try:
+        return int(v)
+    except ValueError:
+        pass
+    try:
+        return float(v)
+    except ValueError:
+        pass
+    return v
+
+
+def _find_bracket_blocks(text):
+    """Yield contents of top-level [...] blocks, respecting nesting and
+    quotes (so a list arg like [\"done\"] doesn't end the block early)."""
+    i, n = 0, len(text)
+    while i < n:
+        if text[i] != "[":
+            i += 1
+            continue
+        depth, quote = 0, None
+        j = i + 1
+        while j < n:
+            c = text[j]
+            if quote:
+                if c == "\\":
+                    j += 1
+                elif c == quote:
+                    quote = None
+            elif c in "'\"":
+                quote = c
+            elif c == "[":
+                depth += 1
+            elif c == "]":
+                if depth == 0:
+                    yield text[i + 1:j]
+                    i = j
+                    break
+                depth -= 1
+            j += 1
+        i += 1
+
+
+def _parse_call_chunks(body):
+    """Parse a comma-separated call list (no outer brackets) into calls."""
+    calls = []
+    for chunk in _split_top_level(body, ","):
+        mm = re.search(r"([a-zA-Z_][a-zA-Z0-9_]*)\s*\(", chunk)
+        if not mm:
+            continue
+        name = mm.group(1)
+        j = mm.end()
+        depth, quote, k = 1, None, j
+        while k < len(chunk) and depth > 0:
+            c = chunk[k]
+            if quote:
+                if c == "\\":
+                    k += 1
+                elif c == quote:
+                    quote = None
+            elif c in "'\"":
+                quote = c
+            elif c == "(":
+                depth += 1
+            elif c == ")":
+                depth -= 1
+            k += 1
+        argstr = chunk[j:k - 1]
+        args = {}
+        for part in _split_top_level(argstr, ","):
+            if "=" in part:
+                key, _, val = part.partition("=")
+                args[key.strip()] = _parse_value(val)
         calls.append({"name": name, "arguments": args})
+    return calls
+
+
+def parse_calls(text):
+    """Parse LFM2 tool calls from generated text.
+
+    Primary format: native
+      reasoning<|tool_call_start|>[name(k=v, ...), ...]<|tool_call_end|>
+    Fallback (base model / old adapters): bare [name(k=v, ...)] blocks.
+    """
+    m = re.search(r"<\|tool_call_start\|>(.*?)<\|tool_call_end\|>", text, re.S)
+    if m:
+        body = m.group(1).strip()
+        if body.startswith("[") and body.endswith("]"):
+            body = body[1:-1]
+        return _parse_call_chunks(body)
+    calls = []
+    for block in _find_bracket_blocks(text):
+        calls.extend(_parse_call_chunks(block))
     return calls
 
 
@@ -98,16 +233,23 @@ def main():
     model.eval()
 
     def ask(row):
+        # Prompt with system+user ONLY; the assistant turn is what we score.
+        # (Using row["messages"] would include the gold answer and ask the
+        # model to continue — train_lfm2.py masks with messages[:-1], so eval
+        # must match.)
         prompt = tok.apply_chat_template(
-            row["messages"], tools=row.get("tools") or [], tokenize=False,
-            add_generation_prompt=True)
+            row["messages"][:-1], tools=row.get("tools") or [],
+            tokenize=False, add_generation_prompt=True)
         ids = tok(prompt, return_tensors="pt").to(model.device)
         with torch.no_grad():
             out = model.generate(
                 **ids, max_new_tokens=args.max_new_tokens, do_sample=False,
                 temperature=None, top_p=None, top_k=None,
                 repetition_penalty=1.05, min_p=0.15)
-        return tok.decode(out[0][ids["input_ids"].shape[1]:], skip_special_tokens=True)
+        # Keep special tokens: skip_special_tokens=True would strip ids 10/11
+        # (<|tool_call_start|>/<|tool_call_end|>), which parse_calls needs for
+        # native-format boundaries.
+        return tok.decode(out[0][ids["input_ids"].shape[1]:], skip_special_tokens=False)
 
     exact = exact_norm = tool_ok = n_expected = n_offtopic = off_ok = 0
     arg_counts = {}

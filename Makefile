@@ -15,6 +15,7 @@ train:
 	@echo "  colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py"
 	@echo "  colab upload -s NAME dataset.jsonl /content/dataset.jsonl"
 	@echo "  colab upload -s NAME train_lfm2.py /content/train_lfm2.py"
+	@echo "  colab upload -s NAME split.py /content/split.py"
 	@echo "  colab exec -s NAME -f scripts/run_detached_dump.py   # detached run + ckpt dump"
 
 ## eval — score the adapter on the holdout split

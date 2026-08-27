@@ -1,5 +1,6 @@
-# experiment artifacts (regenerable)
-runs/
+# experiment artifacts (regenerable); eval RESULT files under runs/ are
+# tracked deliberately (durable numbers) via the negations at the bottom
+runs/*
 __pycache__/
 .cache/
 .venv/
@@ -17,6 +18,7 @@ scripts/list_modules.py
 scripts/tail_log.py
 scripts/hold_test.py
 scripts/probe_drive.py
+scripts/probe_*.py
 
 # checkpoint transfer artifacts (regenerable from Drive copy)
 ckpt.tar.gz
@@ -24,8 +26,23 @@ adapters/lfm2_herdr_lora_old/
 
 # training logs and eval snapshots
 lfm2_train_dump*.log
+# raw eval stdout is tracked; only .txt glob stays for OTHER contexts
+# (negations below re-include runs/eval_*)
 eval_*.txt
 training-logs.txt
+
+# ------------------------------------------------------------------ #
+# durable eval results — versioned in git (numbers, not artifacts).
+# Overrides the blanket rules above; must stay AFTER them.
+# ------------------------------------------------------------------ #
+!runs/eval_*.txt
+!runs/eval_*.log
+!runs/eval_*_summary.md
+
+# still-ignored noise inside runs/ (checkpoints, dumps, stderr)
+runs/*.tar.gz
+runs/*_dump.log
+runs/*.err
 
 # checkpoints and archives (regenerable)
 adapter*.pkl
