@@ -38,6 +38,7 @@ training-logs.txt
 !runs/eval_*.txt
 !runs/eval_*.log
 !runs/eval_*_summary.md
+!runs/eval_*_holdout.json
 
 # still-ignored noise inside runs/ (checkpoints, dumps, stderr)
 runs/*.tar.gz

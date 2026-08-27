@@ -1,3 +1,4 @@
+import argparse
 import subprocess, threading, time, base64, os
 
 stop = False
@@ -11,9 +12,20 @@ def keepalive():
 t = threading.Thread(target=keepalive, daemon=True)
 t.start()
 
-subprocess.run("rm -rf lfm2_herdr_lora; nohup python train_lfm2.py --data dataset.jsonl "
-               "--epochs 12 --batch-size 1 --grad-accum 8 --lr 1e-4 "
-               "--out lfm2_herdr_lora > train.log 2>&1 &", shell=True)
+ap = argparse.ArgumentParser()
+ap.add_argument("--holdout", default=None,
+                help="pinned holdout JSON path on the VM (e.g. /content/eval_v5_holdout.json); "
+                     "also read from the HOLDOUT env var (colab exec --env HOLDOUT=...).")
+args = ap.parse_args()
+holdout = args.holdout or os.environ.get("HOLDOUT")
+
+cmd = ("rm -rf lfm2_herdr_lora; nohup python train_lfm2.py --data dataset.jsonl "
+       "--epochs 12 --batch-size 1 --grad-accum 8 --lr 1e-4 "
+       "--out lfm2_herdr_lora")
+if holdout:
+    cmd += f" --holdout {holdout}"
+cmd += " > train.log 2>&1 &"
+subprocess.run(cmd, shell=True)
 print('launched detached; polling train.log', flush=True)
 
 while True:

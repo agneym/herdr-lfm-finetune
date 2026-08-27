@@ -7,6 +7,10 @@ ADAPTER = adapters/lfm2_herdr_lora
 data:
 	$(PY) make_dataset.py
 
+## pin-holdout — persist the current eval holdout (keyed by query string)
+pin-holdout:
+	$(PY) pin_holdout.py --data dataset.jsonl --out runs/eval_holdout.json
+
 ## train — print the Colab recipe (training runs on a Colab GPU, not locally)
 train:
 	@echo "Training runs on Google Colab — see README > 'Train on Google Colab':"
@@ -16,7 +20,8 @@ train:
 	@echo "  colab upload -s NAME dataset.jsonl /content/dataset.jsonl"
 	@echo "  colab upload -s NAME train_lfm2.py /content/train_lfm2.py"
 	@echo "  colab upload -s NAME split.py /content/split.py"
-	@echo "  colab exec -s NAME -f scripts/run_detached_dump.py   # detached run + ckpt dump"
+	@echo "  colab upload -s NAME runs/eval_v5_holdout.json /content/eval_v5_holdout.json   # optional: pinned holdout"
+	@echo "  colab exec -s NAME -f scripts/run_detached_dump.py --env HOLDOUT=/content/eval_v5_holdout.json   # detached run + ckpt dump"
 
 ## eval — score the adapter on the holdout split
 eval:

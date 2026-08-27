@@ -11,7 +11,7 @@ import json
 import re
 from collections import Counter
 
-from split import eval_holdout
+from split import eval_holdout, load_pinned_holdout
 
 DATA = "dataset.jsonl"
 MODEL_ID = "LiquidAI/LFM2-350M"
@@ -206,12 +206,17 @@ def main():
     ap.add_argument("--data", default=DATA)
     ap.add_argument("--split", type=float, default=0.15)
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--holdout", default=None,
+                    help="pinned eval holdout JSON (keyed by query); overrides --split/--seed")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--max-new-tokens", type=int, default=192)
     args = ap.parse_args()
 
     rows = [json.loads(l) for l in open(args.data)]
-    if args.split > 0:
+    if args.holdout:
+        eval_idx, hmeta = load_pinned_holdout(args.holdout, rows)
+        print(f"holdout: {args.holdout} (pinned {len(eval_idx)} rows, n={hmeta['n']})")
+    elif args.split > 0:
         eval_idx = eval_holdout(len(rows), args.split, args.seed)
     else:
         eval_idx = list(range(len(rows)))

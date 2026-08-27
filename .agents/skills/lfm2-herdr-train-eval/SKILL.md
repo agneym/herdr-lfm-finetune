@@ -29,6 +29,7 @@ expert, training on Google Colab via `colab` CLI, and evaluating locally.
 | `make_dataset.py` | generates `dataset.jsonl` ({messages, tools, expected}) |
 | `train_lfm2.py` | PEFT LoRA SFT; masks loss to assistant tokens only; saves best-val checkpoint |
 | `eval_lfm2.py` | same holdout split as old eval_model.py (seed 42, last 15%); reports raw AND normalized exact-call accuracy |
+| `pin_holdout.py` | persists the eval holdout (keyed by query) so re-eval stays comparable as the dataset grows |
 | `ask_herdr.py` | runtime harness; includes `normalize_call()` invariant |
 
 ## Training on Colab (hard-won lessons)
@@ -89,5 +90,12 @@ raw and normalized accuracy.
 ```
 .venv/bin/python eval_lfm2.py --adapter lfm2_herdr_lora --split 0.15
 ```
-Baseline: `--base`. The split is deterministic (seed 42, last 15%) so runs
-are comparable across dataset versions (row count changes with the dataset).
+Baseline: `--base`. The split is deterministic (seed 42, last 15%), BUT the
+holdout indices depend on the row count — adding rows reshuffles it. Pin the
+holdout once and reuse it with `--holdout` (both eval and train accept it) so
+dataset growth never changes the eval set:
+
+```
+.venv/bin/python pin_holdout.py --data dataset.jsonl --out runs/eval_v5_holdout.json
+.venv/bin/python eval_lfm2.py --adapter lfm2_herdr_lora --holdout runs/eval_v5_holdout.json
+```

@@ -19,20 +19,26 @@ from transformers import (AutoModelForCausalLM, AutoTokenizer,
                           get_cosine_schedule_with_warmup)
 from peft import LoraConfig, get_peft_model
 
-from split import train_val
+from split import train_val, train_val_with_eval, load_pinned_holdout
 
 MODEL_ID = "LiquidAI/LFM2-350M"
 
 
 class HerdrDataset(Dataset):
-    def __init__(self, path, tokenizer, max_len=4096):
+    def __init__(self, path, tokenizer, max_len=4096, holdout=None):
         self.examples = []
         rows = [json.loads(l) for l in open(path) if l.strip()]
         # Shared split module: the train-time val slice is drawn from rows
         # OUTSIDE the eval holdout, and the eval holdout is excluded from
         # training entirely, so best-checkpoint selection and the reported
-        # eval numbers never see training data.
-        _, val_idx, eval_idx = train_val(len(rows))
+        # eval numbers never see training data. With --holdout, the eval
+        # holdout is pinned to a file (keyed by query string) so it survives
+        # dataset growth and stays comparable across versions.
+        if holdout:
+            eval_idx, _meta = load_pinned_holdout(holdout, rows)
+            _, val_idx, eval_idx = train_val_with_eval(len(rows), eval_idx)
+        else:
+            _, val_idx, eval_idx = train_val(len(rows))
         self.val_idx = set(val_idx)
         self.eval_idx = set(eval_idx)
         for i, row in enumerate(rows):
@@ -117,6 +123,8 @@ def main():
     ap.add_argument("--lr", type=float, default=1e-4)
     ap.add_argument("--lora-r", type=int, default=16)
     ap.add_argument("--out", default="adapters/lfm2_herdr_lora")
+    ap.add_argument("--holdout", default=None,
+                    help="pinned eval holdout JSON (keyed by query)")
     args = ap.parse_args()
 
     from transformers import AutoModelForCausalLM, AutoTokenizer  # noqa: F811
@@ -139,12 +147,12 @@ def main():
     model = get_peft_model(model, lconf)
     model.print_trainable_parameters()
 
-    ds = HerdrDataset(args.data, tok)
+    ds = HerdrDataset(args.data, tok, holdout=args.holdout)
     # Train on rows that are neither val nor the eval holdout.
     train_idx = [i for i in range(len(ds))
                  if not ds.is_val(i) and i not in ds.eval_idx]
     val_idx = [i for i in range(len(ds)) if ds.is_val(i)]
-    print(f"train {len(train_idx)}  val {len(val_idx)}")
+    print(f"train {len(train_idx)}  val {len(val_idx)}  eval-holdout {len(ds.eval_idx)}")
 
     steps_per_epoch = -(-len(train_idx) // (args.batch_size * args.grad_accum))
     total_steps = steps_per_epoch * args.epochs

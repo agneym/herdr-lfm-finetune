@@ -54,10 +54,14 @@ normalization — the key=value rendering fix is the whole difference.
 4. Verb confusion: "show git status" -> pane_list instead of pane_run (166/167).
 5. Unit conversion: "120s" -> `120` not `120000` ms (row 220); "kind" =
    `triage` instead of `hermes` (row 217).
-6. pane_wait regex arg parse edge (row 196) — parse_calls garbles a
-   single-quoted string containing `(timeout_ms=...)`-like text.
+6. pane_wait key + arg-separation error (row 196) — the MODEL emits
+   `match='Build (succeeded|failed)'(timeout_ms=90000)`: wrong key (`match`
+   vs `regex`) and `(timeout_ms=...)` glued to the string with no comma.
+   parse_calls handles the well-formed form correctly, so this is a model
+   error, not a parser bug.
 
 ## Files
+- runs/eval_v5_holdout.json — pinned 98-row eval holdout (keyed by query)
 - runs/eval_v5_new.log     — v5 adapter (honest eval)
 - runs/eval_v4_honest.log  — v4 adapter on the fixed eval
 - runs/eval_base_honest.log — untuned base on the fixed eval
