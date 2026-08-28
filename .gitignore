@@ -1,3 +1,6 @@
+# scratch notes / audit drafts (never tracked)
+.scratch/
+
 # experiment artifacts (regenerable); eval RESULT files under runs/ are
 # tracked deliberately (durable numbers) via the negations at the bottom
 runs/*
