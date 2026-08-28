@@ -379,10 +379,9 @@ def agent_start(
     argv = ["agent", "start", name, "--kind", kind, "--pane", pane]
     if timeout_ms is not None:
         argv += ["--timeout", str(timeout_ms)]
-    _ = _cli(*argv) if EXECUTE else None
-    if args and not EXECUTE:
-        # keep the descriptor faithful without side effects
+    if args:
         argv += ["--"] + [str(a) for a in args]
+    _ = _cli(*argv) if EXECUTE else None
     return _desc("agent_start", "herdr " + " ".join(shlex.quote(a) for a in argv),
                  {"name": name, "kind": kind, "pane": pane,
                   "timeout_ms": timeout_ms, "args": args})
