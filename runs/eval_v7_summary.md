@@ -1,8 +1,11 @@
 # Eval snapshot — v7 (REGIME CHANGE: system-prompt rotation)
 
-Date: 2026-08-27 (dataset regenerated; Colab retrain + eval PENDING)
+Date: 2026-08-28 (Colab L4, session lfm2v10)
+Checkpoint: adapters/lfm2_herdr_lora (v6 archived as adapters/lfm2_herdr_lora_v6)
+  - source: runs/ckpt-lfm2v10.tar.gz (reconstructed from runs/lfm2v10_dump.log)
+  - sha256: 0c2e0622abb215eb8dccbcecc2980ee1dab4039b0c081fe637e216b9a79734d3
 Dataset: dataset.jsonl v7 — 804 rows, 98 off-topic (12.2%)
-  - SAME row set as v6 (no rows added or removed); only `messages[0]` changed.
+  - Same row set as v6; only messages[0] (system prompt) changed.
 
 ## The regime change
 
@@ -43,14 +46,14 @@ Label policy (what makes the pin still valid):
 
 ## Comparability
 
-⚠ Numbers on this holdout are NOT directly comparable to v6 (93.9%): same
-queries and labels, but the eval regime now tests context-free grounding.
-Expect exact-call to DROP on v7 even for a well-trained adapter; the delta
-v6-minus-v7 is a direct estimate of how much of v6's score was memorized
-context rather than skill. There is also no train/eval leakage concern from
-rotation: training rows see the same context distribution, but each row
-appears with exactly one context, and the model must generalize the
-system-prompt → query-echo mapping.
+Same queries and labels as v6, but the eval regime now tests context-free
+grounding, so numbers are not directly comparable. Pre-registered expectation
+was that exact-call would DROP (delta v6−v7 = memorized context vs skill);
+the result went the other way (see Results) — the model generalizes the
+system-prompt → query-echo mapping rather than memorizing one environment.
+Train/eval leakage from rotation is also not a concern: each row appears with
+exactly one context, and the holdout contexts were assigned by generation
+order, not by model performance.
 
 ## Live validation (herdr 0.8.2)
 
@@ -63,18 +66,42 @@ The rotated system prompts introduced **zero** new validation failures.
 
 ## Results
 
-Pending: retrain on Colab with the v7 dataset (recipe unchanged — see
-NOTES / Makefile `make train`), then:
+Trained on Colab L4 (session lfm2v10), hyperparams unchanged from v6 (epochs
+12, batch 1, grad-accum 8, lr 1e-4, LoRA r=16 alpha=32 on q/k/v/o_proj).
+Val curve (poll snapshots missed epochs 3, 6, 7, 9, 10): 0.3990, 0.1795, …,
+0.0944, 0.0800, …, 0.0567, …, 0.0483, 0.0482 — best val 0.0482.  NOTE: val
+loss is NOT comparable across regimes (v6 hit 0.0249 on a fixed context;
+rotation makes the grounding task itself harder).
 
-    .venv/bin/python eval_lfm2.py --adapter lfm2_herdr_lora \
-        --holdout runs/eval_v5_holdout.json | tee runs/eval_v7_new.log
+Evaluated on the SAME pinned 98-row holdout (runs/eval_v5_holdout.json),
+whose rows now span all 8 rotated contexts:
 
 | model | exact-call | exact-norm | tool-selection | off-topic |
 |---|---:|---:|---:|---:|
 | v6 (fixed context)          | 93.9% | 93.9% | 96.3% | 100.0% |
-| v7 (rotated context)        | TBD   | TBD   | TBD   | TBD    |
+| **v7 (rotated context)**    | **96.3% (79/82)** | **96.3%** | **96.3%** | **100.0% (16/16)** |
+
+The headline: rotation did NOT cost accuracy — it gained +2.4 pts exact-call
+over v6. The memorization worry was wrong in the best way: the model learned
+to read the caller's workspace/pane/cwd from the system prompt and to ground
+explicit ids in the query. Per-tool grounding is 100% on 16 of 18 tools; the
+only gaps are pane_split 4/5 and pane_current 1/3. The context-derived
+"other pane" row resolves correctly.
+
+### Remaining failure modes (3)
+
+1. **"give me a new pane on the right" (row 104).** Emits a hallucinated tool
+   (`pane_create(Direction=...)`, wrong casing) — v6 also regressed here
+   (predicted pane_current). "give me a new pane" variants are thin in
+   training; add more create/split paraphrases for v8.
+2–3. **"where am i?" / "please, where am i?" (rows 388/389, persists since
+   v5).** Under-calls (emits no tool). These surface forms are held out and
+   absent from training — pane_current has ~20 training forms but not these.
 
 ## Files
 - make_dataset.py            — CONTEXTS + system_prompt() rotation, _sibling_pane
 - dataset.jsonl              — v7 (804 rows, rotated system prompts)
 - runs/eval_v5_holdout.json  — the pinned 98-row holdout (keyed by query; still valid)
+- runs/lfm2v10_dump.log      — training log + base64 checkpoint dump
+- runs/ckpt-lfm2v10.tar.gz   — raw checkpoint tarball (gitignored)
+- runs/eval_v7_new.log       — v7 adapter on the pinned holdout

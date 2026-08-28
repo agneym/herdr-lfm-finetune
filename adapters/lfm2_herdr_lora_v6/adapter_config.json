@@ -32,11 +32,11 @@
   "revision": null,
   "target_modules": [
     "q_proj",
+    "v_proj",
     "w1",
-    "w3",
-    "k_proj",
     "w2",
-    "v_proj"
+    "k_proj",
+    "w3"
   ],
   "target_parameters": null,
   "task_type": "CAUSAL_LM",
