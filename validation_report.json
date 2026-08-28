@@ -158,35 +158,35 @@
   "query": "split this pane to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p2"
+  "detail": "new pane wM:p2"
  },
  {
   "row": 23,
   "query": "split my pane down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p3"
+  "detail": "new pane wM:p3"
  },
  {
   "row": 24,
   "query": "split pane w1:p1 to the right and focus it",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p4"
+  "detail": "new pane wM:p4"
  },
  {
   "row": 25,
   "query": "split my pane to the right in /home/repo without stealing focus",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p5"
+  "detail": "new pane wM:p5"
  },
  {
   "row": 26,
   "query": "split my pane down and give half the height",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p6"
+  "detail": "new pane wM:p6"
  },
  {
   "row": 27,
@@ -204,192 +204,192 @@
  },
  {
   "row": 29,
-  "query": "run `npm run build` in my other pane",
-  "call": "pane_run('npm run build')",
-  "status": "PASS",
-  "detail": ""
- },
- {
-  "row": 30,
   "query": "read the last 120 lines of w1:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\ndsval-oto8pwub  ma\nin\n\u276f\n"
+  "detail": "\ndsval-5zn7uwpy  main\n\u276f\n"
  },
  {
-  "row": 31,
+  "row": 30,
   "query": "show the recent output from pane w2:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\ndsval-oto8pwub  ma\nin\n\u276f\n"
+  "detail": "\ndsval-5zn7uwpy  main\n\u276f\n"
  },
  {
-  "row": 32,
+  "row": 31,
   "query": "dump everything visible in w1:p3",
   "call": "pane_read(source=visible)",
   "status": "PASS",
-  "detail": "\n\ndsval-oto8pwub  ma\nin\n\u276f\n"
+  "detail": "\ndsval-5zn7uwpy  main\n\u276f\n"
  },
  {
-  "row": 33,
+  "row": 32,
   "query": "wait for 'test result' in w1:p1 up to 2 minutes",
   "call": "pane_wait",
   "status": "SKIP",
   "detail": "literal match, no live wait"
  },
  {
-  "row": 34,
+  "row": 33,
   "query": "wait until w1:p2 prints 'BUILD SUCCESS'",
   "call": "pane_wait",
   "status": "SKIP",
   "detail": "literal match, no live wait"
  },
  {
-  "row": 35,
+  "row": 34,
   "query": "send ctrl-c to pane w2:p1",
   "call": "pane_send_keys['Ctrl-c']",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 36,
+  "row": 35,
   "query": "send `q` to the pane w1:p4 (quit pager)",
   "call": "pane_send_keys['q']",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 37,
+  "row": 36,
   "query": "rename pane w1:p1 to builder",
   "call": "pane_rename",
   "status": "SKIP",
   "detail": "covered elsewhere / mutating"
  },
  {
-  "row": 38,
+  "row": 37,
   "query": "close pane w1:p4",
   "call": "pane_close",
   "status": "SKIP",
   "detail": "covered elsewhere / mutating"
  },
  {
-  "row": 41,
+  "row": 40,
   "query": "start an opencode agent called debug in w1:p3",
   "call": "agent_start(kind=opencode)",
   "status": "SKIP",
   "detail": "binary absent"
  },
  {
-  "row": 43,
+  "row": 42,
   "query": "check agent reviewer",
   "call": "agent_get",
   "status": "SKIP",
   "detail": "not live-tested"
  },
  {
-  "row": 44,
+  "row": 43,
   "query": "what's the state of w1:p2's agent?",
   "call": "agent_get",
   "status": "SKIP",
   "detail": "not live-tested"
  },
  {
-  "row": 45,
+  "row": 44,
   "query": "read the last 120 lines of agent reviewer",
   "call": "agent_read",
   "status": "SKIP",
   "detail": "not live-tested"
  },
  {
-  "row": 46,
+  "row": 45,
   "query": "show recent output from the coder agent",
   "call": "agent_read",
   "status": "SKIP",
   "detail": "not live-tested"
  },
  {
-  "row": 47,
+  "row": 46,
   "query": "wait until agent reviewer is done",
   "call": "agent_wait",
   "status": "SKIP",
   "detail": "not live-tested"
  },
  {
-  "row": 48,
+  "row": 47,
   "query": "wait for agent debug to be idle or working",
   "call": "agent_wait",
   "status": "SKIP",
   "detail": "not live-tested"
  },
  {
-  "row": 49,
+  "row": 48,
   "query": "create a worktree for branch feature/x",
   "call": "worktree_create.base='HEAD'",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 50,
+  "row": 49,
   "query": "new worktree from main at /tmp/repo-x",
   "call": "worktree_create.base='main'",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 51,
+  "row": 50,
   "query": "open a worktree on branch fix/y",
   "call": "worktree_create.base='HEAD'",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 52,
+  "row": 51,
   "query": "install the hermes integration for herdr",
   "call": "integration_install(hermes)",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 53,
+  "row": 52,
   "query": "set up the codex integration",
   "call": "integration_install(codex)",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 59,
+  "row": 58,
   "query": "split my pane right and run the linter in the new pane, waiting for it to finish",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p7"
+  "detail": "new pane wM:p7"
  },
  {
-  "row": 59,
+  "row": 58,
   "query": "split my pane right and run the linter in the new pane, waiting for it to finish",
   "call": "pane_run('cargo fmt --check')",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 59,
+  "row": 58,
   "query": "split my pane right and run the linter in the new pane, waiting for it to finish",
   "call": "pane_wait.regex='\\\\$\\\\s*$'",
   "status": "PASS",
   "detail": ""
  },
  {
-  "row": 60,
+  "row": 59,
   "query": "start a codex reviewer in a fresh pane and wait for it to be ready",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p8"
+  "detail": "new pane wM:p8"
  },
  {
-  "row": 60,
+  "row": 59,
   "query": "start a codex reviewer in a fresh pane and wait for it to be ready",
   "call": "agent_wait",
   "status": "SKIP",
   "detail": "not live-tested"
+ },
+ {
+  "row": 60,
+  "query": "run `npm run build` in my other pane",
+  "call": "pane_run('npm run build')",
+  "status": "PASS",
+  "detail": ""
  },
  {
   "row": 61,
@@ -669,252 +669,252 @@
   "query": "split this pane right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p9"
+  "detail": "new pane wM:p9"
  },
  {
   "row": 101,
   "query": "divide my pane on the right side",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pA"
+  "detail": "new pane wM:pA"
  },
  {
   "row": 102,
   "query": "split the current pane vertically",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pB"
+  "detail": "new pane wM:pB"
  },
  {
   "row": 103,
   "query": "split the current pane horizontally",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pC"
+  "detail": "new pane wM:pC"
  },
  {
   "row": 104,
   "query": "give me a new pane on the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pD"
+  "detail": "new pane wM:pD"
  },
  {
   "row": 105,
   "query": "give me a new pane below",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pE"
+  "detail": "new pane wM:pE"
  },
  {
   "row": 106,
   "query": "open a split to the right of this pane",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pF"
+  "detail": "new pane wM:pF"
  },
  {
   "row": 107,
   "query": "open a split below this pane",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pG"
+  "detail": "new pane wM:pG"
  },
  {
   "row": 108,
   "query": "split here to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pH"
+  "detail": "new pane wM:pH"
  },
  {
   "row": 109,
   "query": "split here downward",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pJ"
+  "detail": "new pane wM:pJ"
  },
  {
   "row": 110,
   "query": "split the active pane right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pK"
+  "detail": "new pane wM:pK"
  },
  {
   "row": 111,
   "query": "split the active pane down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pM"
+  "detail": "new pane wM:pM"
  },
  {
   "row": 112,
   "query": "make a vertical split",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pN"
+  "detail": "new pane wM:pN"
  },
  {
   "row": 113,
   "query": "make a horizontal split",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pP"
+  "detail": "new pane wM:pP"
  },
  {
   "row": 114,
   "query": "split pane down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pQ"
+  "detail": "new pane wM:pQ"
  },
  {
   "row": 115,
   "query": "split pane right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pR"
+  "detail": "new pane wM:pR"
  },
  {
   "row": 116,
   "query": "split to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pS"
+  "detail": "new pane wM:pS"
  },
  {
   "row": 117,
   "query": "split downward",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pT"
+  "detail": "new pane wM:pT"
  },
  {
   "row": 118,
   "query": "split pane w1:p1 to the down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pV"
+  "detail": "new pane wM:pV"
  },
  {
   "row": 119,
   "query": "split w1:p3 to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pW"
+  "detail": "new pane wM:pW"
  },
  {
   "row": 120,
   "query": "split w1:p2 down",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pX"
+  "detail": "new pane wM:pX"
  },
  {
   "row": 121,
   "query": "split pane w1:p4 to the right",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pY"
+  "detail": "new pane wM:pY"
  },
  {
   "row": 122,
   "query": "split my pane down giving a third of the height",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:pZ"
+  "detail": "new pane wM:pZ"
  },
  {
   "row": 123,
   "query": "split my pane right at 30%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p0"
+  "detail": "new pane wM:p0"
  },
  {
   "row": 124,
   "query": "split my pane down with the new pane taking two thirds",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p11"
+  "detail": "new pane wM:p11"
  },
  {
   "row": 125,
   "query": "split my pane right at 70 percent",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p12"
+  "detail": "new pane wM:p12"
  },
  {
   "row": 126,
   "query": "split my pane down at 25%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p13"
+  "detail": "new pane wM:p13"
  },
  {
   "row": 127,
   "query": "split this pane right, 40% for the new one",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p14"
+  "detail": "new pane wM:p14"
  },
  {
   "row": 128,
   "query": "split the pane down; new pane gets 60%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p15"
+  "detail": "new pane wM:p15"
  },
  {
   "row": 129,
   "query": "split my pane right with the new pane taking half the width",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p16"
+  "detail": "new pane wM:p16"
  },
  {
   "row": 130,
   "query": "split my pane down quarter height",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p17"
+  "detail": "new pane wM:p17"
  },
  {
   "row": 131,
   "query": "give me a right split at three quarters",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p18"
+  "detail": "new pane wM:p18"
  },
  {
   "row": 132,
   "query": "split right 20 percent",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p19"
+  "detail": "new pane wM:p19"
  },
  {
   "row": 133,
   "query": "split down 80%",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p1A"
+  "detail": "new pane wM:p1A"
  },
  {
   "row": 134,
   "query": "split my pane right in /home/repo without focus",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p1B"
+  "detail": "new pane wM:p1B"
  },
  {
   "row": 135,
   "query": "split this pane down in /home/repo/proj, don't focus",
   "call": "pane_split",
   "status": "PASS",
-  "detail": "new pane wE:p1C"
+  "detail": "new pane wM:p1C"
  },
  {
   "row": 136,
@@ -1173,42 +1173,42 @@
   "query": "read the last 50 lines of w1:p4",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 173,
   "query": "read the last 80 lines of w2:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 174,
   "query": "read the last 200 lines of w1:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 175,
   "query": "read the last 150 lines of w2:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 176,
   "query": "read the last 40 lines of w1:p3",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 177,
   "query": "show the recent output from w2:p1",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 178,
@@ -1222,14 +1222,14 @@
   "query": "show the recent-unwrapped output from w1:p1",
   "call": "pane_read(source=recent-unwrapped)",
   "status": "PASS",
-  "detail": "\n\n\ndsval-ot\ndsval-ot\ndsval-oto8pwub  main\ndsval-oto8pwub  main\n\u276f"
+  "detail": "\n\ndsval-5zn7uw\ndsval-5z\ndsval-5zn7uwpy  main\ndsval-5zn7uwpy  main\n\u276f"
  },
  {
   "row": 180,
   "query": "show the recent output from w2:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 181,
@@ -1243,7 +1243,7 @@
   "query": "read the recent output from w1:p1 as ansi",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b[38;5;4ml-ot\u001b[0m\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b[38;5;4ml-ot\u001b[0m\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b"
+  "detail": "\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b[38;5;4ml-5z\u001b[0m\n\u001b[0m\u001b[38;5;4mn7uw\u001b[0m\n\n\u001b[0m\u001b[38;5;4mdsva\u001b[0m\n\u001b[0m\u001b[38;5;4ml-5z\u001b[0m\n\n\u001b[0m\u001b["
  },
  {
   "row": 183,
@@ -3350,7 +3350,7 @@
   "query": "read what's currently in w1:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 494,
@@ -3364,7 +3364,7 @@
   "query": "read what's currently in w2:p2",
   "call": "pane_read(source=recent)",
   "status": "PASS",
-  "detail": "\n\n\ndsva\nl-ot\n\ndsva\nl-ot\n\ndsva\nl-ot\no8pw\nub\nmain\n\ndsva\nl-ot\no8pw\nub\nmain\n\n\u276f\n"
+  "detail": "\n\ndsva\nl-5z\nn7uw\n\ndsva\nl-5z\n\ndsva\nl-5z\nn7uw\npy\nmain\n\ndsva\nl-5z\nn7uw\npy\nmain\n\n\u276f\n"
  },
  {
   "row": 496,
@@ -3967,5 +3967,775 @@
   "call": "agent_wait",
   "status": "SKIP",
   "detail": "not live-tested"
+ },
+ {
+  "row": 656,
+  "query": "tail the last 120 lines of agent reviewer",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 657,
+  "query": "show me the last 120 lines from agent reviewer",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 658,
+  "query": "tail the last 60 lines of agent coder",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 659,
+  "query": "show me the last 60 lines from agent coder",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 660,
+  "query": "tail the last 200 lines of agent w1:p2",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 661,
+  "query": "show me the last 200 lines from agent w1:p2",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 662,
+  "query": "read the last 80 lines of agent debug",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 663,
+  "query": "tail the last 80 lines of agent debug",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 664,
+  "query": "show me the last 80 lines from agent debug",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 665,
+  "query": "read the last 40 lines of agent doc",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 666,
+  "query": "tail the last 40 lines of agent doc",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 667,
+  "query": "show me the last 40 lines from agent doc",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 668,
+  "query": "read the last 100 lines of agent triage",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 669,
+  "query": "tail the last 100 lines of agent triage",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 670,
+  "query": "show me the last 100 lines from agent triage",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 671,
+  "query": "read the last 150 lines of agent scout",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 672,
+  "query": "tail the last 150 lines of agent scout",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 673,
+  "query": "show me the last 150 lines from agent scout",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 674,
+  "query": "read the last 50 lines of agent w2:p1",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 675,
+  "query": "tail the last 50 lines of agent w2:p1",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 676,
+  "query": "show me the last 50 lines from agent w2:p1",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 677,
+  "query": "read the last 300 lines of agent w1:p3",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 678,
+  "query": "tail the last 300 lines of agent w1:p3",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 679,
+  "query": "show me the last 300 lines from agent w1:p3",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 680,
+  "query": "read the last 90 lines of agent w3:p1",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 681,
+  "query": "tail the last 90 lines of agent w3:p1",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 682,
+  "query": "show me the last 90 lines from agent w3:p1",
+  "call": "agent_read",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 688,
+  "query": "start debug (opencode) in w1:p3, wait up to 60s",
+  "call": "agent_start(kind=opencode)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 689,
+  "query": "launch debug (opencode) in w1:p3 and wait up to 60 seconds",
+  "call": "agent_start(kind=opencode)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 690,
+  "query": "start opencode agent debug in w1:p3, give it up to 60s to come up",
+  "call": "agent_start(kind=opencode)",
+  "status": "SKIP",
+  "detail": "binary absent"
+ },
+ {
+  "row": 699,
+  "query": "wait until agent reviewer is done up to 120s",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 700,
+  "query": "wait until agent debug is idle or working up to 60s",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 701,
+  "query": "wait until agent triage is idle up to 30s",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 702,
+  "query": "wait until agent scout is done up to 45s",
+  "call": "agent_wait",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 703,
+  "query": "wait until w1:p3 matches Tests: \\d+ passed up to 60000 ms",
+  "call": "pane_wait.regex='Tests: \\\\d+ passed'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 704,
+  "query": "wait until w2:p1 matches ERROR|FAIL up to 30000 ms",
+  "call": "pane_wait.regex='ERROR|FAIL'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 705,
+  "query": "wait until w1:p4 matches Listening on \\d+ up to 45000 ms",
+  "call": "pane_wait.regex='Listening on \\\\d+'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 706,
+  "query": "wait until w2:p2 matches Ready in \\d+\\.\\d+s",
+  "call": "pane_wait.regex='Ready in \\\\d+\\\\.\\\\d+s'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 707,
+  "query": "wait until w1:p1 matches exit code \\d+ up to 15000 ms",
+  "call": "pane_wait.regex='exit code \\\\d+'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 708,
+  "query": "wait for the exact text 'Build succeeded' in w1:p2",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 709,
+  "query": "wait until w1:p2 matches Build (succeeded|failed)",
+  "call": "pane_wait.regex='Build (succeeded|failed)'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 710,
+  "query": "wait for the exact text 'Build succeeded' in w2:p1",
+  "call": "pane_wait",
+  "status": "SKIP",
+  "detail": "literal match, no live wait"
+ },
+ {
+  "row": 711,
+  "query": "wait until w2:p1 matches Build (succeeded|failed)",
+  "call": "pane_wait.regex='Build (succeeded|failed)'",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 712,
+  "query": "how is the agent in w1:p2 doing?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 713,
+  "query": "status of the agent running in w1:p2",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 714,
+  "query": "check the agent on w1:p2",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 715,
+  "query": "what's the state of w2:p1's agent?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 716,
+  "query": "how is the agent in w2:p1 doing?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 717,
+  "query": "status of the agent running in w2:p1",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 718,
+  "query": "check the agent on w2:p1",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 719,
+  "query": "what's the state of w1:p3's agent?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 720,
+  "query": "how is the agent in w1:p3 doing?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 721,
+  "query": "status of the agent running in w1:p3",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 722,
+  "query": "check the agent on w1:p3",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 723,
+  "query": "what's the state of w2:p2's agent?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 724,
+  "query": "how is the agent in w2:p2 doing?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 725,
+  "query": "status of the agent running in w2:p2",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 726,
+  "query": "check the agent on w2:p2",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 727,
+  "query": "what's the state of w3:p1's agent?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 728,
+  "query": "how is the agent in w3:p1 doing?",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 729,
+  "query": "status of the agent running in w3:p1",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 730,
+  "query": "check the agent on w3:p1",
+  "call": "agent_get",
+  "status": "SKIP",
+  "detail": "not live-tested"
+ },
+ {
+  "row": 731,
+  "query": "show git status in w1:p2",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 732,
+  "query": "show git log --oneline in w1:p2",
+  "call": "pane_run('git log --oneline')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 733,
+  "query": "show ps aux in w1:p2",
+  "call": "pane_run('ps aux')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 734,
+  "query": "show cargo test -- --list in w1:p2",
+  "call": "pane_run('cargo test -- --list')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 735,
+  "query": "show git status in w2:p2",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 736,
+  "query": "show git log --oneline in w2:p2",
+  "call": "pane_run('git log --oneline')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 737,
+  "query": "show ps aux in w2:p2",
+  "call": "pane_run('ps aux')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 738,
+  "query": "show cargo test -- --list in w2:p2",
+  "call": "pane_run('cargo test -- --list')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 739,
+  "query": "show git status in w1:p3",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 740,
+  "query": "show git log --oneline in w1:p3",
+  "call": "pane_run('git log --oneline')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 741,
+  "query": "show ps aux in w1:p3",
+  "call": "pane_run('ps aux')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 742,
+  "query": "show cargo test -- --list in w1:p3",
+  "call": "pane_run('cargo test -- --list')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 743,
+  "query": "show git status in w1:p4",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 744,
+  "query": "show git log --oneline in w1:p4",
+  "call": "pane_run('git log --oneline')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 745,
+  "query": "show ps aux in w1:p4",
+  "call": "pane_run('ps aux')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 746,
+  "query": "show cargo test -- --list in w1:p4",
+  "call": "pane_run('cargo test -- --list')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 747,
+  "query": "show git log --oneline in w2:p1",
+  "call": "pane_run('git log --oneline')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 748,
+  "query": "show ps aux in w2:p1",
+  "call": "pane_run('ps aux')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 749,
+  "query": "show cargo test -- --list in w2:p1",
+  "call": "pane_run('cargo test -- --list')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 750,
+  "query": "show git status in w3:p1",
+  "call": "pane_run('git status')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 751,
+  "query": "show git log --oneline in w3:p1",
+  "call": "pane_run('git log --oneline')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 752,
+  "query": "show ps aux in w3:p1",
+  "call": "pane_run('ps aux')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 753,
+  "query": "show cargo test -- --list in w3:p1",
+  "call": "pane_run('cargo test -- --list')",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 754,
+  "query": "make a horizontal split of this pane",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wM:p1D"
+ },
+ {
+  "row": 755,
+  "query": "make a vertical split of this pane",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wM:p1E"
+ },
+ {
+  "row": 756,
+  "query": "split horizontally to give me a right-hand pane",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wM:p1F"
+ },
+ {
+  "row": 757,
+  "query": "split vertically to give me a pane below",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wM:p1G"
+ },
+ {
+  "row": 758,
+  "query": "divide this pane horizontally",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wM:p1H"
+ },
+ {
+  "row": 759,
+  "query": "divide this pane vertically",
+  "call": "pane_split",
+  "status": "PASS",
+  "detail": "new pane wM:p1J"
+ },
+ {
+  "row": 760,
+  "query": "dump all visible output from w1:p3",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 761,
+  "query": "show everything on screen in w1:p3",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 762,
+  "query": "print the visible content of w1:p3",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 763,
+  "query": "dump everything visible in w1:p4",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 764,
+  "query": "dump all visible output from w1:p4",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 765,
+  "query": "show everything on screen in w1:p4",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 766,
+  "query": "print the visible content of w1:p4",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 767,
+  "query": "dump everything visible in w2:p1",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 768,
+  "query": "dump all visible output from w2:p1",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 769,
+  "query": "show everything on screen in w2:p1",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 770,
+  "query": "print the visible content of w2:p1",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 771,
+  "query": "dump everything visible in w2:p2",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 772,
+  "query": "dump all visible output from w2:p2",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 773,
+  "query": "show everything on screen in w2:p2",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 774,
+  "query": "print the visible content of w2:p2",
+  "call": "pane_read(source=visible)",
+  "status": "PASS",
+  "detail": "\n\u276f\n"
+ },
+ {
+  "row": 775,
+  "query": "what pane is my shell in?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 776,
+  "query": "identify the current pane",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 777,
+  "query": "which pane would my next command hit?",
+  "call": "pane_current",
+  "status": "PASS",
+  "detail": ""
+ },
+ {
+  "row": 782,
+  "query": "launch opencode 'triage' in w1:p4",
+  "call": "agent_start(kind=opencode)",
+  "status": "SKIP",
+  "detail": "binary absent"
  }
 ]

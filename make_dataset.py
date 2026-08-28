@@ -10,6 +10,11 @@ Writes dataset.jsonl: one JSON object per line, each row
 - `expected`: the structured labels (exact tool calls with arguments grounded
   in the query) so validate/eval never have to parse rendered text back.
 
+v7 regime change: the system prompt ROTATES over CONTEXTS (workspace, tab,
+pane, cwd, agent kind) instead of being a single fixed environment. Labels
+stay grounded in the query; the model must read the caller's context from
+the system prompt. See runs/eval_v7_summary.md.
+
 Run:  .venv/bin/python make_dataset.py [out.jsonl]
 """
 import json
@@ -19,17 +24,46 @@ import sys
 
 import herdr_tools as ht
 
-# Representative environment facts. At runtime the same structure is passed via
-# Needle(system=...); the model learns to read cwd / current-pane from here and
-# to echo identifiers that the query names explicitly.
-SYSTEM = (
-    "HERDR_ENV=1\n"
-    "workspace=w1\n"
-    "tab=w1:t1\n"
-    "pane=w1:p1\n"
-    "cwd=/home/repo\n"
-    "agent kind=hermes"
-)
+# Environment facts passed at runtime via Needle(system=...). The model must
+# read the caller's workspace / tab / pane / cwd / agent kind from HERE (not
+# assume a fixed context) and echo identifiers that the query names explicitly.
+#
+# v7 rotation: each row's system prompt is CONTEXTS[row_index % len(CONTEXTS)]
+# (deterministic, same generation order as before). Labels never depend on the
+# context — explicit ids come from the query and "current pane" ops use
+# current=true — EXCEPT the MULTI split->run/wait chains, where the new pane id
+# is derived from the context's caller pane. The pinned holdout is keyed by
+# query only, so its 98 queries keep their labels while their environment varies.
+CONTEXTS = [
+    # (workspace, tab, pane, cwd, agent kind)
+    ("w1", "w1:t1", "w1:p1", "/home/repo", "hermes"),        # original v<=6 env
+    ("w1", "w1:t3", "w1:p4", "/home/repo", "claude"),
+    ("w2", "w2:t1", "w2:p2", "/home/repo/proj", "codex"),
+    ("w2", "w2:t2", "w2:p1", "/srv/api", "pi"),
+    ("w3", "w3:t1", "w3:p1", "/opt/billing", "opencode"),
+    ("w3", "w3:t2", "w3:p3", "/home/agney/code/herdr", "gemini"),
+    ("w4", "w4:t1", "w4:p2", "/srv/api", "cursor"),
+    ("w5", "w5:t1", "w5:p1", "/tmp/scratch", "devin"),
+]
+
+
+def system_prompt(ctx):
+    ws, tab, pane, cwd, kind = ctx
+    return (
+        "HERDR_ENV=1\n"
+        f"workspace={ws}\n"
+        f"tab={tab}\n"
+        f"pane={pane}\n"
+        f"cwd={cwd}\n"
+        f"agent kind={kind}"
+    )
+
+
+def _sibling_pane(pane):
+    """Id of the pane a split of `pane` creates: same workspace, next p#.
+    (v<=6 data hardcoded w1:p2 for a split of caller w1:p1.)"""
+    ws, n = pane.split(":p")
+    return f"{ws}:p{int(n) + 1}"
 
 TOOLS = ht.SCHEMAS
 
@@ -102,8 +136,6 @@ EXAMPLES = [
         "name": "pane_run", "arguments": {"pane": "w1:p3", "command": "just test"}}]),
     ("in w1:p1 run the test suite", "pane_run; pane and command from query", [{
         "name": "pane_run", "arguments": {"pane": "w1:p1", "command": "cargo test"}}]),
-    ("run `npm run build` in my other pane", "pane_run; pane from query, command from query", [{
-        "name": "pane_run", "arguments": {"pane": "w1:p2", "command": "npm run build"}}]),
     ("read the last 120 lines of w1:p1", "pane_read; pane and lines from query", [{
         "name": "pane_read", "arguments": {"pane": "w1:p1", "lines": 120}}]),
     ("show the recent output from pane w2:p1", "pane_read; pane from query; default recent", [{
@@ -171,22 +203,33 @@ EXAMPLES = [
 
 # A few multi-call coordination examples (split -> run -> wait).  These teach
 # sequencing: each answer element is one call in order.
+# Multi-call coordination examples (split -> run -> wait). Each answers_fn
+# receives the id of the NEW pane created by splitting the context's caller
+# pane, so the labels track the rotated environment (see _sibling_pane).
 MULTI = [
     ("split my pane right and run the linter in the new pane, waiting for it to finish",
-     "split then run then wait; pane from new split, cwd current, match from query", [
+     "split then run then wait; pane from new split, cwd current, match from query",
+     lambda new_pane: [
         {"name": "pane_split", "arguments": {"current": True, "direction": "right",
                                              "focus": "no-focus"}},
-        {"name": "pane_run", "arguments": {"pane": "w1:p2", "command": "cargo fmt --check"}},
+        {"name": "pane_run", "arguments": {"pane": new_pane, "command": "cargo fmt --check"}},
         # cargo fmt --check prints nothing on success, so match on the shell
         # prompt return rather than a literal output string.
-        {"name": "pane_wait", "arguments": {"pane": "w1:p2", "regex": "\\$\\s*$",
+        {"name": "pane_wait", "arguments": {"pane": new_pane, "regex": "\\$\\s*$",
                                             "timeout_ms": 60000}}]),
     ("start a codex reviewer in a fresh pane and wait for it to be ready",
-     "split, start agent, wait; pane from new split", [
+     "split, start agent, wait; pane from new split",
+     lambda new_pane: [
         {"name": "pane_split", "arguments": {"current": True, "direction": "right",
                                              "focus": "no-focus"}},
-        {"name": "agent_start", "arguments": {"name": "reviewer", "kind": "codex", "pane": "w1:p2"}},
+        {"name": "agent_start", "arguments": {"name": "reviewer", "kind": "codex", "pane": new_pane}},
         {"name": "agent_wait", "arguments": {"target": "reviewer", "until": ["idle"]}}]),
+    # "my other pane" is only resolvable against the CONTEXT (the pane adjacent
+    # to the caller); v<=6 hardcoded w1:p2 under the single fixed system prompt.
+    ("run `npm run build` in my other pane",
+     "pane_run; pane = the other pane in the caller's workspace, command from query",
+     lambda new_pane: [
+        {"name": "pane_run", "arguments": {"pane": new_pane, "command": "npm run build"}}]),
 ]
 
 OFF_RULE = ("Use the herdr tools only when the request is about controlling, "
@@ -984,8 +1027,8 @@ OFF_TOPIC_REPLY = ("This request isn't a Herdr terminal operation, so no tool "
                    "call is needed.")
 
 
-def build_row(query, reasoning, answers):
-    messages = [{"role": "system", "content": SYSTEM},
+def build_row(query, reasoning, answers, system):
+    messages = [{"role": "system", "content": system},
                 {"role": "user", "content": query}]
     if answers:
         # Emit the assistant turn as structured tool_calls so the LFM2 chat
@@ -1016,10 +1059,16 @@ def main(out="dataset.jsonl"):
         if key in seen:
             return
         seen.add(key)
-        rows.append(build_row(query, reasoning, answers))
+        # v7: rotate the system prompt deterministically over row order.
+        ctx = CONTEXTS[len(rows) % len(CONTEXTS)]
+        rows.append(build_row(query, reasoning, answers, system_prompt(ctx)))
 
-    for query, reasoning, answers in EXAMPLES + MULTI:
+    for query, reasoning, answers in EXAMPLES:
         push(query, reasoning, answers)
+    for query, reasoning, answers_fn in MULTI:
+        # answers depend on the assigned context's caller pane
+        ctx = CONTEXTS[len(rows) % len(CONTEXTS)]
+        push(query, reasoning, answers_fn(_sibling_pane(ctx[2])))
     for query, reasoning, answers in synth():
         push(query, reasoning, answers)
 
@@ -1027,7 +1076,14 @@ def main(out="dataset.jsonl"):
         for row in rows:
             handle.write(json.dumps(row) + "\n")
     off = sum(1 for r in rows if not r["expected"])
+    from collections import Counter
+    dist = Counter(r["messages"][0]["content"] for r in rows)
     print(f"wrote {out}: {len(rows)} examples ({off} off-topic)")
+    for sys_p, n in dist.most_common():
+        ws = re.search(r"workspace=(\S+)", sys_p).group(1)
+        pane = re.search(r"pane=(\S+)", sys_p).group(1)
+        kind = re.search(r"agent kind=(\S+)", sys_p).group(1)
+        print(f"  ctx workspace={ws} pane={pane} kind={kind}: {n} rows")
     return out
 
 
