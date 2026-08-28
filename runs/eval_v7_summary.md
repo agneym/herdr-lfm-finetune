@@ -59,7 +59,7 @@ order, not by model performance.
 
 `validate_dataset.py` replayed v7 against the live server: **PASS 404 /
 SKIP 250 / FAIL 23 — byte-for-byte identical status profile to the v6
-report**. All 23 failures are pre-existing (19× integration_install for
+report**. All 23 failures are pre-existing (22× integration_install for
 cursor/copilot/devin/droid/kilo — kinds the CLI doesn't recognize yet — and
 1× worktree_create.base='develop' plus the v6 off-topic rows already known).
 The rotated system prompts introduced **zero** new validation failures.
@@ -67,7 +67,7 @@ The rotated system prompts introduced **zero** new validation failures.
 ## Results
 
 Trained on Colab L4 (session lfm2v10), hyperparams unchanged from v6 (epochs
-12, batch 1, grad-accum 8, lr 1e-4, LoRA r=16 alpha=32 on q/k/v/o_proj).
+12, batch 1, grad-accum 8, lr 1e-4, LoRA r=16 alpha=32 on q/k/v + w1/w3/w2).
 Val curve (poll snapshots missed epochs 3, 6, 7, 9, 10): 0.3990, 0.1795, …,
 0.0944, 0.0800, …, 0.0567, …, 0.0483, 0.0482 — best val 0.0482.  NOTE: val
 loss is NOT comparable across regimes (v6 hit 0.0249 on a fixed context;
