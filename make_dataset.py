@@ -18,7 +18,6 @@ the system prompt. See runs/eval_v7_summary.md.
 Run:  .venv/bin/python make_dataset.py [out.jsonl]
 """
 import json
-import os
 import re
 import sys
 
@@ -244,18 +243,6 @@ OFF_RULE = ("Use the herdr tools only when the request is about controlling, "
 CWD = "/home/repo"
 
 
-def _queries(phrasings, glue=("please", "would you", "")):
-    """Yield phrasing variants: each phrasing x a chosen glue prefix."""
-    out = []
-    for ph in phrasings:
-        for g in glue:
-            if g:
-                out.append(f"{g}, {ph}")
-            else:
-                out.append(ph)
-    return out
-
-
 def _prefixed(phrasings):
     """Deterministic glue variants: each phrasing bare + politely prefixed.
     Doubles surface-form coverage without hand-writing duplicates."""
@@ -270,10 +257,6 @@ def synth():
     from itertools import product
 
     rows = []
-
-    def add(*phr_answers):
-        """phr_answers: alternating (query, answer_args) pairs sharing a reasoning."""
-        pass
 
     # status / list / discovery -----------------------------------------------
     for ph in ["what's the herdr status?", "is the herdr server healthy?",

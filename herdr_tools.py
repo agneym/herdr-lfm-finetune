@@ -437,15 +437,6 @@ def agent_wait(
 # --------------------------------------------------------------------------- #
 # Runtime wiring
 # --------------------------------------------------------------------------- #
-# Order matches reference/herdr_schemas.json.
-_TOOLS = [
-    herdr_status, workspace_list, workspace_create, workspace_get,
-    tab_list, tab_create, session_list, worktree_list, worktree_create,
-    integration_install, pane_list, pane_current, pane_layout, pane_split,
-    pane_run, pane_read, pane_wait, pane_send_keys, pane_rename, pane_close,
-    agent_list, agent_start, agent_get, agent_read, agent_wait,
-]
-
 def _load_schemas():
     """Load canonical tool schemas dumped in reference/herdr_schemas.json."""
     import pathlib

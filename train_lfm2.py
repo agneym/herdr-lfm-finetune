@@ -161,7 +161,6 @@ def main():
     scheduler = get_cosine_schedule_with_warmup(optimizer, max(1, total_steps // 20), total_steps)
 
     best_val = float("inf")
-    micro = {"n": 0}  # grad-accum counter wrapper via closure below
 
     def accum_epoch(indices):
         nonlocal best_val
