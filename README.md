@@ -4,15 +4,10 @@ Fine-tune **LiquidAI/LFM2-350M** (PEFT LoRA) to be an expert on the **Herdr**
 terminal multiplexer, so a main agent can ask it in natural language for the
 right Herdr operation and run the result.
 
-> An earlier attempt used Needle 2 (cactus-needle). It produced degenerate
-> output (duplicated keys, garbled args) from its trainer and was abandoned —
-> see `NOTES.md` for the numbers and the commit to go back to.
-
 **Current state:** the tuned adapter is `adapters/lfm2_herdr_lora` (the "v7"
 run). Current dataset is 804 rows (98 marked off-topic — 12.2%) across all 25
 Herdr ops. See `runs/eval_v7_summary.md` for the run history and per-version
-comparisons; this README intentionally keeps only the current recipe and
-result.
+comparisons.
 
 ---
 
