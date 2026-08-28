@@ -25,10 +25,10 @@ train:
 
 ## eval — score the adapter on the holdout split
 eval:
-	$(PY) eval_lfm2.py --adapter $(ADAPTER) --split 0.15 | tee runs/eval_latest.txt
+	$(PY) eval_lfm2.py --adapter $(ADAPTER) --holdout runs/eval_v5_holdout.json | tee runs/eval_latest.txt
 
 eval-base:
-	$(PY) eval_lfm2.py --base --split 0.15 | tee runs/eval_base.txt
+	$(PY) eval_lfm2.py --base --holdout runs/eval_v5_holdout.json | tee runs/eval_base.txt
 
 ## validate — live-check dataset labels against a running herdr server
 validate:
