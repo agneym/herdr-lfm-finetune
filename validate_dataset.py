@@ -151,7 +151,7 @@ for i, row in enumerate(rows):
                 p = hr(*cmap[name])
                 record(i, q, name, "PASS" if p.returncode == 0 else "FAIL")
             elif name in ("workspace_create", "tab_create", "workspace_get",
-                          "tab_create", "pane_rename", "pane_close", "pane_list"):
+                          "pane_rename", "pane_close"):
                 record(i, q, name, "SKIP", "covered elsewhere / mutating")
             elif name == "worktree_create":
                 base = a.get("base", "HEAD")
