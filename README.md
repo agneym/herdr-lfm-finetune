@@ -45,11 +45,12 @@ so the three sets are provably disjoint.
 | `make_dataset.py` | Generates `dataset.jsonl` (chat format + structured labels). |
 | `train_lfm2.py` | LoRA SFT driver (run on Colab GPU; see below). |
 | `eval_lfm2.py` | Holdout eval; `--base` for baseline. |
+| `eval_deepseek_pi.mjs` | Same holdout, scored through pi's `ModelRuntime` (deepseek flash); records tokens + cost. |
 | `pin_holdout.py` | Persists the eval holdout (keyed by query) so re-eval stays comparable as the dataset grows. |
 | `validate_dataset.py` | Live-validates dataset labels against a real `herdr` server. |
 | `adapters/lfm2_herdr_lora/` | **Current tuned adapter (v7).** Older runs are archived alongside (`_v1`, `_v3`, `_v4`, `_v6`). |
 | `reference/` | Herdr tool schemas, captured CLI help (`cli_help/`), API schema, skill doc. |
-| `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`) and one-off probes (`probe_*`). |
+| `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`), one-off probes (`probe_*`), and `make_eval_graph.py` (renders `docs/eval_comparison.*`). |
 | `runs/` | Experiment artifacts and durable results: checkpoint tarballs, training logs, eval snapshots + per-version `eval_v*_summary.md`. |
 | `NOTES.md` | Why we dropped Needle 2; how to recover that track. |
 | `Makefile` | `make data` / `make eval` / `make validate`; `make train` prints the Colab recipe. |
@@ -119,6 +120,15 @@ training, all 25 tools represented:
 |---|---:|---:|---:|---:|
 | base (untuned) | 9.8% | 9.8% | 26.8% | 68.8% |
 | **v7 (current adapter)** | **96.3% (79/82)** | **96.3%** | **96.3%** | **100% (16/16)** |
+| deepseek-v4-flash-vision-exp (pi harness) | 56.1% | 56.1% | 65.9% | 50.0% |
+
+![Herdr holdout accuracy: base vs fine-tune vs deepseek flash](docs/eval_comparison.png)
+
+> **DeepSeek comparison** (`eval_deepseek_pi.mjs`): the frontier model is
+> scored through pi's `ModelRuntime` with the same 25 Herdr tools and the same
+> pinned holdout. It reaches 56.1% exact-call (vs the fine-tune's 96.3%) and
+> acts on half the off-topic prompts; the whole 98-row run cost **$0.0069**
+> and 293K tokens. Full breakdown: `runs/eval_deepseek_summary.md`.
 
 > **v7 is a regime change — do not compare it to v6.** Through v6 every
 > training/eval row shared ONE fixed system prompt (workspace=`w1`, pane=
