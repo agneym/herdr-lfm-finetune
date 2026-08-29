@@ -188,6 +188,28 @@ Runtime invariant: `pane_split` without explicit pane/current targets the
 caller's pane; normalization makes it explicit (`current: true`). Eval reports
 both raw and normalized accuracy.
 
+## Limitations
+
+The honest failure modes on the pinned 98-row holdout (v7), from
+`runs/eval_v7_summary.md`:
+
+- **"give me a new pane on the right"** — still emits a hallucinated
+  `pane_create(Direction=...)` (wrong casing). "give me a new pane"
+  paraphrases are thin in training; not fixed since v6.
+- **"where am i?" / "please, where am i?"** — under-calls (emits no tool).
+  These surface forms are held out and absent from training; `pane_current` has
+  ~20 training forms but not these.
+- **Two tools are below 100% grounding** — `pane_split` 4/5 and `pane_current`
+  1/3 on exact args; the other 16 tools ground at 100%.
+
+Beyond the holdout, `validate_dataset.py` replays against a live `herdr` server
+and reports **23 FAIL** (22× `integration_install` for agent kinds the CLI
+doesn't recognize yet — cursor/copilot/devin/droid/kilo — plus 1×
+`worktree_create` with `base='develop'`).
+
+This is a **narrow specialist**, not a general model: it plans the 25 Herdr ops
+and refuses off-topic prompts; it does not do general chat, code, or reasoning.
+
 ## Safety notes
 
 - Eval is side-effect free; it only compares predicted calls to labels.
