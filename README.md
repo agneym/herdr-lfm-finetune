@@ -163,3 +163,11 @@ both raw and normalized accuracy.
   `herdr server stop` from an active session unless intended.
 - Command syntax follows the installed `herdr` CLI (v0.8.2), captured under
   `cli_help/` — the installed CLI is the source of truth.
+
+---
+
+## License
+
+Released under the [MIT License](LICENSE) — free to use, modify, and
+redistribute for any purpose, including commercial use and distillation. See
+the `LICENSE` file for the full text.
