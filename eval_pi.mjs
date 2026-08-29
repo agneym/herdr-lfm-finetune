@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * eval_deepseek_pi.mjs — score deepseek-v4-flash-vision-exp on the pinned
- * 98-row Herdr holdout, driven through pi's model layer (ModelRuntime), with
- * the 25 Herdr tools loaded from reference/herdr_schemas.json.
+ * eval_pi.mjs — score any pi-catalog model on the pinned 98-row Herdr
+ * holdout, driven through pi's model layer (ModelRuntime), with the 25 Herdr
+ * tools loaded from reference/herdr_schemas.json.
  *
  * One turn per row (planner mode), matching eval_lfm2.py's scoring:
  *   - exact-call accuracy (tool name + args, key-order-insensitive)
@@ -13,7 +13,8 @@
  * Also records per-row + total token usage and cost (pi's own accounting).
  *
  * Usage:
- *   node eval_deepseek_pi.mjs [--limit N] [--thinking off|low|high|max] [--max-tokens N]
+ *   node eval_pi.mjs [--provider openrouter] [--model z-ai/glm-5.3-flash]
+ *                    [--limit N] [--thinking off|low|high|max] [--max-tokens N]
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { ModelRuntime } from "/home/agney/.local/share/mise/installs/npm-earendil-works-pi-coding-agent/0.84.3/node_modules/.mise/@earendil-works+pi-coding-agent@0.84.3/node_modules/@earendil-works/pi-coding-agent/dist/bundle/index.js";
@@ -21,8 +22,6 @@ import { ModelRuntime } from "/home/agney/.local/share/mise/installs/npm-earendi
 const DATA = "dataset.jsonl";
 const HOLDOUT = "runs/eval_v5_holdout.json";
 const SCHEMAS = "reference/herdr_schemas.json";
-const MODEL_PROVIDER = "deepseek";
-const MODEL_ID = "deepseek-v4-flash-vision-exp";
 
 // --- CLI args ---------------------------------------------------------------
 const args = process.argv.slice(2);
@@ -30,6 +29,8 @@ function argVal(name, dflt) {
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] !== undefined ? args[i + 1] : dflt;
 }
+const PROVIDER = argVal("--provider", "deepseek");
+const MODEL = argVal("--model", "deepseek-v4-flash-vision-exp");
 const LIMIT = parseInt(argVal("--limit", "0"), 10) || 0;
 const THINKING = argVal("--thinking", "high"); // off|low|high|max (medium unsupported)
 const MAX_TOKENS = parseInt(argVal("--max-tokens", "512"), 10) || 512;
@@ -94,14 +95,14 @@ const holdIdx = holdout.queries.flatMap((q) => byQuery.get(q) || []);
 const evalIdx = LIMIT ? holdIdx.slice(0, LIMIT) : holdIdx;
 
 console.log(`data rows: ${rows.length}   holdout rows: ${holdIdx.length}   evaluating: ${evalIdx.length}`);
-console.log(`model: ${MODEL_PROVIDER}/${MODEL_ID}   thinking: ${THINKING}   maxTokens: ${MAX_TOKENS}`);
+console.log(`model: ${PROVIDER}/${MODEL}   thinking: ${THINKING}   maxTokens: ${MAX_TOKENS}`);
 console.log(`tools: ${tools.length} herdr tools loaded`);
 
 // --- Model runtime -----------------------------------------------------------
 const rt = await ModelRuntime.create();
-const model = rt.getModel(MODEL_PROVIDER, MODEL_ID);
-if (!model) throw new Error(`model not found: ${MODEL_PROVIDER}/${MODEL_ID}`);
-if (!rt.hasConfiguredAuth(MODEL_PROVIDER)) throw new Error(`no auth for provider: ${MODEL_PROVIDER}`);
+const model = rt.getModel(PROVIDER, MODEL);
+if (!model) throw new Error(`model not found: ${PROVIDER}/${MODEL}`);
+if (!rt.hasConfiguredAuth(PROVIDER)) throw new Error(`no auth for provider: ${PROVIDER}`);
 
 const reasoningEffort = THINKING === "off" ? undefined : THINKING;
 
@@ -232,11 +233,14 @@ if (detail.length) {
 // persist
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
 const outJson = {
-  model: `${MODEL_PROVIDER}/${MODEL_ID}`,
+  model: `${PROVIDER}/${MODEL}`,
+  provider: PROVIDER,
+  modelId: MODEL,
   thinking: THINKING,
   maxTokens: MAX_TOKENS,
   evalIdx, totals, perRow,
   acc: { exact, exactNorm, toolOk, nExpected, offOk, nOfftopic },
 };
-writeFileSync(`runs/eval_deepseek_pi_${stamp}.json`, JSON.stringify(outJson, null, 2));
-console.log(`\nsaved: runs/eval_deepseek_pi_${stamp}.json`);
+const slug = `${PROVIDER}__${MODEL}`.replace(/[^a-zA-Z0-9_-]+/g, "-");
+writeFileSync(`runs/eval_pi_${slug}_${stamp}.json`, JSON.stringify(outJson, null, 2));
+console.log(`\nsaved: runs/eval_pi_${slug}_${stamp}.json`);

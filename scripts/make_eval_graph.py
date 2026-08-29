@@ -10,18 +10,20 @@ models = {
     "base (untuned)":        (9.8, 26.8, 68.8),
     "v7 (LoRA fine-tune)":   (96.3, 96.3, 100.0),
     "deepseek flash":        (56.1, 65.9, 50.0),
+    "glm 5.3 flash":         (73.2, 87.8, 50.0),
 }
 colors = {
     "base (untuned)":      "#9aa0a6",  # gray
     "v7 (LoRA fine-tune)": "#1a7f37",  # green — the star
     "deepseek flash":      "#4c78a8",  # blue
+    "glm 5.3 flash":       "#e07b39",  # orange
 }
 
 x = np.arange(len(metrics))
 n = len(models)
-width = 0.26
+width = 0.19
 
-fig, ax = plt.subplots(figsize=(8.4, 5.0))
+fig, ax = plt.subplots(figsize=(9.0, 5.0))
 for i, (label, vals) in enumerate(models.items()):
     offset = (i - (n - 1) / 2) * width
     bars = ax.bar(x + offset, vals, width, label=label, color=colors[label],
