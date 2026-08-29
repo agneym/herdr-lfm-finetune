@@ -103,7 +103,7 @@ A T4 is enough for 350M (~15 min). Use the `colab` CLI (or just run
 
 ```sh
 colab new -s NAME --gpu T4
-colab exec -s NAME -f scripts/setup_lfm2_colab.py   # transformers>=4.55 peft datasets accelerate
+colab exec -s NAME -f scripts/setup_lfm2_colab.py   # transformers>=4.55 peft accelerate (datasets dropped)
 colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py   # torchao>=0.16 (peft 0.20 requires it)
 colab upload -s NAME dataset.jsonl /content/dataset.jsonl
 colab upload -s NAME train_lfm2.py /content/train_lfm2.py

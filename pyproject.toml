@@ -1,0 +1,33 @@
+# Dependency manifest for the LFM2-Herdr fine-tune pipeline.
+#
+# pyproject.toml is the SINGLE source of truth for Python deps. Pins match the
+# versions validated in .venv (see reorg-plan Phase 1A). torch is INTENTIONALLY
+# not pinned: Colab preinstalls a matching CUDA build, and pinning it risks a
+# CUDA mismatch. datasets is dropped (installed but never imported).
+[project]
+name = "lfm2-herdr-finetune"
+version = "0.1.0"
+description = "Fine-tune LiquidAI/LFM2-350M into a Herdr terminal-multiplexer expert (PEFT LoRA)."
+requires-python = ">=3.11"
+dependencies = [
+    "transformers==5.15.1",
+    "peft==0.20.0",
+    "torchao>=0.16",        # peft 0.20 requires it (Colab; installs via scripts/fix_torchao.py)
+    "accelerate==1.14.0",
+    # NOTE: torch not pinned (Colab preinstalls a matching CUDA build).
+]
+
+[project.optional-dependencies]
+viz = [
+    "matplotlib",
+    "numpy",
+]
+
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+# deps-only project: no code package, so installing it pins the environment
+# without building anything.
+[tool.setuptools]
+packages = []

@@ -1,13 +1,17 @@
 PY = .venv/bin/python
 ADAPTER = adapters/lfm2_herdr_lora
 
-.PHONY: data train eval validate clean
+.PHONY: data train eval validate check-ignore clean
 
 ## data — regenerate dataset.jsonl (chat format + structured labels)
 data:
 	$(PY) make_dataset.py
 
 ## pin-holdout — persist the current eval holdout (keyed by query string)
+## NOTE: writes runs/eval_holdout.json — a file nothing reads until the Phase 1B
+## re-pin repoints it. pin_holdout.py now refuses to overwrite without --force;
+## run this target once per new holdout, then update the eval/train + eval_pi.mjs
+## HOLDOUT pointers. See .scratch/reorg-plan.md 'Holdout correctness'.
 pin-holdout:
 	$(PY) pin_holdout.py --data dataset.jsonl --out runs/eval_holdout.json
 
@@ -33,6 +37,11 @@ eval-base:
 ## validate — live-check dataset labels against a running herdr server
 validate:
 	$(PY) validate_dataset.py
+
+## check-ignore — fail if any tracked file is being ignored (should print nothing)
+check-ignore:
+	@echo "tracked-but-ignored files (expected: none):"
+	@git ls-files -ci --exclude-standard
 
 clean:
 	rm -rf __pycache__

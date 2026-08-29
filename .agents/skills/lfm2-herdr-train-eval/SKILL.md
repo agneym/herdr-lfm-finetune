@@ -70,7 +70,7 @@ Evaluated on the pinned 98-row holdout (strictly disjoint from training):
 1. Session setup (a T4 is enough for 350M; v7 used an L4):
    ```
    colab new -s NAME --gpu T4
-   colab exec -s NAME -f scripts/setup_lfm2_colab.py        # pip transformers>=4.55 peft datasets accelerate
+   colab exec -s NAME -f scripts/setup_lfm2_colab.py        # pip transformers>=4.55 peft accelerate (datasets dropped)
    colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py   # pip -U "torchao>=0.16"  (peft 0.20 requires it)
    colab upload -s NAME dataset.jsonl /content/dataset.jsonl
    colab upload -s NAME train_lfm2.py /content/train_lfm2.py
