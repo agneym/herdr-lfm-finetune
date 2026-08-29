@@ -13,7 +13,7 @@ pin-holdout:
 
 ## train — print the Colab recipe (training runs on a Colab GPU, not locally)
 train:
-	@echo "Training runs on Google Colab — see README > 'Train on Google Colab':"
+	@echo "Training runs on Google Colab — see README > 'Training (Google Colab)':"
 	@echo "  colab new -s NAME --gpu T4"
 	@echo "  colab exec -s NAME -f scripts/setup_lfm2_colab.py"
 	@echo "  colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py"

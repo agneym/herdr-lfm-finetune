@@ -17,6 +17,38 @@ comparisons.
 
 ---
 
+## Quick start
+
+Load the tuned LoRA adapter and ask one prompt in ~30 seconds:
+
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import PeftModel
+from herdr_tools import SCHEMAS                      # the 25 Herdr tool schemas
+
+tok = AutoTokenizer.from_pretrained("LiquidAI/LFM2-350M")
+model = AutoModelForCausalLM.from_pretrained(
+    "LiquidAI/LFM2-350M", dtype=torch.bfloat16, device_map="auto")
+model = PeftModel.from_pretrained(model, "adapters/lfm2_herdr_lora").eval()
+
+prompt = tok.apply_chat_template(
+    [{"role": "system", "content":
+        "HERDR_ENV=1\nworkspace=w1\ntab=w1:t1\npane=w1:p1\ncwd=/home/repo\nagent kind=hermes"},
+     {"role": "user", "content": "split my pane"}],
+    tools=SCHEMAS, tokenize=False, add_generation_prompt=True)
+ids = tok(prompt, return_tensors="pt").to(model.device)
+out = model.generate(**ids, max_new_tokens=192, do_sample=False)
+print(tok.decode(out[0][ids.input_ids.shape[1]:], skip_special_tokens=False))
+```
+
+The model answers in native `<|tool_call_start|>[name(k=v, ...)]<|tool_call_end|>`
+syntax; parse it with `eval_lfm2.parse_calls`. The full planner loop and the
+98-row holdout eval live in `eval_lfm2.py` (see [Evaluate](#evaluate)). Training
+runs on a Google Colab GPU — see [Training](#training-google-colab).
+
+---
+
 ## How it works
 
 The pipeline is three steps:
@@ -64,7 +96,7 @@ so the three sets are provably disjoint.
 The pipeline chain is: `make data` -> train on Colab -> unpack the dumped
 checkpoint into `adapters/lfm2_herdr_lora/` -> `make eval`.
 
-## Train on Google Colab
+## Training (Google Colab)
 
 A T4 is enough for 350M (~15 min). Use the `colab` CLI (or just run
 `make train` to print this recipe):
