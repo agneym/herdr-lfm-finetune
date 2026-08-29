@@ -89,7 +89,7 @@ so the three sets are provably disjoint.
 | `adapters/lfm2_herdr_lora/` | **Current tuned adapter (v7).** Older runs are archived alongside (`_v1`, `_v3`, `_v4`, `_v6`). |
 | `reference/` | Herdr tool schemas, captured CLI help (`cli_help/`), API schema, skill doc. |
 | `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`), one-off probes (`probe_*`), and `make_eval_graph.py` (renders `docs/eval_comparison.*`). |
-| `runs/` | Experiment artifacts and durable results: checkpoint tarballs, training logs, eval snapshots + per-version `eval_v*_summary.md`. |
+| `runs/` | Experiment artifacts and durable results: checkpoint tarballs, training logs, eval snapshots + per-version `eval_v*_summary.md`; [`runs/caveats.md`](runs/caveats.md) is the compatibility/caveats doc. |
 | `NOTES.md` | Why we dropped Needle 2; how to recover that track. |
 | `Makefile` | `make data` / `make eval` / `make validate`; `make train` prints the Colab recipe. |
 
@@ -111,31 +111,14 @@ colab upload -s NAME split.py /content/split.py     # train_lfm2.py imports it
 colab upload -s NAME runs/eval_v5_holdout.json /content/eval_v5_holdout.json   # optional: pinned holdout
 ```
 
-Optional but recommended — mirror the checkpoint to Google Drive so it
-survives a VM reap: `colab drivemount -s NAME` (interactive OAuth once), then
-queue `scripts/copy_to_drive.py` as a second `colab exec` (it waits for the
-checkpoint tarball and copies it to `/content/drive/MyDrive/herdr/`, sha256
-verified).
-
-(The Colab scripts write the adapter flat at `/content/lfm2_herdr_lora`; after
-reconstructing the dumped tarball locally, unpack it into `adapters/`.)
-
-NEVER run training inside one blocking `colab exec` — an exec timeout or a dead
-keep-alive daemon lets Colab idle-prune the VM and you lose the checkpoint.
-Use `run_detached_dump.py`: nohup-detach the trainer, poll every 120 s, tick
-keep-alive every 60 s, then tar+base64-dump the checkpoint to stdout on
-completion (the VM can be reaped seconds after training finishes). Reconstruct
-locally with the snippet in `NOTES.md` / the script's docstring. To train with
-the pinned holdout (so the 98 eval rows never leak into training), pass
-`--env HOLDOUT=/content/eval_v5_holdout.json` to that `colab exec`.
-
 Current recipe (v6/v7): epochs 12, batch 1, grad-accum 8, lr 1e-4, LoRA
-r=16 alpha=32 on `q/k/v` + `w1/w3/w2`. LFM2 naming gotcha: the MLP
-projections are `w1`/`w3`/`w2`, NOT gate/up/down_proj (those match nothing),
-and attention output is `out_proj` which is SHARED with Lfm2ShortConv — there
-is **no `o_proj` at all**, so the old "o_proj" target silently trained q/k/v
-only. Do NOT target `conv_in_proj`/`conv_out_proj` — PEFT routes them through
-torchao and crashes.
+r=16 alpha=32 on `q/k/v` + `w1/w3/w2`. The Colab scripts write the adapter flat
+at `/content/lfm2_herdr_lora`; unpack the dumped tarball into `adapters/` after
+reconstructing it locally. Train with
+`--env HOLDOUT=/content/eval_v5_holdout.json` so the 98 eval rows never leak
+into training. The LFM2 target-map gotcha, the Drive-mirror / VM-reap lifecycle,
+and the exact `run_detached_dump.py` flow are in
+[`runs/caveats.md`](runs/caveats.md).
 
 ## Evaluate
 
@@ -148,8 +131,8 @@ stay comparable as the dataset grows:
 ```
 
 The holdout is pinned once via `pin_holdout.py` (keyed by query string, so
-appending training rows never shifts it) and then reused for both eval and
-train (`--holdout runs/eval_v5_holdout.json`, or `--env HOLDOUT=...` on Colab).
+appending training rows never shifts it) and reused for both eval and train —
+how the pin and split stay valid is in [`runs/caveats.md`](runs/caveats.md).
 
 **Current result (v7)** — 98-row holdout, seed 42, strictly disjoint from
 training, all 25 tools represented:
@@ -168,21 +151,11 @@ training, all 25 tools represented:
 > prompts; the 98-row runs cost **$0.0069** (deepseek) and **$0.0080** (GLM).
 > Full breakdowns: `runs/eval_deepseek_summary.md`, `runs/eval_glm_summary.md`.
 
-> **v7 is a regime change — do not compare it to v6.** Through v6 every
-> training/eval row shared ONE fixed system prompt (workspace=`w1`, pane=
-> `w1:p1`, cwd=`/home/repo`, agent kind=hermes), which let the model "solve"
-> grounding by memorizing constants. v7 deterministically rotates the system
-> prompt over 8 contexts (workspaces w1–w5, cwds, caller panes, agent kinds),
-> so it tests context-free grounding. It came out **+2.4 pts** over v6 anyway.
-> The pinned holdout is keyed by query string only, so it still resolves; the
-> per-run numbers and remaining failure modes are in `runs/eval_v7_summary.md`.
-
-> **All pre-fix numbers (v1–v4, and any run before commit `798b7d8`) are
-> invalid.** Eval's `ask()` used to render `row["messages"]` (including the
-> gold assistant answer) with `add_generation_prompt=True`, scoring a
-> *continuation* rather than a from-scratch answer. Fixed to
-> `row["messages"][:-1]` in `eval_lfm2.py` to match `train_lfm2.py`. Re-run
-> any adapter with the fixed `eval_lfm2.py` before comparing.
+> **Before comparing runs, read [`runs/caveats.md`](runs/caveats.md).** v7 is a
+> *regime change* (rotated system prompts, context-free grounding) and must not
+> be compared head-to-head with v6; every pre-fix number (v1–v4, before commit
+> `798b7d8`) scored a *continuation* and is invalid. Per-run numbers and failure
+> modes are in `runs/eval_v7_summary.md`.
 
 Runtime invariant: `pane_split` without explicit pane/current targets the
 caller's pane; normalization makes it explicit (`current: true`). Eval reports
