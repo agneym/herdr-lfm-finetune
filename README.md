@@ -4,6 +4,12 @@ Fine-tune **LiquidAI/LFM2-350M** (PEFT LoRA) to be an expert on the **Herdr**
 terminal multiplexer, so a main agent can ask it in natural language for the
 right Herdr operation and run the result.
 
+![Herdr holdout accuracy: base vs fine-tune vs deepseek flash](docs/eval_comparison.png)
+
+*A 350M LoRA fine-tune beats a frontier model (deepseek-v4-flash-vision-exp)
+2-to-1 on Herdr tool-calling, and turns a 9.8% base model into a 96.3%
+expert — on the pinned 98-row holdout.*
+
 **Current state:** the tuned adapter is `adapters/lfm2_herdr_lora` (the "v7"
 run). Current dataset is 804 rows (98 marked off-topic — 12.2%) across all 25
 Herdr ops. See `runs/eval_v7_summary.md` for the run history and per-version
@@ -121,8 +127,6 @@ training, all 25 tools represented:
 | base (untuned) | 9.8% | 9.8% | 26.8% | 68.8% |
 | **v7 (current adapter)** | **96.3% (79/82)** | **96.3%** | **96.3%** | **100% (16/16)** |
 | deepseek-v4-flash-vision-exp (pi harness) | 56.1% | 56.1% | 65.9% | 50.0% |
-
-![Herdr holdout accuracy: base vs fine-tune vs deepseek flash](docs/eval_comparison.png)
 
 > **DeepSeek comparison** (`eval_deepseek_pi.mjs`): the frontier model is
 > scored through pi's `ModelRuntime` with the same 25 Herdr tools and the same
