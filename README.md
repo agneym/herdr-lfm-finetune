@@ -6,14 +6,16 @@ right Herdr operation and run the result.
 
 ![Herdr holdout accuracy: base vs fine-tune vs frontier models](docs/eval_comparison.png)
 
-*A 350M LoRA fine-tune turns a 9.8% base model into a 96.3% expert — beating
-deepseek flash (56.1%) and GLM 5.3 flash (73.2%) on Herdr tool-calling, on the
-pinned 98-row holdout.*
+*A 350M LoRA fine-tune turns a 6.8% base model into a **96.1% expert** on Herdr
+tool-calling, on the pinned 120-row holdout (v8). (The frontier-model
+comparison — deepseek flash 56.1%, GLM 5.3 flash 73.2% — was scored on the prior
+98-row v5 holdout; the v8 frontier run is pending.)*
 
 **Current state:** the tuned adapter is `adapters/lfm2_herdr_lora` (the "v7"
-run). Current dataset is 804 rows (98 marked off-topic — 12.2%) across all 25
-Herdr ops. See `runs/eval_v7_summary.md` for the run history and per-version
-comparisons.
+run). Current dataset is 804 rows (98 off-topic — 12.2%) across all 25 Herdr
+ops. The canonical holdout is now `runs/eval_v8_holdout.json` (120 rows, 17
+off-topic). See `runs/eval_v8_summary.md` for the v8 run and
+`runs/eval_v7_summary.md` for prior run history.
 
 ---
 
@@ -44,7 +46,7 @@ print(tok.decode(out[0][ids.input_ids.shape[1]:], skip_special_tokens=False))
 
 The model answers in native `<|tool_call_start|>[name(k=v, ...)]<|tool_call_end|>`
 syntax; parse it with `eval_lfm2.parse_calls`. The full planner loop and the
-98-row holdout eval live in `eval_lfm2.py` (see [Evaluate](#evaluate)). Training
+120-row holdout eval live in `eval_lfm2.py` (see [Evaluate](#evaluate)). Training
 runs on a Google Colab GPU — see [Training](#training-google-colab).
 
 ---
@@ -83,7 +85,7 @@ so the three sets are provably disjoint.
 | `make_dataset.py` | Generates `dataset.jsonl` (chat format + structured labels). |
 | `train_lfm2.py` | LoRA SFT driver (run on Colab GPU; see below). |
 | `eval_lfm2.py` | Holdout eval; `--base` for baseline. |
-| `eval_pi.mjs` | Same holdout, scored through pi's `ModelRuntime` for any catalog model (deepseek flash, GLM 5.3 flash); records tokens + cost. |
+| `eval_pi.mjs` | Same holdout via pi's `ModelRuntime` for any catalog model (deepseek flash, GLM 5.3 flash); `--holdout` selects the pin; records tokens + cost. |
 | `pin_holdout.py` | Persists the eval holdout (keyed by query) so re-eval stays comparable as the dataset grows. |
 | `validate_dataset.py` | Live-validates dataset labels against a real `herdr` server. |
 | `adapters/lfm2_herdr_lora/` | **Current tuned adapter (v7).** Older runs are archived alongside (`_v1`, `_v3`, `_v4`, `_v6`). |
@@ -108,36 +110,45 @@ colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py   # torchao>=0.16 (pe
 colab upload -s NAME dataset.jsonl /content/dataset.jsonl
 colab upload -s NAME train_lfm2.py /content/train_lfm2.py
 colab upload -s NAME split.py /content/split.py     # train_lfm2.py imports it
-colab upload -s NAME runs/eval_v5_holdout.json /content/eval_v5_holdout.json   # optional: pinned holdout
+colab upload -s NAME runs/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout
 ```
 
 Current recipe (v6/v7): epochs 12, batch 1, grad-accum 8, lr 1e-4, LoRA
 r=16 alpha=32 on `q/k/v` + `w1/w3/w2`. The Colab scripts write the adapter flat
 at `/content/lfm2_herdr_lora`; unpack the dumped tarball into `adapters/` after
 reconstructing it locally. Train with
-`--env HOLDOUT=/content/eval_v5_holdout.json` so the 98 eval rows never leak
+`--env HOLDOUT=/content/eval_v8_holdout.json` so the 120 eval rows never leak
 into training. The LFM2 target-map gotcha, the Drive-mirror / VM-reap lifecycle,
 and the exact `run_detached_dump.py` flow are in
 [`runs/caveats.md`](runs/caveats.md).
 
 ## Evaluate
 
-Score the adapter against the pinned, query-keyed holdout (98 rows) so results
+Score the adapter against the pinned, query-keyed holdout (120 rows) so results
 stay comparable as the dataset grows:
 
 ```sh
-.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v5_holdout.json
-.venv/bin/python eval_lfm2.py --base --holdout runs/eval_v5_holdout.json   # baseline
+.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v8_holdout.json
+.venv/bin/python eval_lfm2.py --base --holdout runs/eval_v8_holdout.json   # baseline
 ```
 
 The holdout is pinned once via `pin_holdout.py` (keyed by query string, so
 appending training rows never shifts it) and reused for both eval and train —
 how the pin and split stay valid is in [`runs/caveats.md`](runs/caveats.md).
 
-**Current result (v7)** — 98-row holdout, seed 42, strictly disjoint from
-training, all 25 tools represented:
+**Current result (v8)** — 120-row holdout (`runs/eval_v8_holdout.json`), seed 42,
+strictly disjoint from training, all 25 tools represented:
 
 | model | exact-call | exact-norm | tool-selection | off-topic |
+|---|---:|---:|---:|---:|
+| base (untuned) | 6.8% | 6.8% | 25.2% | 47.1% (8/17) |
+| **v7 adapter** | **96.1% (99/103)** | **96.1%** | **97.1% (100/103)** | **100% (17/17)** |
+
+For comparison, the **prior v7 result on the 98-row holdout** (now history; the
+canonical pin moved to v8's 120 rows) was **96.3%**, with the frontier models
+scored through `eval_pi.mjs` on that same 98-row holdout:
+
+| model (98-row v5 holdout) | exact-call | exact-norm | tool-selection | off-topic |
 |---|---:|---:|---:|---:|
 | base (untuned) | 9.8% | 9.8% | 26.8% | 68.8% |
 | **v7 (current adapter)** | **96.3% (79/82)** | **96.3%** | **96.3%** | **100% (16/16)** |
@@ -145,17 +156,18 @@ training, all 25 tools represented:
 | glm-5.3-flash / OpenRouter (pi harness) | 73.2% | 76.8% | 87.8% | 50.0% |
 
 > **Frontier-model comparison** (`eval_pi.mjs`): deepseek-v4-flash-vision-exp
-> and glm-5.3-flash are scored through pi's `ModelRuntime` with the same 25
-> Herdr tools and the same pinned holdout. Both trail the fine-tune badly on
-> exact-call (56.1% and 73.2% vs 96.3%) and both act on half the off-topic
-> prompts; the 98-row runs cost **$0.0069** (deepseek) and **$0.0080** (GLM).
-> Full breakdowns: `runs/eval_deepseek_summary.md`, `runs/eval_glm_summary.md`.
+> and glm-5.3-flash were scored through pi's `ModelRuntime` with the same 25
+> Herdr tools on the 98-row v5 holdout. Both trail the fine-tune on exact-call
+> (56.1% and 73.2% vs 96.3%) and both act on half the off-topic prompts; those
+> runs cost **$0.0069** (deepseek) and **$0.0080** (GLM). The **v8 frontier run
+> is pending**. Full breakdowns: `runs/eval_deepseek_summary.md`,
+> `runs/eval_glm_summary.md`.
 
 > **Before comparing runs, read [`runs/caveats.md`](runs/caveats.md).** v7 is a
 > *regime change* (rotated system prompts, context-free grounding) and must not
 > be compared head-to-head with v6; every pre-fix number (v1–v4, before commit
 > `798b7d8`) scored a *continuation* and is invalid. Per-run numbers and failure
-> modes are in `runs/eval_v7_summary.md`.
+> modes are in `runs/eval_v7_summary.md` and `runs/eval_v8_summary.md`.
 
 Runtime invariant: `pane_split` without explicit pane/current targets the
 caller's pane; normalization makes it explicit (`current: true`). Eval reports
@@ -163,8 +175,9 @@ both raw and normalized accuracy.
 
 ## Limitations
 
-The honest failure modes on the pinned 98-row holdout (v7), from
-`runs/eval_v7_summary.md`:
+The honest failure modes on the v7 (98-row) holdout, from `runs/eval_v7_summary.md`;
+on the v8 120-row holdout the same adapter still scored **96.1% exact** and
+**100% off-topic**:
 
 - **"give me a new pane on the right"** — still emits a hallucinated
   `pane_create(Direction=...)` (wrong casing). "give me a new pane"

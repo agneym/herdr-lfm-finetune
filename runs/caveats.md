@@ -53,33 +53,28 @@ and crashes.
 `pin_holdout.py` (keyed by query string, so appending training rows never shifts
 it), then train/val are split from the remainder — so the three sets are
 provably disjoint. Reuse it for both eval and train
-(`--holdout runs/eval_v5_holdout.json`, or `--env HOLDOUT=...` on Colab). If a
+(`--holdout runs/eval_v8_holdout.json`, or `--env HOLDOUT=...` on Colab). If a
 holdout query changes, the pin breaks.
 
-## Re-pinning the holdout (Phase 1B — ONE atomic commit, not a "safe win")
+## Re-pinning the holdout (done in Phase 1B — how to do it again)
 
-The published numbers are on the **98-row `runs/eval_v5_holdout.json`**. Do NOT
-let `make pin-holdout` / `pin_holdout.py --out runs/eval_v5_holdout.json`
-overwrite it — `pin_holdout.py` now requires `--out` and refuses to overwrite
-without `--force`. Re-pinning to a NEW versioned file (e.g.,
-`eval_v8_holdout.json`, `int(804*0.15)=120` rows) is a deliberate research step
-because `dataset.jsonl` has grown past the v5 pin.
-
-Update ALL of these to the new file in ONE commit:
+The **live pin is `runs/eval_v8_holdout.json` (120 rows)**. The prior
+**98-row `runs/eval_v5_holdout.json`** is history and must NOT be overwritten —
+`pin_holdout.py` requires `--out` and refuses to overwrite without `--force`. To
+re-pin again (e.g. to `eval_v9_holdout.json` when the dataset grows), write a NEW
+versioned file and repoint ALL of these to it in ONE atomic commit:
 
 - `Makefile`: `pin-holdout` `--out`; `eval` + `eval-base` `--holdout`; the
   `train` recipe upload line + the `HOLDOUT=/content/...` env.
-- `eval_pi.mjs:23` (`const HOLDOUT = "runs/eval_v5_holdout.json"`) — add a
-  `--holdout` CLI arg first, or edit it.
+- `eval_pi.mjs` (`const HOLDOUT = argVal("--holdout", "runs/eval_v8_holdout.json")`).
 - `README.md`, `.agents/skills/lfm2-herdr-train-eval/SKILL.md` (incl. the
-  pin-by-prose and the clobber example at ~line 145), `runs/caveats.md`.
+  pin-by-prose and the clobber example), `runs/caveats.md`.
 
-DO NOT rewrite the HISTORICAL holdout references — these are fact (v6/v7 really
-were scored on the 98-row v5) and a mechanical `v5→v8` replace would falsify
-history:
+Never rewrite the HISTORICAL holdout references — these are fact (v6/v7/v8 really
+were scored on their own pins) and a mechanical replace would falsify history:
 
 - `runs/eval_v5_summary.md:64`, `runs/eval_v6_summary.md:8,67`,
   `runs/eval_v7_summary.md:30,76,104`, `runs/eval_v6_new.log:2`,
   `runs/eval_v7_new.log:2`.
 
-Add v8 as a NEW table/column; leave v5–v7 intact.
+Add the new pin as a NEW table/column; leave prior pins intact.

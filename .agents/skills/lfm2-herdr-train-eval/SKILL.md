@@ -19,27 +19,28 @@ expert, training on Google Colab via `colab` CLI, and evaluating locally.
   even under ideal conditions — root cause is inside the needle trainer,
   unfixable from outside. We switched to LFM2-350M + PEFT LoRA.
 - Data: `dataset.jsonl` is currently **804 rows** (98 off-topic, 12.2%). The
-  eval holdout is pinned to **runs/eval_v5_holdout.json** (98 rows, keyed by
+  eval holdout is pinned to **runs/eval_v8_holdout.json** (120 rows, keyed by
   query string) so re-eval stays comparable as the dataset grows.
 
-## Current status (v7, regime change)
+## Current status (v7 adapter, v8 holdout)
 
 Trained with deterministic system-prompt rotation (8 contexts) so the model
 grounds workspace/pane/cwd from the prompt instead of memorizing one fixed
 `w1:p1 / /home/repo` context. Live-validated against a real `herdr` server
 (PASS 404 / SKIP 250 / FAIL 23 — identical profile to v6).
 
-Evaluated on the pinned 98-row holdout (strictly disjoint from training):
+The canonical holdout was re-pinned to **v8** (120 rows) in Phase 1B; the same
+**v7** adapter was re-scored on it (strictly disjoint from training):
 
-| model                      | exact-call | tool-selection | off-topic |
+| model (v8, 120-row holdout) | exact-call | tool-selection | off-topic |
 |----------------------------|-----------:|---------------:|----------:|
-| base (untuned)             |      9.8% |         26.8% |     68.8% |
-| v6 (fixed context)         |     93.9% |         96.3% |    100.0% |
-| **v7 (rotated context)**   |   **96.3%** |      **96.3%** |  **100.0%** |
+| base (untuned)             |      6.8% |         25.2% |     47.1% |
+| **v7 (current adapter)**   |   **96.1% (99/103)** | **97.1% (100/103)** | **100% (17/17)** |
 
-> v7 is a *regime change* (rotated system prompts), so it is not directly
-> comparable to v6; the number improved anyway (+2.4 pts exact-call). Full
-> breakdowns live in `runs/eval_v7_summary.md`, `runs/eval_v6_summary.md`, etc.
+The prior **98-row numbers are history**: v7 was **96.3%** / v6 **93.9%** on the
+v5 holdout; they must NOT be compared head-to-head with v8 (different pin).
+Full breakdowns: `runs/eval_v8_summary.md`, `runs/eval_v7_summary.md`,
+`runs/eval_v6_summary.md`, etc.
 
 > **Any older published numbers (e.g. 65.7% / 77.1%, 50.0%) are INVALID.** Two
 > independent bugs contaminated them: the early trainer built its train set as
@@ -54,7 +55,7 @@ Evaluated on the pinned 98-row holdout (strictly disjoint from training):
 | `split.py` | SINGLE source of truth for train/val/eval splits; the eval holdout is carved out first and is provably disjoint from training |
 | `make_dataset.py` | generates `dataset.jsonl` ({messages, tools, expected}) |
 | `train_lfm2.py` | PEFT LoRA SFT; masks loss to assistant tokens only; saves best-val checkpoint |
-| `eval_lfm2.py` | holdout eval on the pinned 98 rows; reports raw AND normalized exact-call accuracy |
+| `eval_lfm2.py` | holdout eval on the pinned 120 rows; reports raw AND normalized exact-call accuracy |
 | `pin_holdout.py` | persists the eval holdout (keyed by query) so re-eval stays comparable as the dataset grows |
 | `validate_dataset.py` | live-validates dataset labels against a real `herdr` server |
 | `herdr_tools.py` | the Herdr operations; schemas loaded from `reference/herdr_schemas.json` |
@@ -75,7 +76,7 @@ Evaluated on the pinned 98-row holdout (strictly disjoint from training):
    colab upload -s NAME dataset.jsonl /content/dataset.jsonl
    colab upload -s NAME train_lfm2.py /content/train_lfm2.py
    colab upload -s NAME split.py /content/split.py          # train_lfm2.py imports it
-   colab upload -s NAME runs/eval_v5_holdout.json /content/eval_v5_holdout.json   # optional: pinned holdout
+   colab upload -s NAME runs/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout
    ```
 2. NEVER run training inside one blocking `colab exec`. Two failure modes:
    - exec timeout kills the run, or
@@ -86,7 +87,7 @@ Evaluated on the pinned 98-row holdout (strictly disjoint from training):
    tar+base64-dump the checkpoint into stdout — the VM can be reaped seconds
    after TRAINING OK; this actually happened):
    ```
-   colab exec -s NAME -f scripts/run_detached_dump.py --env HOLDOUT=/content/eval_v5_holdout.json
+   colab exec -s NAME -f scripts/run_detached_dump.py --env HOLDOUT=/content/eval_v8_holdout.json
    ```
    (`scripts/watch_and_dump.py` is the no-relaunch companion if training was
    already launched by an exec whose wrapper timed out.)
@@ -131,21 +132,25 @@ both raw and normalized accuracy.
 
 ## Eval
 
-The published tables are on the **pinned 98-row holdout**. Use `--holdout`:
+The published tables are on the **pinned 120-row holdout**
+(`runs/eval_v8_holdout.json`). Use `--holdout` — it is now REQUIRED (bare runs
+are refused):
 
 ```
-.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v5_holdout.json
-.venv/bin/python eval_lfm2.py --base --holdout runs/eval_v5_holdout.json   # baseline
+.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v8_holdout.json
+.venv/bin/python eval_lfm2.py --base --holdout runs/eval_v8_holdout.json   # baseline
 ```
 
 Pin the holdout once (keyed by query, so appending training rows never shifts
-it) and reuse it on both eval and train:
+it) and reuse it on both eval and train. `--out` is required; add `--force` to
+overwrite an existing pin — never overwrite the live v5/v8 pins:
 
 ```
-.venv/bin/python pin_holdout.py --data dataset.jsonl --out runs/eval_v5_holdout.json
-.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v5_holdout.json
+.venv/bin/python pin_holdout.py --data dataset.jsonl --out runs/eval_v9_holdout.json
+.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v8_holdout.json
 ```
 
-> `--split 0.15` recomputes a **fresh** holdout from the current row count
-> (int(n×0.15) = 120 rows at 804), so it will NOT reproduce the numbers in the
-> tables/README. Always pass `--holdout runs/eval_v5_holdout.json`.
+> `--holdout` is REQUIRED (a bare recompute would drift from the pinned set).
+> Always pass `--holdout runs/eval_v8_holdout.json`. To re-pin again, write a
+> NEW versioned file (e.g. eval_v9_holdout.json) and repoint all four live
+> consumers + docs in one commit (see `runs/caveats.md` 'Re-pinning the holdout').
