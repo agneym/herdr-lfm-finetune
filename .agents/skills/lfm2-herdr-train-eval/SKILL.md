@@ -1,10 +1,10 @@
 ---
 name: lfm2-herdr-train-eval
 description: Fine-tune LiquidAI/LFM2-350M as a Herdr terminal-multiplexer expert via PEFT LoRA, train on Google Colab GPUs using the colab CLI, and evaluate locally against a pinned deterministic holdout. Use when training, retraining, or evaluating the Herdr expert model in this repo.
-compatibility: Requires this repo's pipeline scripts in the repo root, the `colab` CLI (google-colab-cli) with ADC auth for Colab training, and a local Python venv for eval.
+compatibility: Requires this repo's pipeline scripts in the repo root, the `colab` CLI (google-colab-cli) with ADC auth for Colab training, a local Python venv for eval (and Node + the `pi` package for `eval_pi.mjs`), and network access to Hugging Face Hub for `make fetch`.
 metadata:
   author: agney
-  version: "1.1"
+  version: "1.2"
 ---
 
 # LFM2 Herdr Expert — Train & Eval Workflow
@@ -48,7 +48,7 @@ Full breakdowns: `runs/results/eval_v8_summary.md`, `runs/results/eval_v7_summar
 > used to feed the gold assistant answer back into the prompt. Both are fixed;
 > `NOTES.md` has the full story. Never cite the old tables.
 
-## Pipeline files (all in repo root)
+## Pipeline files (repo root + scripts/)
 
 | file | purpose |
 |---|---|
@@ -56,10 +56,12 @@ Full breakdowns: `runs/results/eval_v8_summary.md`, `runs/results/eval_v7_summar
 | `make_dataset.py` | generates `dataset.jsonl` ({messages, tools, expected}) |
 | `train_lfm2.py` | PEFT LoRA SFT; masks loss to assistant tokens only; saves best-val checkpoint |
 | `eval_lfm2.py` | holdout eval on the pinned 120 rows; reports raw AND normalized exact-call accuracy |
+| `eval_pi.mjs` | same holdout via pi's `ModelRuntime` for any catalog model (frontier comparison); resolves pi's package dir dynamically (or `PI_PACKAGE_DIR`); `--holdout` defaults to the v8 pin; records tokens + cost |
 | `pin_holdout.py` | persists the eval holdout (keyed by query) so re-eval stays comparable as the dataset grows |
 | `validate_dataset.py` | live-validates dataset labels against a real `herdr` server |
 | `herdr_tools.py` | the Herdr operations; schemas loaded from `reference/herdr_schemas.json` |
 | `scripts/run_detached_dump.py` | detached Colab trainer + base64 checkpoint dump |
+| `scripts/fetch_adapter.py` | pulls the current adapter from HF Hub into `adapters/lfm2_herdr_lora/` (`make fetch`) |
 | `adapters/lfm2_herdr_lora/` | current tuned adapter (weights are on HF Hub as `agney/lfm2-herdr-lora`; `make fetch` pulls them in) |
 
 > `ask_herdr.py` (the NL→operation runtime harness) was written against the
@@ -138,7 +140,13 @@ both raw and normalized accuracy.
 
 The published tables are on the **pinned 120-row holdout**
 (`runs/results/eval_v8_holdout.json`). Use `--holdout` — it is now REQUIRED (bare runs
-are refused):
+are refused).
+
+**Get the weights first.** The adapter weights are NOT in git — on a fresh clone run
+`make fetch` (pulls `agney/lfm2-herdr-lora` into `adapters/lfm2_herdr_lora/`) before
+evaluating, or `eval_lfm2.py --adapter adapters/...` will fail. For the frontier-model
+comparison use `eval_pi.mjs` (loads pi's `ModelRuntime` dynamically; set `PI_PACKAGE_DIR`
+if the pi package isn't on PATH):
 
 ```
 .venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/results/eval_v8_holdout.json
