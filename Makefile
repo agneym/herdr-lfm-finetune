@@ -1,8 +1,10 @@
 PY = .venv/bin/python
 ADAPTER = adapters/lfm2_herdr_lora
 HF_REPO ?= agney/lfm2-herdr-lora
+GGUF_REPO ?= agney/lfm2-herdr-gguf
+GGUF ?= runs/export/lfm2-herdr-Q4_K_M.gguf
 
-.PHONY: data fetch train eval validate check-ignore clean
+.PHONY: data fetch train eval validate gguf gguf-push gguf-eval check-ignore clean
 
 ## data — regenerate dataset.jsonl (chat format + structured labels)
 data:
@@ -43,6 +45,21 @@ eval-base:
 ## validate — live-check dataset labels against a running herdr server
 validate:
 	$(PY) validate_dataset.py
+
+## gguf — merge the adapter + export a GGUF for llama.cpp (no Python runtime)
+## Requires a llama.cpp checkout with a built llama-quantize; point LLAMA_CPP_DIR
+## at it (default /tmp/llama.cpp). See scripts/export_gguf.py for the build recipe.
+gguf:
+	$(PY) scripts/export_gguf.py --adapter $(ADAPTER)
+
+## gguf-push — same, then upload the GGUFs (+ auto model card) to HF Hub
+gguf-push:
+	$(PY) scripts/export_gguf.py --adapter $(ADAPTER) --push --repo $(GGUF_REPO)
+
+## gguf-eval — score a GGUF against the pinned holdout (needs llama-server built)
+## Override the file with GGUF=...; default is the Q4_K_M export.
+gguf-eval:
+	$(PY) scripts/eval_gguf.py --gguf $(GGUF) --holdout runs/results/eval_v8_holdout.json --spawn
 
 ## check-ignore — fail if any tracked file is being ignored (should print nothing)
 check-ignore:

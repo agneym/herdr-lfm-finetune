@@ -13,10 +13,14 @@ comparison — deepseek flash 56.1%, GLM 5.3 flash 73.2% — was scored on the p
 
 **Current state:** the tuned adapter is `adapters/lfm2_herdr_lora` (the "v7"
 run), published on Hugging Face Hub as **[`agney/lfm2-herdr-lora`](https://huggingface.co/agney/lfm2-herdr-lora)** (weights
-are not committed to git; `make fetch` pulls them into `adapters/`). Current
-dataset is 804 rows (98 off-topic — 12.2%) across all 25 Herdr ops. The
-canonical holdout is now `runs/results/eval_v8_holdout.json` (120 rows, 17
-off-topic). See `runs/results/eval_v8_summary.md` for the v8 run and
+are not committed to git; `make fetch` pulls them into `adapters/`). A
+**merged GGUF** for llama.cpp is published as
+**[`agney/lfm2-herdr-gguf`](https://huggingface.co/agney/lfm2-herdr-gguf)** — the same expert runnable
+without Python (see [Run without Python](#run-without-python-gguf--llamacpp));
+weights are never committed to git. Current dataset is 804 rows (98 off-topic —
+12.2%) across all 25 Herdr ops. The canonical holdout is now
+`runs/results/eval_v8_holdout.json` (120 rows, 17 off-topic). See
+`runs/results/eval_v8_summary.md` for the v8 run and
 `runs/results/eval_v7_summary.md` for prior run history.
 
 ---
@@ -92,7 +96,7 @@ so the three sets are provably disjoint.
 | `validate_dataset.py` | Live-validates dataset labels against a real `herdr` server. |
 | `adapters/lfm2_herdr_lora/` | **Current tuned adapter (v7).** Weights are not committed to git — published as [`agney/lfm2-herdr-lora`](https://huggingface.co/agney/lfm2-herdr-lora) on Hugging Face Hub; `scripts/fetch_adapter.py` / [`make fetch`](#fetch) pulls them in. Older runs are archived alongside (`_v1`, `_v3`, `_v4`, `_v6`). |
 | `reference/` | Herdr tool schemas, captured CLI help (`cli_help/`), API schema, skill doc. |
-| `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`), `fetch_adapter.py` (pulls the tuned adapter from HF Hub), one-off probes (`probe_*`), and `make_eval_graph.py` (renders `docs/eval_comparison.*`). |
+| `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`), `fetch_adapter.py` (pulls the tuned adapter from HF Hub), `export_gguf.py` (merge + GGUF export for llama.cpp; `make gguf`), `herdr_gguf.py` (one-command query runner), `eval_gguf.py` (scores a GGUF on the holdout; `make gguf-eval`), one-off probes (`probe_*`), and `make_eval_graph.py` (renders `docs/eval_comparison.*`). |
 | `runs/results/` | Durable results: per-version `eval_v*_summary.md`, holdout JSONs, raw `eval_*` outputs, and [`runs/results/caveats.md`](runs/results/caveats.md) (compatibility/caveats doc). Regenerable checkpoints/logs live under `runs/checkpoints/` and `runs/logs/` (gitignored). |
 | `NOTES.md` | Why we dropped Needle 2; how to recover that track. |
 | `Makefile` | `make data` / `make eval` / `make validate`; `make train` prints the Colab recipe. |
@@ -197,6 +201,61 @@ produced **22 false FAILs** — the installed CLI (v0.8.2) *accepts* those agent
 its possible values), and the model is trained on valid calls. That check now
 validates against the CLI's accepted set. The remaining known validate failure is
 1× `worktree_create` with `base='develop'` (the scratch repo has no such branch).
+
+## Run without Python (GGUF / llama.cpp)
+
+The adapter is meant to be loaded in Python, but you can also run the **merged
+model** as a [`GGUF`](https://github.com/ggml-org/llama.cpp) — a single binary
+(no Python model-loading needed). The published files live on
+[`agney/lfm2-herdr-gguf`](https://huggingface.co/agney/lfm2-herdr-gguf):
+`lfm2-herdr-f16.gguf` (679 MB), `lfm2-herdr-Q8_0.gguf` (362 MB),
+`lfm2-herdr-Q5_K_M.gguf` (249 MB), `lfm2-herdr-Q4_K_M.gguf` (219 MB).
+
+**Easiest path — one command, no hand-built prompt** (builds the system env +
+tool list for you, runs llama.cpp, prints the parsed tool call):
+
+```sh
+.venv/bin/python scripts/herdr_gguf.py --gguf Q8_0.gguf --query "split my pane" --spawn
+```
+
+Or drive it directly with a pre-rendered prompt:
+
+```sh
+curl -L -o lfm2-herdr-Q8_0.gguf \
+  https://huggingface.co/agney/lfm2-herdr-gguf/resolve/main/lfm2-herdr-Q8_0.gguf
+./build/bin/llama-server -m lfm2-herdr-Q8_0.gguf --port 8080 &
+curl http://127.0.0.1:8080/completion -d '{"prompt":"<rendered prompt>","n_predict":128,"temperature":0}'
+```
+
+The prompt carries the same system env + Herdr tool schemas as the Python
+`apply_chat_template(tools=...)` call — the model answers in the native
+`<|tool_call_start|>[name(k=v, ...)]<|tool_call_end|>` syntax, parsed by
+`eval_lfm2.parse_calls` (or `scripts/herdr_gguf.py`). For an OpenAI-style
+`tools=` endpoint, run `llama-server -m lfm2-herdr-Q8_0.gguf --port 8080` and
+POST `/v1/chat/completions` with your messages + the 25 `herdr_tools.SCHEMAS`.
+
+**Measured accuracy** (pinned 120-row holdout, `scripts/eval_gguf.py`), vs the
+bf16 adapter's 96.1% exact / 100% off-topic:
+
+| GGUF | size | exact-call | off-topic |
+|---|---:|---:|---:|
+| `lfm2-herdr-f16.gguf` | 679 MB | **96.1%** | 100% |
+| `lfm2-herdr-Q8_0.gguf` | 362 MB | **96.1%** | 100% |
+| `lfm2-herdr-Q5_K_M.gguf` | 249 MB | 95.1% | 100% |
+| `lfm2-herdr-Q4_K_M.gguf` | 219 MB | 92.2% | 100% |
+
+F16/Q8_0 are **lossless** (merge + GGUF conversion changes nothing vs bf16);
+Q4_K_M costs ~4 pts, mostly the `pane_current`/`pane_split` arg rows the bf16
+model already stumbles on. A 350M GGUF runs on a plain laptop CPU (~50 tok/s
+at Q4_K_M) — no GPU, no Python environment. `make gguf` reproduces the export
+from the adapter (`scripts/export_gguf.py`), `make gguf-push` uploads it, and
+`make gguf-eval` scores a GGUF against the holdout (`scripts/eval_gguf.py`,
+needs `llama-server`).
+
+> **Caveat:** GGUF is a *storage* format — you still need the `llama.cpp`
+> binaries (`llama-cli` / `llama-server`) to run it. It removes the Python
+> *model-loading* layer, not the inference harness; the run/eval scripts fill in
+> the prompt + parse so end users don't hand-format it.
 
 This is a **narrow specialist**, not a general model: it plans the 25 Herdr ops
 and refuses off-topic prompts; it does not do general chat, code, or reasoning.

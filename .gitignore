@@ -5,6 +5,8 @@
 # checkpoints and logs are regenerable and ignored.
 runs/checkpoints/
 runs/logs/
+# merged+GGUF export is large and lives on Hugging Face, not git
+runs/export/
 __pycache__/
 .cache/
 .venv/
