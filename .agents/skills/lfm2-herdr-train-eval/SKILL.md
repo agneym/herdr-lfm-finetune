@@ -60,7 +60,7 @@ Full breakdowns: `runs/results/eval_v8_summary.md`, `runs/results/eval_v7_summar
 | `validate_dataset.py` | live-validates dataset labels against a real `herdr` server |
 | `herdr_tools.py` | the Herdr operations; schemas loaded from `reference/herdr_schemas.json` |
 | `scripts/run_detached_dump.py` | detached Colab trainer + base64 checkpoint dump |
-| `adapters/lfm2_herdr_lora/` | current tuned adapter |
+| `adapters/lfm2_herdr_lora/` | current tuned adapter (weights are on HF Hub as `agney/lfm2-herdr-lora`; `make fetch` pulls them in) |
 
 > `ask_herdr.py` (the NL→operation runtime harness) was written against the
 > Needle engine and has been **removed**; see `NOTES.md` "Known gap". Its
@@ -92,8 +92,12 @@ Full breakdowns: `runs/results/eval_v8_summary.md`, `runs/results/eval_v7_summar
    (`scripts/watch_and_dump.py` is the no-relaunch companion if training was
    already launched by an exec whose wrapper timed out.)
 
-3. Reconstruct locally. The Colab scripts write the adapter flat at
-   `/content/lfm2_herdr_lora`; unpack it into `adapters/` afterwards:
+3. Get the weights. The Colab scripts write the adapter flat at
+   `/content/lfm2_herdr_lora`. The canonical source is now the Hub: `make fetch`
+   pulls `agney/lfm2-herdr-lora` into `adapters/lfm2_herdr_lora/` (no token for a
+   public repo). If you trained a NEW adapter instead, publish it to the Hub and
+   update `HF_REPO` in the Makefile. (Legacy: reconstruct the dumped tarball from
+   the log with the snippet below, then unpack it.)
    ```python
    import base64, re
    log = open('runs/logs/lfm2v10_dump.log').read()      # the dump log from the colab exec

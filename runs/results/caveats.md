@@ -47,6 +47,27 @@ and crashes.
   checkpoint tarball and copies it to `/content/drive/MyDrive/herdr/`, sha256
   verified).
 
+## Model weights live on Hugging Face Hub
+
+The tuned adapter's weights are **not committed to git** (they're gitignored),
+so a fresh clone only gets the config + model card. The weights are published
+on the Hub as **`agney/lfm2-herdr-lora`**; pull them into
+`adapters/lfm2_herdr_lora/` with `make fetch` (no token needed for a public
+repo; private repos read `HF_TOKEN`). This is the canonical source for
+`make eval` and the README quick-start.
+
+To publish a newly trained adapter:
+```sh
+export HF_TOKEN=<write token>   # https://huggingface.co/settings/tokens
+.venv/bin/python -c "
+from huggingface_hub import HfApi
+api = HfApi()
+api.create_repo('agney/lfm2-herdr-lora', repo_type='model', exist_ok=True)
+api.upload_folder(repo_id='agney/lfm2-herdr-lora', folder_path='adapters/lfm2_herdr_lora')
+"
+```
+Update the README/skill if you change the repo id (`HF_REPO` in the Makefile).
+
 ## Pinned holdout
 
 `split.py` owns the split. The eval holdout is carved out first via

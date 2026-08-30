@@ -1,11 +1,18 @@
 PY = .venv/bin/python
 ADAPTER = adapters/lfm2_herdr_lora
+HF_REPO ?= agney/lfm2-herdr-lora
 
-.PHONY: data train eval validate check-ignore clean
+.PHONY: data fetch train eval validate check-ignore clean
 
 ## data — regenerate dataset.jsonl (chat format + structured labels)
 data:
 	$(PY) make_dataset.py
+
+## fetch — download the tuned adapter from Hugging Face Hub into adapters/
+## (the trainer weights are not committed to git; this is what makes `make eval`
+##  work on a fresh clone). Override the repo with HF_REPO=<user>/<repo>.
+fetch:
+	$(PY) scripts/fetch_adapter.py --repo $(HF_REPO) --out $(ADAPTER)
 
 ## pin-holdout — persist the current eval holdout (keyed by query string)
 ## NOTE: pin_holdout.py refuses to overwrite without --force. The live pin is
