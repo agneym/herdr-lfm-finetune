@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * eval_pi.mjs — score any pi-catalog model on the pinned 98-row Herdr
- * holdout, driven through pi's model layer (ModelRuntime), with the 25 Herdr
- * tools loaded from reference/herdr_schemas.json.
+ * eval_pi.mjs — score any pi-catalog model on the pinned Herdr holdout
+ * (default: the 120-row v8 pin), driven through pi's model layer
+ * (ModelRuntime), with the 25 Herdr tools loaded from
+ * reference/herdr_schemas.json.
  *
  * One turn per row (planner mode), matching eval_lfm2.py's scoring:
  *   - exact-call accuracy (tool name + args, key-order-insensitive)
@@ -12,16 +13,72 @@
  *
  * Also records per-row + total token usage and cost (pi's own accounting).
  *
+ * pi's ModelRuntime is loaded from the installed @earendil-works/pi-coding-agent
+ * package (resolved dynamically, not hardcoded to a machine path). Override the
+ * package dir with PI_PACKAGE_DIR if it isn't found another way.
+ *
  * Usage:
  *   node eval_pi.mjs [--provider openrouter] [--model z-ai/glm-5.3-flash]
  *                    [--limit N] [--thinking off|low|high|max] [--max-tokens N]
  *                    [--holdout runs/results/eval_v8_holdout.json]
  */
 import { readFileSync, writeFileSync } from "node:fs";
-import { ModelRuntime } from "/home/agney/.local/share/mise/installs/npm-earendil-works-pi-coding-agent/0.84.3/node_modules/.mise/@earendil-works+pi-coding-agent@0.84.3/node_modules/@earendil-works/pi-coding-agent/dist/bundle/index.js";
+import { existsSync, realpathSync, readdirSync } from "node:fs";
+import { execSync } from "node:child_process";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const DATA = "dataset.jsonl";
 const SCHEMAS = "reference/herdr_schemas.json";
+
+/**
+ * Locate the installed @earendil-works/pi-coding-agent package directory.
+ * Resolution order:
+ *   1. PI_PACKAGE_DIR env override;
+ *   2. normal node_modules resolution (project-local install);
+ *   3. derive it from the `pi` executable on PATH (mise / npm layout).
+ */
+function resolvePiPackageDir() {
+  const PACKAGE = "@earendil-works/pi-coding-agent";
+  if (process.env.PI_PACKAGE_DIR) return process.env.PI_PACKAGE_DIR;
+  try {
+    // exports["."].import -> <pkg>/dist/index.js; parent-of-parent is the root.
+    const entry = fileURLToPath(import.meta.resolve(PACKAGE));
+    const pkgDir = path.dirname(path.dirname(entry));
+    if (existsSync(path.join(pkgDir, "dist", "bundle", "index.js"))) return pkgDir;
+  } catch { /* fall through to pi-binary discovery */ }
+  try {
+    const bin = realpathSync(
+      execSync("command -v pi", { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim());
+    const basedir = path.dirname(bin); // <pkgparent>/node_modules/.bin
+    const miseRoot = path.join(basedir, "..", ".mise");
+    if (existsSync(miseRoot)) {
+      for (const d of readdirSync(miseRoot)) {
+        if (!d.startsWith("@earendil-works+pi-coding-agent@")) continue;
+        const cand = path.join(miseRoot, d, "node_modules", PACKAGE);
+        if (existsSync(path.join(cand, "dist", "bundle", "index.js"))) return cand;
+      }
+    }
+    const plain = path.join(basedir, "..", PACKAGE);
+    if (existsSync(path.join(plain, "dist", "bundle", "index.js"))) return plain;
+  } catch { /* fall through */ }
+  throw new Error(
+    "could not locate the pi package; set PI_PACKAGE_DIR to its directory\n" +
+    "e.g. .../node_modules/@earendil-works/pi-coding-agent");
+}
+
+// Load pi's model layer without a hardcoded absolute path to the bundle.
+let ModelRuntime;
+try {
+  const pkgDir = resolvePiPackageDir();
+  ({ ModelRuntime } = await import(
+    "file://" + path.join(pkgDir, "dist", "bundle", "index.js")));
+} catch (e) {
+  console.error("failed to load pi ModelRuntime:", e?.message || e);
+  console.error("Set PI_PACKAGE_DIR to the @earendil-works/pi-coding-agent package dir.");
+  process.exit(1);
+}
+
 
 // --- CLI args ---------------------------------------------------------------
 const args = process.argv.slice(2);
