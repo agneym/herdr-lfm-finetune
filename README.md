@@ -106,8 +106,9 @@ The pipeline chain is: `make data` -> train on Colab -> `make fetch`
 
 ## Training (Google Colab)
 
-A T4 is enough for 350M (~15 min). Use the `colab` CLI (or just run
-`make train` to print this recipe):
+A T4 is enough for 350M, but expect a multi-hour run — the v6/v7 recipe
+(12 epochs) takes most of a day (leave it overnight). Use the `colab` CLI
+(or just run `make train` to print this recipe):
 
 ```sh
 colab new -s NAME --gpu T4
