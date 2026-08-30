@@ -19,7 +19,7 @@ expert, training on Google Colab via `colab` CLI, and evaluating locally.
   even under ideal conditions — root cause is inside the needle trainer,
   unfixable from outside. We switched to LFM2-350M + PEFT LoRA.
 - Data: `dataset.jsonl` is currently **804 rows** (98 off-topic, 12.2%). The
-  eval holdout is pinned to **runs/eval_v8_holdout.json** (120 rows, keyed by
+  eval holdout is pinned to **runs/results/eval_v8_holdout.json** (120 rows, keyed by
   query string) so re-eval stays comparable as the dataset grows.
 
 ## Current status (v7 adapter, v8 holdout)
@@ -39,8 +39,8 @@ The canonical holdout was re-pinned to **v8** (120 rows) in Phase 1B; the same
 
 The prior **98-row numbers are history**: v7 was **96.3%** / v6 **93.9%** on the
 v5 holdout; they must NOT be compared head-to-head with v8 (different pin).
-Full breakdowns: `runs/eval_v8_summary.md`, `runs/eval_v7_summary.md`,
-`runs/eval_v6_summary.md`, etc.
+Full breakdowns: `runs/results/eval_v8_summary.md`, `runs/results/eval_v7_summary.md`,
+`runs/results/eval_v6_summary.md`, etc.
 
 > **Any older published numbers (e.g. 65.7% / 77.1%, 50.0%) are INVALID.** Two
 > independent bugs contaminated them: the early trainer built its train set as
@@ -76,7 +76,7 @@ Full breakdowns: `runs/eval_v8_summary.md`, `runs/eval_v7_summary.md`,
    colab upload -s NAME dataset.jsonl /content/dataset.jsonl
    colab upload -s NAME train_lfm2.py /content/train_lfm2.py
    colab upload -s NAME split.py /content/split.py          # train_lfm2.py imports it
-   colab upload -s NAME runs/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout
+   colab upload -s NAME runs/results/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout
    ```
 2. NEVER run training inside one blocking `colab exec`. Two failure modes:
    - exec timeout kills the run, or
@@ -96,7 +96,7 @@ Full breakdowns: `runs/eval_v8_summary.md`, `runs/eval_v7_summary.md`,
    `/content/lfm2_herdr_lora`; unpack it into `adapters/` afterwards:
    ```python
    import base64, re
-   log = open('runs/lfm2v10_dump.log').read()      # the dump log from the colab exec
+   log = open('runs/logs/lfm2v10_dump.log').read()      # the dump log from the colab exec
    m = re.search(r'=== CKPT DUMP START ===\n(.*?)\n=== CKPT DUMP END ===', log, re.S)
    b64 = ''.join(''.join(c for c in l if c.isalnum() or c in '+/=') for l in m.group(1).splitlines())
    open('ckpt.tar.gz','wb').write(base64.b64decode(b64))
@@ -133,12 +133,12 @@ both raw and normalized accuracy.
 ## Eval
 
 The published tables are on the **pinned 120-row holdout**
-(`runs/eval_v8_holdout.json`). Use `--holdout` — it is now REQUIRED (bare runs
+(`runs/results/eval_v8_holdout.json`). Use `--holdout` — it is now REQUIRED (bare runs
 are refused):
 
 ```
-.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v8_holdout.json
-.venv/bin/python eval_lfm2.py --base --holdout runs/eval_v8_holdout.json   # baseline
+.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/results/eval_v8_holdout.json
+.venv/bin/python eval_lfm2.py --base --holdout runs/results/eval_v8_holdout.json   # baseline
 ```
 
 Pin the holdout once (keyed by query, so appending training rows never shifts
@@ -146,11 +146,11 @@ it) and reuse it on both eval and train. `--out` is required; add `--force` to
 overwrite an existing pin — never overwrite the live v5/v8 pins:
 
 ```
-.venv/bin/python pin_holdout.py --data dataset.jsonl --out runs/eval_v9_holdout.json
-.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v8_holdout.json
+.venv/bin/python pin_holdout.py --data dataset.jsonl --out runs/results/eval_v9_holdout.json
+.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/results/eval_v8_holdout.json
 ```
 
 > `--holdout` is REQUIRED (a bare recompute would drift from the pinned set).
-> Always pass `--holdout runs/eval_v8_holdout.json`. To re-pin again, write a
+> Always pass `--holdout runs/results/eval_v8_holdout.json`. To re-pin again, write a
 > NEW versioned file (e.g. eval_v9_holdout.json) and repoint all four live
-> consumers + docs in one commit (see `runs/caveats.md` 'Re-pinning the holdout').
+> consumers + docs in one commit (see `runs/results/caveats.md` 'Re-pinning the holdout').

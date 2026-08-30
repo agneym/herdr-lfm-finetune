@@ -34,8 +34,8 @@ the number is not comparable to any held-out result.
   tool on ~1/3 of off-topic rows; that's the next thing to fix (more examples,
   tuned off-topic ratio / refusal phrasing).
 - Full numbers and per-tool grounding:
-  `runs/eval_v3_new.txt` (v3), `runs/eval_v3_base.txt` (base),
-  `runs/eval_v3_old.txt` (old v2), `runs/eval_v3_summary.md` (3-arm table).
+  `runs/results/eval_v3_new.txt` (v3), `runs/results/eval_v3_base.txt` (base),
+  `runs/results/eval_v3_old.txt` (old v2), `runs/results/eval_v3_summary.md` (3-arm table).
 
 ## Split discipline going forward
 

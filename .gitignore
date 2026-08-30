@@ -1,9 +1,10 @@
 # scratch notes / audit drafts (never tracked)
 .scratch/
 
-# experiment artifacts (regenerable); eval RESULT files under runs/ are
-# tracked deliberately (durable numbers) via the negations at the bottom
-runs/*
+# experiment artifacts: durable results are tracked under runs/results/;
+# checkpoints and logs are regenerable and ignored.
+runs/checkpoints/
+runs/logs/
 __pycache__/
 .cache/
 .venv/
@@ -32,25 +33,7 @@ validation_report.json
 
 # training logs and eval snapshots
 lfm2_train_dump*.log
-# raw eval stdout is tracked; only .txt glob stays for OTHER contexts
-# (negations below re-include runs/eval_*)
-eval_*.txt
 training-logs.txt
-
-# ------------------------------------------------------------------ #
-# durable eval results — versioned in git (numbers, not artifacts).
-# Overrides the blanket rules above; must stay AFTER them.
-# ------------------------------------------------------------------ #
-!runs/eval_*.txt
-!runs/eval_*.log
-!runs/eval_*_summary.md
-!runs/eval_*_holdout.json
-!runs/caveats.md
-
-# still-ignored noise inside runs/ (checkpoints, dumps, stderr)
-runs/*.tar.gz
-runs/*_dump.log
-runs/*.err
 
 # checkpoints and archives (regenerable)
 adapter*.pkl

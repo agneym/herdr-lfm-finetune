@@ -13,7 +13,7 @@ Writes dataset.jsonl: one JSON object per line, each row
 v7 regime change: the system prompt ROTATES over CONTEXTS (workspace, tab,
 pane, cwd, agent kind) instead of being a single fixed environment. Labels
 stay grounded in the query; the model must read the caller's context from
-the system prompt. See runs/eval_v7_summary.md.
+the system prompt. See runs/results/eval_v7_summary.md.
 
 Run:  .venv/bin/python make_dataset.py [out.jsonl]
 """
@@ -813,7 +813,7 @@ def synth():
 
     # --------------------------------------------------------------------- #
     # v6 fixes: targeted data for the v5 holdout failures (see
-    # runs/eval_v5_summary.md "Remaining failure modes").  All additions are
+    # runs/results/eval_v5_summary.md "Remaining failure modes").  All additions are
     # NEW query strings, so the pinned 98-row holdout stays frozen.
     # --------------------------------------------------------------------- #
 

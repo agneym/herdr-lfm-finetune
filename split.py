@@ -4,7 +4,7 @@ Single source of truth so the two never disagree:
 
 - The EVAL holdout is carved out first (seed 42, last N% after a full
   shuffle — identical semantics to what eval_lfm2.py always used, so old
-  runs/eval_*.txt numbers stay comparable).
+  runs/results/eval_*.txt numbers stay comparable).
 - The train-time VALIDATION slice (used for best-checkpoint selection) is
   drawn ONLY from the remaining rows. It can therefore never overlap the
   eval holdout, and checkpoint selection never peeks at eval data.

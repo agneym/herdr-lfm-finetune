@@ -11,7 +11,7 @@ the model "solve" grounding by memorizing constants. v7 deterministically
 rotates the system prompt over 8 contexts (workspaces w1–w5, cwds, caller
 panes, agent kinds), so it tests context-free grounding. It came out **+2.4 pts**
 over v6 anyway. The pinned holdout is keyed by query string only, so it still
-resolves; per-run numbers and failure modes are in `runs/eval_v7_summary.md`.
+resolves; per-run numbers and failure modes are in `runs/results/eval_v7_summary.md`.
 
 ## Pre-fix eval contamination (v1–v4 invalid)
 
@@ -53,28 +53,28 @@ and crashes.
 `pin_holdout.py` (keyed by query string, so appending training rows never shifts
 it), then train/val are split from the remainder — so the three sets are
 provably disjoint. Reuse it for both eval and train
-(`--holdout runs/eval_v8_holdout.json`, or `--env HOLDOUT=...` on Colab). If a
+(`--holdout runs/results/eval_v8_holdout.json`, or `--env HOLDOUT=...` on Colab). If a
 holdout query changes, the pin breaks.
 
 ## Re-pinning the holdout (done in Phase 1B — how to do it again)
 
-The **live pin is `runs/eval_v8_holdout.json` (120 rows)**. The prior
-**98-row `runs/eval_v5_holdout.json`** is history and must NOT be overwritten —
+The **live pin is `runs/results/eval_v8_holdout.json` (120 rows)**. The prior
+**98-row `runs/results/eval_v5_holdout.json`** is history and must NOT be overwritten —
 `pin_holdout.py` requires `--out` and refuses to overwrite without `--force`. To
 re-pin again (e.g. to `eval_v9_holdout.json` when the dataset grows), write a NEW
 versioned file and repoint ALL of these to it in ONE atomic commit:
 
 - `Makefile`: `pin-holdout` `--out`; `eval` + `eval-base` `--holdout`; the
   `train` recipe upload line + the `HOLDOUT=/content/...` env.
-- `eval_pi.mjs` (`const HOLDOUT = argVal("--holdout", "runs/eval_v8_holdout.json")`).
+- `eval_pi.mjs` (`const HOLDOUT = argVal("--holdout", "runs/results/eval_v8_holdout.json")`).
 - `README.md`, `.agents/skills/lfm2-herdr-train-eval/SKILL.md` (incl. the
-  pin-by-prose and the clobber example), `runs/caveats.md`.
+  pin-by-prose and the clobber example), `runs/results/caveats.md`.
 
 Never rewrite the HISTORICAL holdout references — these are fact (v6/v7/v8 really
 were scored on their own pins) and a mechanical replace would falsify history:
 
-- `runs/eval_v5_summary.md:64`, `runs/eval_v6_summary.md:8,67`,
-  `runs/eval_v7_summary.md:30,76,104`, `runs/eval_v6_new.log:2`,
-  `runs/eval_v7_new.log:2`.
+- `runs/results/eval_v5_summary.md:64`, `runs/results/eval_v6_summary.md:8,67`,
+  `runs/results/eval_v7_summary.md:30,76,104`, `runs/results/eval_v6_new.log:2`,
+  `runs/results/eval_v7_new.log:2`.
 
 Add the new pin as a NEW table/column; leave prior pins intact.

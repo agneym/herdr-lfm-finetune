@@ -2,7 +2,7 @@
 
 Date: 2026-08-28 (Colab L4, session lfm2v10)
 Checkpoint: adapters/lfm2_herdr_lora (v6 archived as adapters/lfm2_herdr_lora_v6)
-  - source: runs/ckpt-lfm2v10.tar.gz (reconstructed from runs/lfm2v10_dump.log)
+  - source: runs/checkpoints/ckpt-lfm2v10.tar.gz (reconstructed from runs/logs/lfm2v10_dump.log)
   - sha256: 0c2e0622abb215eb8dccbcecc2980ee1dab4039b0c081fe637e216b9a79734d3
 Dataset: dataset.jsonl v7 — 804 rows, 98 off-topic (12.2%)
   - Same row set as v6; only messages[0] (system prompt) changed.
@@ -27,7 +27,7 @@ modulo 8): workspaces w1–w5, cwds (/home/repo, /home/repo/proj, /srv/api,
 near-uniform: 101/101/101/101/100/100/100/100 rows.
 
 Label policy (what makes the pin still valid):
-- The pinned holdout (runs/eval_v5_holdout.json) is keyed by QUERY STRING
+- The pinned holdout (runs/results/eval_v5_holdout.json) is keyed by QUERY STRING
   only. All 98 holdout queries are unchanged, so the pin resolves against the
   v7 dataset — but each holdout row now carries whatever context its
   generation-order slot assigned it. Holdout context spread:
@@ -73,7 +73,7 @@ Val curve (poll snapshots missed epochs 3, 6, 7, 9, 10): 0.3990, 0.1795, …,
 loss is NOT comparable across regimes (v6 hit 0.0249 on a fixed context;
 rotation makes the grounding task itself harder).
 
-Evaluated on the SAME pinned 98-row holdout (runs/eval_v5_holdout.json),
+Evaluated on the SAME pinned 98-row holdout (runs/results/eval_v5_holdout.json),
 whose rows now span all 8 rotated contexts:
 
 | model | exact-call | exact-norm | tool-selection | off-topic |
@@ -101,7 +101,7 @@ only gaps are pane_split 4/5 and pane_current 1/3. The context-derived
 ## Files
 - make_dataset.py            — CONTEXTS + system_prompt() rotation, _sibling_pane
 - dataset.jsonl              — v7 (804 rows, rotated system prompts)
-- runs/eval_v5_holdout.json  — the pinned 98-row holdout (keyed by query; still valid)
-- runs/lfm2v10_dump.log      — training log + base64 checkpoint dump
-- runs/ckpt-lfm2v10.tar.gz   — raw checkpoint tarball (gitignored)
-- runs/eval_v7_new.log       — v7 adapter on the pinned holdout
+- runs/results/eval_v5_holdout.json  — the pinned 98-row holdout (keyed by query; still valid)
+- runs/logs/lfm2v10_dump.log      — training log + base64 checkpoint dump
+- runs/checkpoints/ckpt-lfm2v10.tar.gz   — raw checkpoint tarball (gitignored)
+- runs/results/eval_v7_new.log       — v7 adapter on the pinned holdout

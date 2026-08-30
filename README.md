@@ -13,9 +13,9 @@ comparison — deepseek flash 56.1%, GLM 5.3 flash 73.2% — was scored on the p
 
 **Current state:** the tuned adapter is `adapters/lfm2_herdr_lora` (the "v7"
 run). Current dataset is 804 rows (98 off-topic — 12.2%) across all 25 Herdr
-ops. The canonical holdout is now `runs/eval_v8_holdout.json` (120 rows, 17
-off-topic). See `runs/eval_v8_summary.md` for the v8 run and
-`runs/eval_v7_summary.md` for prior run history.
+ops. The canonical holdout is now `runs/results/eval_v8_holdout.json` (120 rows, 17
+off-topic). See `runs/results/eval_v8_summary.md` for the v8 run and
+`runs/results/eval_v7_summary.md` for prior run history.
 
 ---
 
@@ -91,7 +91,7 @@ so the three sets are provably disjoint.
 | `adapters/lfm2_herdr_lora/` | **Current tuned adapter (v7).** Older runs are archived alongside (`_v1`, `_v3`, `_v4`, `_v6`). |
 | `reference/` | Herdr tool schemas, captured CLI help (`cli_help/`), API schema, skill doc. |
 | `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`), one-off probes (`probe_*`), and `make_eval_graph.py` (renders `docs/eval_comparison.*`). |
-| `runs/` | Experiment artifacts and durable results: checkpoint tarballs, training logs, eval snapshots + per-version `eval_v*_summary.md`; [`runs/caveats.md`](runs/caveats.md) is the compatibility/caveats doc. |
+| `runs/results/` | Durable results: per-version `eval_v*_summary.md`, holdout JSONs, raw `eval_*` outputs, and [`runs/results/caveats.md`](runs/results/caveats.md) (compatibility/caveats doc). Regenerable checkpoints/logs live under `runs/checkpoints/` and `runs/logs/` (gitignored). |
 | `NOTES.md` | Why we dropped Needle 2; how to recover that track. |
 | `Makefile` | `make data` / `make eval` / `make validate`; `make train` prints the Colab recipe. |
 
@@ -110,7 +110,7 @@ colab exec -s NAME --timeout 400 -f scripts/fix_torchao.py   # torchao>=0.16 (pe
 colab upload -s NAME dataset.jsonl /content/dataset.jsonl
 colab upload -s NAME train_lfm2.py /content/train_lfm2.py
 colab upload -s NAME split.py /content/split.py     # train_lfm2.py imports it
-colab upload -s NAME runs/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout
+colab upload -s NAME runs/results/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout
 ```
 
 Current recipe (v6/v7): epochs 12, batch 1, grad-accum 8, lr 1e-4, LoRA
@@ -120,7 +120,7 @@ reconstructing it locally. Train with
 `--env HOLDOUT=/content/eval_v8_holdout.json` so the 120 eval rows never leak
 into training. The LFM2 target-map gotcha, the Drive-mirror / VM-reap lifecycle,
 and the exact `run_detached_dump.py` flow are in
-[`runs/caveats.md`](runs/caveats.md).
+[`runs/results/caveats.md`](runs/results/caveats.md).
 
 ## Evaluate
 
@@ -128,15 +128,15 @@ Score the adapter against the pinned, query-keyed holdout (120 rows) so results
 stay comparable as the dataset grows:
 
 ```sh
-.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/eval_v8_holdout.json
-.venv/bin/python eval_lfm2.py --base --holdout runs/eval_v8_holdout.json   # baseline
+.venv/bin/python eval_lfm2.py --adapter adapters/lfm2_herdr_lora --holdout runs/results/eval_v8_holdout.json
+.venv/bin/python eval_lfm2.py --base --holdout runs/results/eval_v8_holdout.json   # baseline
 ```
 
 The holdout is pinned once via `pin_holdout.py` (keyed by query string, so
 appending training rows never shifts it) and reused for both eval and train —
-how the pin and split stay valid is in [`runs/caveats.md`](runs/caveats.md).
+how the pin and split stay valid is in [`runs/results/caveats.md`](runs/results/caveats.md).
 
-**Current result (v8)** — 120-row holdout (`runs/eval_v8_holdout.json`), seed 42,
+**Current result (v8)** — 120-row holdout (`runs/results/eval_v8_holdout.json`), seed 42,
 strictly disjoint from training, all 25 tools represented:
 
 | model | exact-call | exact-norm | tool-selection | off-topic |
@@ -160,14 +160,14 @@ scored through `eval_pi.mjs` on that same 98-row holdout:
 > Herdr tools on the 98-row v5 holdout. Both trail the fine-tune on exact-call
 > (56.1% and 73.2% vs 96.3%) and both act on half the off-topic prompts; those
 > runs cost **$0.0069** (deepseek) and **$0.0080** (GLM). The **v8 frontier run
-> is pending**. Full breakdowns: `runs/eval_deepseek_summary.md`,
-> `runs/eval_glm_summary.md`.
+> is pending**. Full breakdowns: `runs/results/eval_deepseek_summary.md`,
+> `runs/results/eval_glm_summary.md`.
 
-> **Before comparing runs, read [`runs/caveats.md`](runs/caveats.md).** v7 is a
+> **Before comparing runs, read [`runs/results/caveats.md`](runs/results/caveats.md).** v7 is a
 > *regime change* (rotated system prompts, context-free grounding) and must not
 > be compared head-to-head with v6; every pre-fix number (v1–v4, before commit
 > `798b7d8`) scored a *continuation* and is invalid. Per-run numbers and failure
-> modes are in `runs/eval_v7_summary.md` and `runs/eval_v8_summary.md`.
+> modes are in `runs/results/eval_v7_summary.md` and `runs/results/eval_v8_summary.md`.
 
 Runtime invariant: `pane_split` without explicit pane/current targets the
 caller's pane; normalization makes it explicit (`current: true`). Eval reports
@@ -175,7 +175,7 @@ both raw and normalized accuracy.
 
 ## Limitations
 
-The honest failure modes on the v7 (98-row) holdout, from `runs/eval_v7_summary.md`;
+The honest failure modes on the v7 (98-row) holdout, from `runs/results/eval_v7_summary.md`;
 on the v8 120-row holdout the same adapter still scored **96.1% exact** and
 **100% off-topic**:
 

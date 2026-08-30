@@ -2,7 +2,7 @@
 
 Date: 2026-08-24 (trained ~6h on Colab T4, session lfm2v7)
 Checkpoint: adapters/lfm2_herdr_lora
-  - source: runs/ckpt-lfm2v7.tar.gz (dumped from Colab)
+  - source: runs/checkpoints/ckpt-lfm2v7.tar.gz (dumped from Colab)
   - sha256: 51cdd14e915d83d59f39fc34e8bef8e464020fd24cc7cd88a014299de3986696
 Dataset: dataset.jsonl v4 — 656 rows, 79 off-topic (12.0%)
   - >=10 surface forms per tool (was 4-7 for tail tools)
@@ -16,7 +16,7 @@ Trainer changes: epochs 12, LoRA r=16 alpha=32 on q/k/v_proj + w1/w3/w2.
 Val curve: 0.693, 0.226, 0.111, 0.127, 0.063, 0.050, 0.032(best@7... 0.031 best@9),
   best checkpoint at epoch 9 val 0.0310.
 
-## v4 adapter on the 98-row holdout (runs/eval_v4_new.log)
+## v4 adapter on the 98-row holdout (runs/results/eval_v4_new.log)
   exact-call accuracy  : 41/82 = 50.0%
   exact (normalized)   : 41/82 = 50.0%
   tool-selection acc   : 53/82 = 64.6%
@@ -58,10 +58,10 @@ The headline fixes landed:
 3. Residual verb confusions: tab_create->tab_list, pane_run->pane_read.
 
 ## Files
-- runs/eval_v4_new.log  — v4 adapter summary + grounding + mismatches
-- runs/eval_v4_base.log — base baseline on same split
-- runs/lfm2v7_dump.log  — training log + checkpoint dump
-- runs/ckpt-lfm2v7.tar.gz — raw checkpoint tarball
+- runs/results/eval_v4_new.log  — v4 adapter summary + grounding + mismatches
+- runs/results/eval_v4_base.log — base baseline on same split
+- runs/logs/lfm2v7_dump.log  — training log + checkpoint dump
+- runs/checkpoints/ckpt-lfm2v7.tar.gz — raw checkpoint tarball
 
 Treat 50.0%/64.6%/100% as the baseline to beat; v3 numbers are kept for
 directional context but are not apples-to-apples (different split).

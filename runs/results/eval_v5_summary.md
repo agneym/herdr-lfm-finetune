@@ -2,7 +2,7 @@
 
 Date: 2026-08-27 (Colab T4, session lfm2v8)
 Checkpoint: adapters/lfm2_herdr_lora
-  - source: runs/ckpt-lfm2v8.tar.gz (reconstructed from runs/lfm2v8_dump.log)
+  - source: runs/checkpoints/ckpt-lfm2v8.tar.gz (reconstructed from runs/logs/lfm2v8_dump.log)
   - mirror: Google Drive MyDrive/herdr/ckpt-lfm2v8.tar.gz
   - sha256: d74731362fd02e4fe0ba2d81341bcbd7e914b7a38a98ec1d90f3591cd0230e33
 Dataset: dataset.jsonl v5 — 656 rows, 79 off-topic (12.0%)
@@ -61,9 +61,9 @@ normalization — the key=value rendering fix is the whole difference.
    error, not a parser bug.
 
 ## Files
-- runs/eval_v5_holdout.json — pinned 98-row eval holdout (keyed by query)
-- runs/eval_v5_new.log     — v5 adapter (honest eval)
-- runs/eval_v4_honest.log  — v4 adapter on the fixed eval
-- runs/eval_base_honest.log — untuned base on the fixed eval
-- runs/lfm2v8_dump.log     — training log + base64 checkpoint dump
-- runs/ckpt-lfm2v8.tar.gz  — raw checkpoint tarball (gitignored)
+- runs/results/eval_v5_holdout.json — pinned 98-row eval holdout (keyed by query)
+- runs/results/eval_v5_new.log     — v5 adapter (honest eval)
+- runs/results/eval_v4_honest.log  — v4 adapter on the fixed eval
+- runs/results/eval_base_honest.log — untuned base on the fixed eval
+- runs/logs/lfm2v8_dump.log     — training log + base64 checkpoint dump
+- runs/checkpoints/ckpt-lfm2v8.tar.gz  — raw checkpoint tarball (gitignored)

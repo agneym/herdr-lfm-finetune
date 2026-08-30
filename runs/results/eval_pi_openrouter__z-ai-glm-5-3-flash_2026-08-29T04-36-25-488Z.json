@@ -1,0 +1,128 @@
+{
+  "model": "openrouter/z-ai/glm-5.3-flash",
+  "provider": "openrouter",
+  "modelId": "z-ai/glm-5.3-flash",
+  "thinking": "high",
+  "maxTokens": 512,
+  "evalIdx": [
+    6,
+    25
+  ],
+  "totals": {
+    "input": 5103,
+    "output": 56,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "reasoning": 16,
+    "totalTokens": 5159,
+    "cost": 0.00039672499999999995
+  },
+  "perRow": [
+    {
+      "row": 6,
+      "query": "show me the panes in workspace w2",
+      "expected": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2548,
+        "output": 13,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2561,
+        "cost": {
+          "input": 0.00019109999999999998,
+          "output": 0.00000325,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00019434999999999998
+        }
+      }
+    },
+    {
+      "row": 25,
+      "query": "split my pane to the right in /home/repo without stealing focus",
+      "expected": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right",
+            "cwd": "/home/repo",
+            "focus": "no-focus"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "cwd": "/home/repo",
+            "direction": "right",
+            "focus": "no-focus"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "cwd": "/home/repo",
+            "direction": "right",
+            "focus": "no-focus",
+            "current": true
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2555,
+        "output": 43,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 16,
+        "totalTokens": 2598,
+        "cost": {
+          "input": 0.00019162499999999998,
+          "output": 0.000010749999999999999,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00020237499999999997
+        }
+      }
+    }
+  ],
+  "acc": {
+    "exact": 1,
+    "exactNorm": 2,
+    "toolOk": 2,
+    "nExpected": 2,
+    "offOk": 0,
+    "nOfftopic": 0
+  }
+}

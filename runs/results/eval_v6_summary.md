@@ -2,10 +2,10 @@
 
 Date: 2026-08-27 (Colab L4, session lfm2v9)
 Checkpoint: adapters/lfm2_herdr_lora
-  - source: runs/ckpt-lfm2v9.tar.gz (reconstructed from runs/lfm2v9_dump.log)
+  - source: runs/checkpoints/ckpt-lfm2v9.tar.gz (reconstructed from runs/logs/lfm2v9_dump.log)
   - sha256: 94c35c3b9c0833a3252180ffe155ef5c3287da4e9decd1556a0a166a128937d2
 Dataset: dataset.jsonl v6 — 804 rows, 98 off-topic (12.2%)
-  - Same 98-row pinned holdout as v5 (runs/eval_v5_holdout.json, keyed by
+  - Same 98-row pinned holdout as v5 (runs/results/eval_v5_holdout.json, keyed by
     query string), so directly comparable to v5.  All v6 rows are append-only;
     original 656 rows untouched (holdout indices all < 656).
   - +129 on-topic rows targeting the v5 failure classes; +19 off-topic to hold
@@ -61,7 +61,7 @@ normalization (native format, same as v5).
    in training.
 
 ## Files
-- runs/eval_v6_new.log      — v6 adapter on the pinned holdout
-- runs/lfm2v9_dump.log      — training log + base64 checkpoint dump
-- runs/ckpt-lfm2v9.tar.gz   — raw checkpoint tarball (gitignored)
-- runs/eval_v5_holdout.json — the pinned 98-row holdout (keyed by query)
+- runs/results/eval_v6_new.log      — v6 adapter on the pinned holdout
+- runs/logs/lfm2v9_dump.log      — training log + base64 checkpoint dump
+- runs/checkpoints/ckpt-lfm2v9.tar.gz   — raw checkpoint tarball (gitignored)
+- runs/results/eval_v5_holdout.json — the pinned 98-row holdout (keyed by query)

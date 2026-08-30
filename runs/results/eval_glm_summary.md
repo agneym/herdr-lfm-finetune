@@ -25,7 +25,7 @@ argument (relying on `current`), which the eval's normalization rewards.
 | deepseek-v4-flash-vision-exp | 13,224 | 264,704 | 277,928 | 15,353 | 8,292 | 293,281 |
 | glm-5.3-flash (OpenRouter) | 49,917 | 199,680 | 249,597 | 4,950 | 1,407 | 254,547 |
 
-\* LFM2 output is a sampled estimate (see `runs/eval_deepseek_summary.md`).
+\* LFM2 output is a sampled estimate (see `runs/results/eval_deepseek_summary.md`).
 
 GLM emits far less output than DeepSeek (5.0K vs 15.4K tokens) — only 1.4K of
 it reasoning — yet scores higher.

@@ -7,7 +7,7 @@ versions append training rows without shifting the eval set — pass the file
 back with --holdout to eval_lfm2.py and train_lfm2.py.
 
 Usage:
-  python pin_holdout.py --data dataset.jsonl --out runs/eval_v8_holdout.json
+  python pin_holdout.py --data dataset.jsonl --out runs/results/eval_v8_holdout.json
 
   --out is REQUIRED: never let a re-pin clobber the 98-row eval_v5_holdout.json
   that the published numbers are scored against. Add --force to overwrite an

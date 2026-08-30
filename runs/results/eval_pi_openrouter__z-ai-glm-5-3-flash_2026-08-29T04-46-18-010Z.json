@@ -1,0 +1,4507 @@
+{
+  "model": "openrouter/z-ai/glm-5.3-flash",
+  "provider": "openrouter",
+  "modelId": "z-ai/glm-5.3-flash",
+  "thinking": "high",
+  "maxTokens": 512,
+  "evalIdx": [
+    6,
+    25,
+    27,
+    29,
+    31,
+    43,
+    45,
+    56,
+    67,
+    71,
+    73,
+    80,
+    81,
+    89,
+    94,
+    95,
+    99,
+    103,
+    104,
+    114,
+    127,
+    142,
+    146,
+    159,
+    163,
+    166,
+    167,
+    175,
+    196,
+    203,
+    214,
+    216,
+    217,
+    220,
+    223,
+    224,
+    225,
+    228,
+    233,
+    234,
+    238,
+    250,
+    252,
+    270,
+    271,
+    273,
+    274,
+    276,
+    281,
+    284,
+    296,
+    300,
+    322,
+    323,
+    332,
+    344,
+    348,
+    352,
+    363,
+    367,
+    370,
+    373,
+    379,
+    387,
+    388,
+    389,
+    405,
+    410,
+    429,
+    432,
+    459,
+    464,
+    469,
+    470,
+    473,
+    511,
+    517,
+    546,
+    549,
+    558,
+    565,
+    570,
+    574,
+    591,
+    603,
+    604,
+    616,
+    617,
+    623,
+    628,
+    639,
+    643,
+    644,
+    647,
+    648,
+    649,
+    651,
+    654
+  ],
+  "totals": {
+    "input": 49917,
+    "output": 4950,
+    "cacheRead": 199680,
+    "cacheWrite": 0,
+    "reasoning": 1407,
+    "totalTokens": 254547,
+    "cost": 0.007976474999999998
+  },
+  "perRow": [
+    {
+      "row": 6,
+      "query": "show me the panes in workspace w2",
+      "expected": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2548,
+        "output": 13,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2561,
+        "cost": {
+          "input": 0.00019109999999999998,
+          "output": 0.00000325,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00019434999999999998
+        }
+      }
+    },
+    {
+      "row": 25,
+      "query": "split my pane to the right in /home/repo without stealing focus",
+      "expected": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right",
+            "cwd": "/home/repo",
+            "focus": "no-focus"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "cwd": "/home/repo",
+            "direction": "right",
+            "focus": "no-focus"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "cwd": "/home/repo",
+            "direction": "right",
+            "focus": "no-focus",
+            "current": true
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 59,
+        "output": 43,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 16,
+        "totalTokens": 2598,
+        "cost": {
+          "input": 0.000004425,
+          "output": 0.000010749999999999999,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000052615
+        }
+      }
+    },
+    {
+      "row": 27,
+      "query": "run `just test` in pane w1:p3",
+      "expected": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "pane": "w1:p3",
+            "command": "just test"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "just test",
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "just test",
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 22,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2572,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.0000055,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000046989999999999996
+        }
+      }
+    },
+    {
+      "row": 29,
+      "query": "read the last 120 lines of w1:p1",
+      "expected": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "pane": "w1:p1",
+            "lines": 120
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 120,
+            "pane": "w1:p1",
+            "source": "recent"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 120,
+            "pane": "w1:p1",
+            "source": "recent"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 59,
+        "output": 27,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2582,
+        "cost": {
+          "input": 0.000004425,
+          "output": 0.00000675,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000048614999999999994
+        }
+      }
+    },
+    {
+      "row": 31,
+      "query": "dump everything visible in w1:p3",
+      "expected": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "pane": "w1:p3",
+            "source": "visible"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "pane": "w1:p3",
+            "source": "visible"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "pane": "w1:p3",
+            "source": "visible"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2549,
+        "output": 21,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2570,
+        "cost": {
+          "input": 0.000191175,
+          "output": 0.00000525,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.000196425
+        }
+      }
+    },
+    {
+      "row": 43,
+      "query": "what's the state of w1:p2's agent?",
+      "expected": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "w1:p2"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "w1:p2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "w1:p2"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 55,
+        "output": 15,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2566,
+        "cost": {
+          "input": 0.0000041249999999999995,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000045314999999999996
+        }
+      }
+    },
+    {
+      "row": 45,
+      "query": "show recent output from the coder agent",
+      "expected": [
+        {
+          "name": "agent_read",
+          "arguments": {
+            "target": "coder"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 55,
+        "output": 11,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 5,
+        "totalTokens": 2562,
+        "cost": {
+          "input": 0.0000041249999999999995,
+          "output": 0.00000275,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004431499999999999
+        }
+      }
+    },
+    {
+      "row": 56,
+      "query": "generate a fractal pattern",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "python3 -c \"\nchars = ' .:-=+*#%@'\nfor y in range(-12, 13):\n    row = ''\n    for x in range(-40, 40):\n        c = complex(x * 0.045, y * 0.1)\n        z = 0\n        n = 0\n        while abs(z) < 2 and n < 30:\n            z = z*z + c\n            n += 1\n        row += chars[min(n * len(chars) // 30, len(chars)-1)]\n    print(row)\n\"",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "python3 -c \"\nchars = ' .:-=+*#%@'\nfor y in range(-12, 13):\n    row = ''\n    for x in range(-40, 40):\n        c = complex(x * 0.045, y * 0.1)\n        z = 0\n        n = 0\n        while abs(z) < 2 and n < 30:\n            z = z*z + c\n            n += 1\n        row += chars[min(n * len(chars) // 30, len(chars)-1)]\n    print(row)\n\"",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 50,
+        "output": 259,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 87,
+        "totalTokens": 2805,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.00006475,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00010593999999999999
+        }
+      }
+    },
+    {
+      "row": 67,
+      "query": "show running agents",
+      "expected": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 46,
+        "output": 6,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2548,
+        "cost": {
+          "input": 0.00000345,
+          "output": 0.0000015,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004238999999999999
+        }
+      }
+    },
+    {
+      "row": 71,
+      "query": "list the panes in w1",
+      "expected": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 13,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2561,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.00000325,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004458999999999999
+        }
+      }
+    },
+    {
+      "row": 73,
+      "query": "list the tabs in w1",
+      "expected": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 13,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2560,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.00000325,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004451499999999999
+        }
+      }
+    },
+    {
+      "row": 80,
+      "query": "list worktrees",
+      "expected": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 48,
+        "output": 7,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2551,
+        "cost": {
+          "input": 0.0000036,
+          "output": 0.00000175,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000042789999999999995
+        }
+      }
+    },
+    {
+      "row": 81,
+      "query": "what worktrees are open?",
+      "expected": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 7,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2554,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.00000175,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000043014999999999994
+        }
+      }
+    },
+    {
+      "row": 89,
+      "query": "make a workspace called api",
+      "expected": [
+        {
+          "name": "workspace_create",
+          "arguments": {
+            "label": "api"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "workspace_create",
+          "arguments": {
+            "cwd": "/home/repo",
+            "label": "api"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "workspace_create",
+          "arguments": {
+            "cwd": "/home/repo",
+            "label": "api"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 50,
+        "output": 60,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 40,
+        "totalTokens": 2606,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.000014999999999999999,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005618999999999999
+        }
+      }
+    },
+    {
+      "row": 94,
+      "query": "open a tab at /home/repo/tests",
+      "expected": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "cwd": "/home/repo/tests"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "cwd": "/home/repo/tests"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "cwd": "/home/repo/tests"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 15,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2563,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004508999999999999
+        }
+      }
+    },
+    {
+      "row": 95,
+      "query": "new tab in /home/repo/tests",
+      "expected": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "cwd": "/home/repo/tests"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "cwd": "/home/repo/tests",
+            "workspace": "w5"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "cwd": "/home/repo/tests",
+            "workspace": "w5"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 37,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 15,
+        "totalTokens": 2586,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.00000925,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005066499999999999
+        }
+      }
+    },
+    {
+      "row": 99,
+      "query": "what's the layout of pane w1:p2?",
+      "expected": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p2"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p2"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 15,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2565,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000045239999999999994
+        }
+      }
+    },
+    {
+      "row": 103,
+      "query": "split the current pane horizontally",
+      "expected": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 50,
+        "output": 115,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 97,
+        "totalTokens": 2661,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.000028749999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00006994
+        }
+      }
+    },
+    {
+      "row": 104,
+      "query": "give me a new pane on the right",
+      "expected": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "direction": "right"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "direction": "right",
+            "current": true
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 12,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2561,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.000003,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000044414999999999994
+        }
+      }
+    },
+    {
+      "row": 114,
+      "query": "split pane down",
+      "expected": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "down"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "direction": "down"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "direction": "down",
+            "current": true
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2514,
+        "output": 12,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2526,
+        "cost": {
+          "input": 0.00018855,
+          "output": 0.000003,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00019155
+        }
+      }
+    },
+    {
+      "row": 127,
+      "query": "split this pane right, 40% for the new one",
+      "expected": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right",
+            "ratio": 0.4
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right",
+            "ratio": 0.4
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_split",
+          "arguments": {
+            "current": true,
+            "direction": "right",
+            "ratio": 0.4
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 57,
+        "output": 26,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2579,
+        "cost": {
+          "input": 0.000004275,
+          "output": 0.0000065,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004821499999999999
+        }
+      }
+    },
+    {
+      "row": 142,
+      "query": "run `pytest -q` in w2:p1",
+      "expected": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "pane": "w2:p1",
+            "command": "pytest -q"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "pytest -q",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "pytest -q",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 23,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2573,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.00000575,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000047239999999999995
+        }
+      }
+    },
+    {
+      "row": 146,
+      "query": "run `bun run dev` in w2:p2",
+      "expected": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "pane": "w2:p2",
+            "command": "bun run dev"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "bun run dev",
+            "pane": "w2:p2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "bun run dev",
+            "pane": "w2:p2"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 58,
+        "output": 23,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2577,
+        "cost": {
+          "input": 0.00000435,
+          "output": 0.00000575,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000047539999999999995
+        }
+      }
+    },
+    {
+      "row": 159,
+      "query": "build the project in w2:p1",
+      "expected": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "pane": "w2:p1",
+            "command": "npm run build"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 30,
+            "pane": "w2:p1",
+            "source": "recent"
+          }
+        },
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 30,
+            "pane": "w2:p1",
+            "source": "recent"
+          }
+        },
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 64,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 26,
+        "totalTokens": 2613,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.000016,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005741499999999999
+        }
+      }
+    },
+    {
+      "row": 163,
+      "query": "format the code in w2:p1",
+      "expected": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "pane": "w2:p1",
+            "command": "cargo fmt"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 40,
+            "pane": "w2:p1",
+            "source": "recent"
+          }
+        },
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "ls /srv/api && cat /srv/api/package.json 2>/dev/null || cat /srv/api/Cargo.toml 2>/dev/null || cat /srv/api/pyproject.toml 2>/dev/null",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 40,
+            "pane": "w2:p1",
+            "source": "recent"
+          }
+        },
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "ls /srv/api && cat /srv/api/package.json 2>/dev/null || cat /srv/api/Cargo.toml 2>/dev/null || cat /srv/api/pyproject.toml 2>/dev/null",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 128,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 39,
+        "totalTokens": 2675,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.000032,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00007326499999999998
+        }
+      }
+    },
+    {
+      "row": 166,
+      "query": "show git status in w1:p1",
+      "expected": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "pane": "w1:p1",
+            "command": "git status"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "git status",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "git status",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 22,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2569,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.0000055,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004676499999999999
+        }
+      }
+    },
+    {
+      "row": 167,
+      "query": "show git status in w2:p1",
+      "expected": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "pane": "w2:p1",
+            "command": "git status"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "git status",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "git status",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2517,
+        "output": 92,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 70,
+        "totalTokens": 2609,
+        "cost": {
+          "input": 0.000188775,
+          "output": 0.000023,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00021177499999999998
+        }
+      }
+    },
+    {
+      "row": 175,
+      "query": "read the last 150 lines of w2:p2",
+      "expected": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "pane": "w2:p2",
+            "lines": 150
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 150,
+            "pane": "w2:p2",
+            "source": "recent"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 150,
+            "pane": "w2:p2",
+            "source": "recent"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 56,
+        "output": 27,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2579,
+        "cost": {
+          "input": 0.0000042,
+          "output": 0.00000675,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004838999999999999
+        }
+      }
+    },
+    {
+      "row": 196,
+      "query": "wait until w1:p2 matches Build (succeeded|failed) up to 90000 ms",
+      "expected": [
+        {
+          "name": "pane_wait",
+          "arguments": {
+            "pane": "w1:p2",
+            "regex": "Build (succeeded|failed)",
+            "timeout_ms": 90000
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_wait",
+          "arguments": {
+            "pane": "w1:p2",
+            "regex": "Build (succeeded|failed)",
+            "timeout_ms": 90000
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_wait",
+          "arguments": {
+            "pane": "w1:p2",
+            "regex": "Build (succeeded|failed)",
+            "timeout_ms": 90000
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 65,
+        "output": 35,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2596,
+        "cost": {
+          "input": 0.000004875,
+          "output": 0.00000875,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005106499999999999
+        }
+      }
+    },
+    {
+      "row": 203,
+      "query": "send Enter to w2:p1",
+      "expected": [
+        {
+          "name": "pane_send_keys",
+          "arguments": {
+            "pane": "w2:p1",
+            "keys": [
+              "Enter"
+            ]
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_send_keys",
+          "arguments": {
+            "keys": [
+              "Enter"
+            ],
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_send_keys",
+          "arguments": {
+            "keys": [
+              "Enter"
+            ],
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2546,
+        "output": 24,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2570,
+        "cost": {
+          "input": 0.00019094999999999998,
+          "output": 0.000006,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00019695
+        }
+      }
+    },
+    {
+      "row": 214,
+      "query": "start a opencode agent called debug in w1:p3",
+      "expected": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "name": "debug",
+            "kind": "opencode",
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "opencode",
+            "name": "debug",
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "opencode",
+            "name": "debug",
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 55,
+        "output": 28,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2579,
+        "cost": {
+          "input": 0.0000041249999999999995,
+          "output": 0.000007,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004856499999999999
+        }
+      }
+    },
+    {
+      "row": 216,
+      "query": "start a hermes agent called triage in w2:p1",
+      "expected": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "name": "triage",
+            "kind": "hermes",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 2554,
+        "output": 43,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 30,
+        "totalTokens": 2597,
+        "cost": {
+          "input": 0.00019155,
+          "output": 0.000010749999999999999,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00020229999999999998
+        }
+      }
+    },
+    {
+      "row": 217,
+      "query": "launch hermes 'triage' in w2:p1",
+      "expected": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "name": "triage",
+            "kind": "hermes",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "hermes",
+            "name": "triage",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "hermes",
+            "name": "triage",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 57,
+        "output": 45,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 16,
+        "totalTokens": 2598,
+        "cost": {
+          "input": 0.000004275,
+          "output": 0.000011249999999999999,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005296499999999999
+        }
+      }
+    },
+    {
+      "row": 220,
+      "query": "start reviewer (codex) in w1:p2, wait up to 120s",
+      "expected": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "name": "reviewer",
+            "kind": "codex",
+            "pane": "w1:p2",
+            "timeout_ms": 120000
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "codex",
+            "name": "reviewer",
+            "pane": "w1:p2",
+            "timeout_ms": 120000
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "codex",
+            "name": "reviewer",
+            "pane": "w1:p2",
+            "timeout_ms": 120000
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2559,
+        "output": 62,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 25,
+        "totalTokens": 2621,
+        "cost": {
+          "input": 0.000191925,
+          "output": 0.0000155,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.000207425
+        }
+      }
+    },
+    {
+      "row": 223,
+      "query": "read the last 60 lines of agent coder",
+      "expected": [
+        {
+          "name": "agent_read",
+          "arguments": {
+            "target": "coder",
+            "lines": 60
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_read",
+          "arguments": {
+            "lines": 60,
+            "source": "recent",
+            "target": "coder"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_read",
+          "arguments": {
+            "lines": 60,
+            "source": "recent",
+            "target": "coder"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 24,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2574,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.000006,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000047489999999999994
+        }
+      }
+    },
+    {
+      "row": 224,
+      "query": "read the last 200 lines of agent w1:p2",
+      "expected": [
+        {
+          "name": "agent_read",
+          "arguments": {
+            "target": "w1:p2",
+            "lines": 200
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_read",
+          "arguments": {
+            "lines": 200,
+            "source": "recent-unwrapped",
+            "target": "w1:p2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_read",
+          "arguments": {
+            "lines": 200,
+            "source": "recent-unwrapped",
+            "target": "w1:p2"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 57,
+        "output": 29,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2582,
+        "cost": {
+          "input": 0.000004275,
+          "output": 0.00000725,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004896499999999999
+        }
+      }
+    },
+    {
+      "row": 225,
+      "query": "wait until agent debug is idle or working",
+      "expected": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "debug",
+            "until": [
+              "idle",
+              "working"
+            ]
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "debug",
+            "until": [
+              "idle",
+              "working"
+            ]
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "debug",
+            "until": [
+              "idle",
+              "working"
+            ]
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2549,
+        "output": 23,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2572,
+        "cost": {
+          "input": 0.000191175,
+          "output": 0.00000575,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.000196925
+        }
+      }
+    },
+    {
+      "row": 228,
+      "query": "wait until agent coder is done up to 90s",
+      "expected": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "coder",
+            "until": [
+              "done"
+            ],
+            "timeout_ms": 90000
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "coder",
+            "timeout_ms": 90000,
+            "until": [
+              "done"
+            ]
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "coder",
+            "timeout_ms": 90000,
+            "until": [
+              "done"
+            ]
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 56,
+        "output": 28,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2580,
+        "cost": {
+          "input": 0.0000042,
+          "output": 0.000007,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000048639999999999995
+        }
+      }
+    },
+    {
+      "row": 233,
+      "query": "create a worktree for branch fix/y",
+      "expected": [
+        {
+          "name": "worktree_create",
+          "arguments": {
+            "branch": "fix/y"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_create",
+          "arguments": {
+            "branch": "fix/y",
+            "workspace": "w1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_create",
+          "arguments": {
+            "branch": "fix/y",
+            "workspace": "w1"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 59,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 38,
+        "totalTokens": 2608,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.00001475,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000056164999999999995
+        }
+      }
+    },
+    {
+      "row": 234,
+      "query": "create a worktree for branch feat/z",
+      "expected": [
+        {
+          "name": "worktree_create",
+          "arguments": {
+            "branch": "feat/z"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_create",
+          "arguments": {
+            "branch": "feat/z",
+            "workspace": "w2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_create",
+          "arguments": {
+            "branch": "feat/z",
+            "workspace": "w2"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 55,
+        "output": 59,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 38,
+        "totalTokens": 2610,
+        "cost": {
+          "input": 0.0000041249999999999995,
+          "output": 0.00001475,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005631499999999999
+        }
+      }
+    },
+    {
+      "row": 238,
+      "query": "create a worktree for branch hotfix/y in the workspace w2",
+      "expected": [
+        {
+          "name": "worktree_create",
+          "arguments": {
+            "workspace": "w2",
+            "branch": "hotfix/y"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w2"
+          }
+        },
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w2"
+          }
+        },
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "workspace": "w2"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 57,
+        "output": 48,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 22,
+        "totalTokens": 2601,
+        "cost": {
+          "input": 0.000004275,
+          "output": 0.000012,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000053714999999999996
+        }
+      }
+    },
+    {
+      "row": 250,
+      "query": "herdr health check",
+      "expected": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 7,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2554,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.00000175,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000043014999999999994
+        }
+      }
+    },
+    {
+      "row": 252,
+      "query": "list the panes of workspace w3",
+      "expected": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w3"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w3"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w3"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 13,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2562,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.00000325,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004466499999999999
+        }
+      }
+    },
+    {
+      "row": 270,
+      "query": "close w2:p2 please",
+      "expected": [
+        {
+          "name": "pane_close",
+          "arguments": {
+            "pane": "w2:p2"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_close",
+          "arguments": {
+            "pane": "w2:p2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_close",
+          "arguments": {
+            "pane": "w2:p2"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 49,
+        "output": 48,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 33,
+        "totalTokens": 2593,
+        "cost": {
+          "input": 0.000003675,
+          "output": 0.000012,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000053114999999999995
+        }
+      }
+    },
+    {
+      "row": 271,
+      "query": "show me the layout of w1:p1",
+      "expected": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 15,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2565,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000045239999999999994
+        }
+      }
+    },
+    {
+      "row": 273,
+      "query": "show me the layout of w1:p3",
+      "expected": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w1:p3"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 15,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2565,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000045239999999999994
+        }
+      }
+    },
+    {
+      "row": 274,
+      "query": "show me the layout of w3:p1",
+      "expected": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w3:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w3:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w3:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2552,
+        "output": 15,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2567,
+        "cost": {
+          "input": 0.0001914,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00019515
+        }
+      }
+    },
+    {
+      "row": 276,
+      "query": "is agent coder still running?",
+      "expected": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "coder"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "coder"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "coder"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 12,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2559,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.000003,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000044265
+        }
+      }
+    },
+    {
+      "row": 281,
+      "query": "install the claude integration for herdr",
+      "expected": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "claude"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "claude"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "claude"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 13,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2562,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.00000325,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004466499999999999
+        }
+      }
+    },
+    {
+      "row": 284,
+      "query": "wait until agent reviewer finishes",
+      "expected": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "reviewer",
+            "until": [
+              "done"
+            ]
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "reviewer",
+            "until": [
+              "done",
+              "idle",
+              "blocked"
+            ]
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "reviewer",
+            "until": [
+              "done",
+              "idle",
+              "blocked"
+            ]
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 2546,
+        "output": 51,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 25,
+        "totalTokens": 2597,
+        "cost": {
+          "input": 0.00019094999999999998,
+          "output": 0.00001275,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.0002037
+        }
+      }
+    },
+    {
+      "row": 296,
+      "query": "give me the workspace list",
+      "expected": [
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2514,
+        "output": 19,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 13,
+        "totalTokens": 2533,
+        "cost": {
+          "input": 0.00018855,
+          "output": 0.000004749999999999999,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.0001933
+        }
+      }
+    },
+    {
+      "row": 300,
+      "query": "display all workspaces",
+      "expected": [
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 49,
+        "output": 6,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2551,
+        "cost": {
+          "input": 0.000003675,
+          "output": 0.0000015,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000042615
+        }
+      }
+    },
+    {
+      "row": 322,
+      "query": "give me my session list",
+      "expected": [
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 6,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2554,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.0000015,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000042839999999999996
+        }
+      }
+    },
+    {
+      "row": 323,
+      "query": "please, give me my session list",
+      "expected": [
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 50,
+        "output": 6,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2552,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.0000015,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004268999999999999
+        }
+      }
+    },
+    {
+      "row": 332,
+      "query": "agents overview",
+      "expected": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        },
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_list",
+          "arguments": {}
+        },
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 47,
+        "output": 28,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 17,
+        "totalTokens": 2571,
+        "cost": {
+          "input": 0.0000035249999999999997,
+          "output": 0.000007,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004796499999999999
+        }
+      }
+    },
+    {
+      "row": 344,
+      "query": "server status",
+      "expected": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 47,
+        "output": 7,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2550,
+        "cost": {
+          "input": 0.0000035249999999999997,
+          "output": 0.00000175,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004271499999999999
+        }
+      }
+    },
+    {
+      "row": 348,
+      "query": "am i connected to herdr?",
+      "expected": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 7,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2555,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.00000175,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000043089999999999996
+        }
+      }
+    },
+    {
+      "row": 352,
+      "query": "run herdr diagnostics",
+      "expected": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        },
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        },
+        {
+          "name": "agent_list",
+          "arguments": {}
+        },
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "herdr_status",
+          "arguments": {}
+        },
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        },
+        {
+          "name": "agent_list",
+          "arguments": {}
+        },
+        {
+          "name": "session_list",
+          "arguments": {}
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 49,
+        "output": 19,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2564,
+        "cost": {
+          "input": 0.000003675,
+          "output": 0.000004749999999999999,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000045864999999999995
+        }
+      }
+    },
+    {
+      "row": 363,
+      "query": "please, which worktrees are checked out?",
+      "expected": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2516,
+        "output": 7,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2523,
+        "cost": {
+          "input": 0.00018869999999999998,
+          "output": 0.00000175,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00019044999999999997
+        }
+      }
+    },
+    {
+      "row": 367,
+      "query": "please, print open worktrees",
+      "expected": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 7,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2554,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.00000175,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000043014999999999994
+        }
+      }
+    },
+    {
+      "row": 370,
+      "query": "give me the worktree list",
+      "expected": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_list",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 7,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2556,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.00000175,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000043165
+        }
+      }
+    },
+    {
+      "row": 373,
+      "query": "please, worktrees under /home/repo",
+      "expected": [
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "cwd": "/home/repo"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "cwd": "/home/repo"
+          }
+        },
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "cwd": "/home/repo"
+          }
+        },
+        {
+          "name": "workspace_list",
+          "arguments": {}
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 57,
+        "output": 79,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 60,
+        "totalTokens": 2632,
+        "cost": {
+          "input": 0.000004275,
+          "output": 0.00001975,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000061465
+        }
+      }
+    },
+    {
+      "row": 379,
+      "query": "please, worktrees under /home/repo/proj",
+      "expected": [
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "cwd": "/home/repo/proj"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "cwd": "/home/repo/proj"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "worktree_list",
+          "arguments": {
+            "cwd": "/home/repo/proj"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 97,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 80,
+        "totalTokens": 2647,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.00002425,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00006573999999999999
+        }
+      }
+    },
+    {
+      "row": 387,
+      "query": "please, current pane id?",
+      "expected": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2545,
+        "output": 6,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 1,
+        "totalTokens": 2551,
+        "cost": {
+          "input": 0.000190875,
+          "output": 0.0000015,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.000192375
+        }
+      }
+    },
+    {
+      "row": 388,
+      "query": "where am i?",
+      "expected": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2513,
+        "output": 33,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 27,
+        "totalTokens": 2546,
+        "cost": {
+          "input": 0.000188475,
+          "output": 0.000008249999999999999,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.000196725
+        }
+      }
+    },
+    {
+      "row": 389,
+      "query": "please, where am i?",
+      "expected": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_current",
+          "arguments": {}
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 6,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2556,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.0000015,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004298999999999999
+        }
+      }
+    },
+    {
+      "row": 405,
+      "query": "please, details on workspace w3",
+      "expected": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w3"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w3"
+          }
+        },
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w3"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w3"
+          }
+        },
+        {
+          "name": "pane_list",
+          "arguments": {
+            "workspace": "w3"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 55,
+        "output": 25,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2576,
+        "cost": {
+          "input": 0.0000041249999999999995,
+          "output": 0.0000062499999999999995,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004781499999999999
+        }
+      }
+    },
+    {
+      "row": 410,
+      "query": "please, inspect workspace w3",
+      "expected": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w3"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w3"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "workspace_get",
+          "arguments": {
+            "workspace_id": "w3"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 14,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2563,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.0000035,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004491499999999999
+        }
+      }
+    },
+    {
+      "row": 429,
+      "query": "show tabs belonging to w4",
+      "expected": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w4"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w4"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w4"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2518,
+        "output": 13,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2531,
+        "cost": {
+          "input": 0.00018884999999999998,
+          "output": 0.00000325,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00019209999999999998
+        }
+      }
+    },
+    {
+      "row": 432,
+      "query": "please, tabs of workspace w5",
+      "expected": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w5"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w5"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "tab_list",
+          "arguments": {
+            "workspace": "w5"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 13,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2561,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.00000325,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004458999999999999
+        }
+      }
+    },
+    {
+      "row": 459,
+      "query": "enable devin support in herdr",
+      "expected": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "devin"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "devin"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "devin"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 50,
+        "output": 31,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 18,
+        "totalTokens": 2577,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.00000775,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000048939999999999996
+        }
+      }
+    },
+    {
+      "row": 464,
+      "query": "hook up the droid integration",
+      "expected": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "droid"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "droid"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "integration_install",
+          "arguments": {
+            "agent": "droid"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 13,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2560,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.00000325,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004451499999999999
+        }
+      }
+    },
+    {
+      "row": 469,
+      "query": "start a gemini agent called scout in w1:p1",
+      "expected": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "name": "scout",
+            "kind": "gemini",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "gemini",
+            "name": "scout",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "gemini",
+            "name": "scout",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2556,
+        "output": 43,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 15,
+        "totalTokens": 2599,
+        "cost": {
+          "input": 0.0001917,
+          "output": 0.000010749999999999999,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.00020245
+        }
+      }
+    },
+    {
+      "row": 470,
+      "query": "please, start a gemini agent called scout in w1:p1",
+      "expected": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "name": "scout",
+            "kind": "gemini",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "gemini",
+            "name": "scout",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "gemini",
+            "name": "scout",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2521,
+        "output": 37,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 8,
+        "totalTokens": 2558,
+        "cost": {
+          "input": 0.000189075,
+          "output": 0.00000925,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.000198325
+        }
+      }
+    },
+    {
+      "row": 473,
+      "query": "start a cline agent called scout in w1:p1",
+      "expected": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "name": "scout",
+            "kind": "cline",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "cline",
+            "name": "scout",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_start",
+          "arguments": {
+            "kind": "cline",
+            "name": "scout",
+            "pane": "w1:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 57,
+        "output": 37,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 9,
+        "totalTokens": 2590,
+        "cost": {
+          "input": 0.000004275,
+          "output": 0.00000925,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000050965
+        }
+      }
+    },
+    {
+      "row": 511,
+      "query": "please, rename w2:p1 to api",
+      "expected": [
+        {
+          "name": "pane_rename",
+          "arguments": {
+            "pane": "w2:p1",
+            "label": "api"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_rename",
+          "arguments": {
+            "label": "api",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_rename",
+          "arguments": {
+            "label": "api",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 54,
+        "output": 34,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 13,
+        "totalTokens": 2584,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.0000085,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000049989999999999994
+        }
+      }
+    },
+    {
+      "row": 517,
+      "query": "please, give pane w3:p1 the name notes",
+      "expected": [
+        {
+          "name": "pane_rename",
+          "arguments": {
+            "pane": "w3:p1",
+            "label": "notes"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_rename",
+          "arguments": {
+            "label": "notes",
+            "pane": "w3:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_rename",
+          "arguments": {
+            "label": "notes",
+            "pane": "w3:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 59,
+        "output": 21,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2576,
+        "cost": {
+          "input": 0.000004425,
+          "output": 0.00000525,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004711499999999999
+        }
+      }
+    },
+    {
+      "row": 546,
+      "query": "how is w4:p1 laid out?",
+      "expected": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w4:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w4:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w4:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 56,
+        "output": 15,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2567,
+        "cost": {
+          "input": 0.0000042,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004539
+        }
+      }
+    },
+    {
+      "row": 549,
+      "query": "please, show me the split layout of pane w4:p1",
+      "expected": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w4:p1"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w4:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_layout",
+          "arguments": {
+            "pane": "w4:p1"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 61,
+        "output": 15,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2572,
+        "cost": {
+          "input": 0.000004574999999999999,
+          "output": 0.0000037499999999999997,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004576499999999999
+        }
+      }
+    },
+    {
+      "row": 558,
+      "query": "open a tab named ci in w2",
+      "expected": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "workspace": "w2",
+            "label": "ci"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "label": "ci",
+            "workspace": "w2"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "label": "ci",
+            "workspace": "w2"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 51,
+        "output": 19,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2566,
+        "cost": {
+          "input": 0.000003825,
+          "output": 0.000004749999999999999,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004601499999999999
+        }
+      }
+    },
+    {
+      "row": 565,
+      "query": "please, new tab labeled docs in workspace w3",
+      "expected": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "workspace": "w3",
+            "label": "docs"
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "label": "docs",
+            "workspace": "w3"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "tab_create",
+          "arguments": {
+            "label": "docs",
+            "workspace": "w3"
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 58,
+        "output": 19,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 2573,
+        "cost": {
+          "input": 0.00000435,
+          "output": 0.000004749999999999999,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00004653999999999999
+        }
+      }
+    },
+    {
+      "row": 570,
+      "query": "hold until agent coder reports done",
+      "expected": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "coder",
+            "until": [
+              "done"
+            ]
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "coder",
+            "until": [
+              "done"
+            ]
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "coder",
+            "until": [
+              "done"
+            ]
+          }
+        }
+      ],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 45,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 25,
+        "totalTokens": 2594,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.000011249999999999999,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005266499999999999
+        }
+      }
+    },
+    {
+      "row": 574,
+      "query": "hold until agent triage reports done",
+      "expected": [
+        {
+          "name": "agent_wait",
+          "arguments": {
+            "target": "triage",
+            "until": [
+              "done"
+            ]
+          }
+        }
+      ],
+      "predicted": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "triage"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "agent_get",
+          "arguments": {
+            "target": "triage"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "",
+      "usage": {
+        "input": 50,
+        "output": 37,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 24,
+        "totalTokens": 2583,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.00000925,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00005043999999999999
+        }
+      }
+    },
+    {
+      "row": 591,
+      "query": "translate the readme to japanese",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "ls /tmp/scratch && cat /tmp/scratch/README* 2>/dev/null",
+            "pane": "w5:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "ls /tmp/scratch && cat /tmp/scratch/README* 2>/dev/null",
+            "pane": "w5:p1"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 50,
+        "output": 82,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 43,
+        "totalTokens": 2628,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.0000205,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00006168999999999999
+        }
+      }
+    },
+    {
+      "row": 603,
+      "query": "refactor this javascript class into hooks",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 50,
+            "pane": "w2:p1",
+            "source": "visible"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 50,
+            "pane": "w2:p1",
+            "source": "visible"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 50,
+        "output": 84,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 57,
+        "totalTokens": 2630,
+        "cost": {
+          "input": 0.0000037499999999999997,
+          "output": 0.000021,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00006219
+        }
+      }
+    },
+    {
+      "row": 604,
+      "query": "what's my public ip address?",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "curl -s https://api.ipify.org",
+            "pane": "w3:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "curl -s https://api.ipify.org",
+            "pane": "w3:p1"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 52,
+        "output": 46,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 17,
+        "totalTokens": 2594,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.0000115,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000052839999999999996
+        }
+      }
+    },
+    {
+      "row": 616,
+      "query": "what year did the berlin wall fall?",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 59,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 3,
+        "totalTokens": 2608,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.00001475,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000056164999999999995
+        }
+      }
+    },
+    {
+      "row": 617,
+      "query": "convert this recipe to metric for me",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 50,
+            "pane": "w1:p4",
+            "source": "recent"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 50,
+            "pane": "w1:p4",
+            "source": "recent"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 52,
+        "output": 89,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 62,
+        "totalTokens": 2637,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.00002225,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00006358999999999999
+        }
+      }
+    },
+    {
+      "row": 623,
+      "query": "summarize the meeting notes i pasted above",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 100,
+            "pane": "w5:p1",
+            "source": "recent"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_read",
+          "arguments": {
+            "lines": 100,
+            "pane": "w5:p1",
+            "source": "recent"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 55,
+        "output": 84,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 57,
+        "totalTokens": 2635,
+        "cost": {
+          "input": 0.0000041249999999999995,
+          "output": 0.000021,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000062565
+        }
+      }
+    },
+    {
+      "row": 628,
+      "query": "tell me a joke",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 49,
+        "output": 64,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 7,
+        "totalTokens": 2609,
+        "cost": {
+          "input": 0.000003675,
+          "output": 0.000016,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000057115
+        }
+      }
+    },
+    {
+      "row": 639,
+      "query": "how do I file my taxes?",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 490,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 37,
+        "totalTokens": 3038,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.0001225,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00016383999999999998
+        }
+      }
+    },
+    {
+      "row": 643,
+      "query": "help me name my cat",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 48,
+        "output": 245,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 28,
+        "totalTokens": 2789,
+        "cost": {
+          "input": 0.0000036,
+          "output": 0.00006125,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00010229
+        }
+      }
+    },
+    {
+      "row": 644,
+      "query": "what's the best pizza topping?",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 176,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 9,
+        "totalTokens": 2724,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.000044,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00008533999999999999
+        }
+      }
+    },
+    {
+      "row": 647,
+      "query": "sorry to interrupt, but what time is it in tokyo?",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "TZ=Asia/Tokyo date '+%A %Y-%m-%d %H:%M:%S %Z'",
+            "pane": "w5:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "TZ=Asia/Tokyo date '+%A %Y-%m-%d %H:%M:%S %Z'",
+            "pane": "w5:p1"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 59,
+        "output": 112,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 67,
+        "totalTokens": 2667,
+        "cost": {
+          "input": 0.000004425,
+          "output": 0.000028,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000069865
+        }
+      }
+    },
+    {
+      "row": 648,
+      "query": "btw, recommend me a keyboard",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 52,
+        "output": 341,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 15,
+        "totalTokens": 2889,
+        "cost": {
+          "input": 0.0000039,
+          "output": 0.00008525,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00012659
+        }
+      }
+    },
+    {
+      "row": 649,
+      "query": "quick question, explain recursion in one line",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 53,
+        "output": 41,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 7,
+        "totalTokens": 2590,
+        "cost": {
+          "input": 0.000003975,
+          "output": 0.00001025,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.000051664999999999994
+        }
+      }
+    },
+    {
+      "row": 651,
+      "query": "before i forget, convert 100 usd to euros",
+      "expected": [],
+      "predicted": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "curl -s \"https://api.frankfurter.app/latest?from=USD&to=EUR\"",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "normalized": [
+        {
+          "name": "pane_run",
+          "arguments": {
+            "command": "curl -s \"https://api.frankfurter.app/latest?from=USD&to=EUR\"",
+            "pane": "w2:p1"
+          }
+        }
+      ],
+      "ok": false,
+      "note": "OFF-TOPIC but called a tool",
+      "usage": {
+        "input": 54,
+        "output": 92,
+        "cacheRead": 2496,
+        "cacheWrite": 0,
+        "reasoning": 50,
+        "totalTokens": 2642,
+        "cost": {
+          "input": 0.00000405,
+          "output": 0.000023,
+          "cacheRead": 0.000037439999999999994,
+          "cacheWrite": 0,
+          "total": 0.00006449
+        }
+      }
+    },
+    {
+      "row": 654,
+      "query": "switching topics entirely: best coffee beans?",
+      "expected": [],
+      "predicted": [],
+      "normalized": [],
+      "ok": true,
+      "note": "",
+      "usage": {
+        "input": 2548,
+        "output": 350,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 16,
+        "totalTokens": 2898,
+        "cost": {
+          "input": 0.00019109999999999998,
+          "output": 0.0000875,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.0002786
+        }
+      }
+    }
+  ],
+  "acc": {
+    "exact": 60,
+    "exactNorm": 63,
+    "toolOk": 72,
+    "nExpected": 82,
+    "offOk": 8,
+    "nOfftopic": 16
+  }
+}

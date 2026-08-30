@@ -9,10 +9,10 @@ data:
 
 ## pin-holdout — persist the current eval holdout (keyed by query string)
 ## NOTE: pin_holdout.py refuses to overwrite without --force. The live pin is
-## now runs/eval_v8_holdout.json (120 rows); if the dataset grows again, create
+## now runs/results/eval_v8_holdout.json (120 rows); if the dataset grows again, create
 ## a NEW versioned file (v9) explicitly, then repoint eval/train + eval_pi.mjs.
 pin-holdout:
-	$(PY) pin_holdout.py --data dataset.jsonl --out runs/eval_v8_holdout.json
+	$(PY) pin_holdout.py --data dataset.jsonl --out runs/results/eval_v8_holdout.json
 
 ## train — print the Colab recipe (training runs on a Colab GPU, not locally)
 train:
@@ -23,15 +23,15 @@ train:
 	@echo "  colab upload -s NAME dataset.jsonl /content/dataset.jsonl"
 	@echo "  colab upload -s NAME train_lfm2.py /content/train_lfm2.py"
 	@echo "  colab upload -s NAME split.py /content/split.py"
-	@echo "  colab upload -s NAME runs/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout"
+	@echo "  colab upload -s NAME runs/results/eval_v8_holdout.json /content/eval_v8_holdout.json   # optional: pinned holdout"
 	@echo "  colab exec -s NAME -f scripts/run_detached_dump.py --env HOLDOUT=/content/eval_v8_holdout.json   # detached run + ckpt dump"
 
 ## eval — score the adapter on the holdout split
 eval:
-	$(PY) eval_lfm2.py --adapter $(ADAPTER) --holdout runs/eval_v8_holdout.json | tee runs/eval_latest.txt
+	$(PY) eval_lfm2.py --adapter $(ADAPTER) --holdout runs/results/eval_v8_holdout.json | tee runs/results/eval_latest.txt
 
 eval-base:
-	$(PY) eval_lfm2.py --base --holdout runs/eval_v8_holdout.json | tee runs/eval_base.txt
+	$(PY) eval_lfm2.py --base --holdout runs/results/eval_v8_holdout.json | tee runs/results/eval_base.txt
 
 ## validate — live-check dataset labels against a running herdr server
 validate:

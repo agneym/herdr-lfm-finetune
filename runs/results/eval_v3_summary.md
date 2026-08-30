@@ -11,14 +11,14 @@ Split: SHARED (split.py, seed 42 eval-holdout / seed 0 val), strictly disjoint: 
 Hyperparams: epochs 8, batch 1, grad-accum 8, lr 1e-4, LoRA r=16 alpha=32 dropout=0.05 on q/k/v/o_proj, bf16, grad-ckpt.
 Train curve: train 3.20 -> 0.23, val 2.24 -> 0.3986 (best at epoch 8; never overfit).
 
-## New adapter on the 47-row holdout (runs/eval_v3_new.txt)
+## New adapter on the 47-row holdout (runs/results/eval_v3_new.txt)
   exact-call accuracy  : 13/41 = 31.7%
   exact (normalized)   : 19/41 = 46.3%
   tool-selection acc   : 26/41 = 63.4%
   off-topic (no call)  : 4/6  = 66.7%
 
 ## Why this is much lower than the old 65.7%/77.1%
-The old adapter (lfm2_herdr_lora_old / runs/eval_v2_norm.txt) was trained on rows that
+The old adapter (lfm2_herdr_lora_old / runs/results/eval_v2_norm.txt) was trained on rows that
 INCLUDED its own eval holdout (old train_lfm2.py made train = all-not-in-val = 283 rows,
 which overlapped the seed-42 eval set). It was therefore scored partly on memorized rows,
 inflating exact-call and tool-selection. The 47-row set here is genuinely unseen by the new
@@ -32,9 +32,9 @@ rows that required a call (e.g. "make a new workspace", "wait until agent review
 ("answers: []") to novel on-topic phrasings. Minor: 2 wrong-tool / 1 off-topic-called-tool.
 
 ## Files
-- runs/eval_v3_new.txt  — new adapter summary + per-tool grounding + mismatches
-- runs/eval_v3_base.txt — base baseline on the same split
-- runs/eval_v3_summary.md — this file
+- runs/results/eval_v3_new.txt  — new adapter summary + per-tool grounding + mismatches
+- runs/results/eval_v3_base.txt — base baseline on the same split
+- runs/results/eval_v3_summary.md — this file
 
 ## 3-arm comparison on the SAME 47-row holdout (disjoint, seed 42)
 | model | exact-call | exact-norm | tool-select | off-topic |

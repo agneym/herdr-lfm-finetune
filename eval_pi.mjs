@@ -15,7 +15,7 @@
  * Usage:
  *   node eval_pi.mjs [--provider openrouter] [--model z-ai/glm-5.3-flash]
  *                    [--limit N] [--thinking off|low|high|max] [--max-tokens N]
- *                    [--holdout runs/eval_v8_holdout.json]
+ *                    [--holdout runs/results/eval_v8_holdout.json]
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { ModelRuntime } from "/home/agney/.local/share/mise/installs/npm-earendil-works-pi-coding-agent/0.84.3/node_modules/.mise/@earendil-works+pi-coding-agent@0.84.3/node_modules/@earendil-works/pi-coding-agent/dist/bundle/index.js";
@@ -34,7 +34,7 @@ const MODEL = argVal("--model", "deepseek-v4-flash-vision-exp");
 const LIMIT = parseInt(argVal("--limit", "0"), 10) || 0;
 const THINKING = argVal("--thinking", "high"); // off|low|high|max (medium unsupported)
 const MAX_TOKENS = parseInt(argVal("--max-tokens", "512"), 10) || 512;
-const HOLDOUT = argVal("--holdout", "runs/eval_v8_holdout.json");
+const HOLDOUT = argVal("--holdout", "runs/results/eval_v8_holdout.json");
 
 // --- JSON helpers (key-order-insensitive) -----------------------------------
 function sortKeys(x) {
@@ -243,5 +243,5 @@ const outJson = {
   acc: { exact, exactNorm, toolOk, nExpected, offOk, nOfftopic },
 };
 const slug = `${PROVIDER}__${MODEL}`.replace(/[^a-zA-Z0-9_-]+/g, "-");
-writeFileSync(`runs/eval_pi_${slug}_${stamp}.json`, JSON.stringify(outJson, null, 2));
-console.log(`\nsaved: runs/eval_pi_${slug}_${stamp}.json`);
+writeFileSync(`runs/results/eval_pi_${slug}_${stamp}.json`, JSON.stringify(outJson, null, 2));
+console.log(`\nsaved: runs/results/eval_pi_${slug}_${stamp}.json`);
