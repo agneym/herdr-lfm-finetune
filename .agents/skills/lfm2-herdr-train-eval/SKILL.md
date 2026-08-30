@@ -27,7 +27,11 @@ expert, training on Google Colab via `colab` CLI, and evaluating locally.
 Trained with deterministic system-prompt rotation (8 contexts) so the model
 grounds workspace/pane/cwd from the prompt instead of memorizing one fixed
 `w1:p1 / /home/repo` context. Live-validated against a real `herdr` server
-(PASS 404 / SKIP 250 / FAIL 23 — identical profile to v6).
+(recorded as PASS 404 / SKIP 250 / FAIL 23). NOTE: the 22× `integration_install`
+"FAILs" in that record were a **stale 4-agent whitelist** in `validate_dataset.py`
+— the installed CLI (v0.8.2) accepts those agents (`herdr integration install
+--help`); `validate_dataset.py` now validates against the CLI's accepted set (see
+`herdr_tools.INTEGRATION_AGENTS`).
 
 The canonical holdout was re-pinned to **v8** (120 rows) in Phase 1B; the same
 **v7** adapter was re-scored on it (strictly disjoint from training):

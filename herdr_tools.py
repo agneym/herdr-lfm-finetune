@@ -194,9 +194,18 @@ def worktree_create(
                   "base": base, "path": path, "label": label, "focus": focus})
 
 
-def integration_install(agent: Literal["pi", "omp", "claude", "codex", "copilot", "devin", "droid",
-                                      "kimi", "opencode", "kilo", "hermes", "qodercli", "qwen",
-                                      "cursor", "mastracode", "antigravity-cli", "grok"]) -> dict:
+# Valid `herdr integration install <agent>` targets, mirroring the installed CLI
+# (v0.8.2) `herdr integration install --help`. SINGLE source of truth: the tool
+# schema, this function's type, and validate_dataset.py all read from here so
+# they can't drift. NOTE: this is distinct from `agent_start` kinds (which have
+# no antigravity-cli/gemini).
+INTEGRATION_AGENTS = (
+    "pi", "omp", "claude", "codex", "copilot", "devin", "droid", "kimi", "opencode",
+    "kilo", "hermes", "qodercli", "qwen", "cursor", "mastracode", "antigravity-cli", "grok",
+)
+
+
+def integration_install(agent: Literal[*INTEGRATION_AGENTS]) -> dict:
     """Install the built-in Herdr integration for an agent so Herdr recognizes it inside panes.
     agent: the agent kind whose integration to install.
     """

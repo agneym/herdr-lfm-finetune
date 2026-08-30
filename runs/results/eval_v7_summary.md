@@ -59,10 +59,16 @@ order, not by model performance.
 
 `validate_dataset.py` replayed v7 against the live server: **PASS 404 /
 SKIP 250 / FAIL 23 — byte-for-byte identical status profile to the v6
-report**. All 23 failures are pre-existing (22× integration_install for
-cursor/copilot/devin/droid/kilo — kinds the CLI doesn't recognize yet — and
-1× worktree_create.base='develop' plus the v6 off-topic rows already known).
-The rotated system prompts introduced **zero** new validation failures.
+report**. All 23 failures are pre-existing (22× integration_install plus 1×
+worktree_create.base='develop' plus the v6 off-topic rows already known). The
+rotated system prompts introduced **zero** new validation failures.
+
+> **Correction (2026-08-30):** the 22× `integration_install` "FAILs" were a
+> stale 4-agent whitelist in `validate_dataset.py`, not "kinds the CLI doesn't
+> recognize". The installed CLI (v0.8.2, `herdr integration install --help`)
+> accepts cursor/copilot/devin/droid/kilo. `validate_dataset.py` now validates
+> against the CLI's accepted set (`herdr_tools.INTEGRATION_AGENTS`); see
+> `runs/results/caveats.md`.
 
 ## Results
 

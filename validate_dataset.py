@@ -13,6 +13,8 @@ import subprocess
 import sys
 import tempfile
 
+from herdr_tools import INTEGRATION_AGENTS
+
 HERDR = shutil.which("herdr")
 DATA = os.path.join(os.path.dirname(__file__), "dataset.jsonl")
 results = []  # (row_idx, query, call, status, detail)
@@ -32,6 +34,27 @@ def jout(proc):
 
 def record(i, q, call, status, detail=""):
     results.append((i, q, call, status, detail))
+
+
+def integration_agents():
+    """Valid `herdr integration install <agent>` targets.
+
+    The installed CLI is authoritative ("The installed binary is the authority for
+    command syntax"); parse the possible values from `herdr integration install
+    --help`. Fall back to the shared tool constant if the help format changes or
+    herdr is unavailable.
+    """
+    try:
+        out = subprocess.run([HERDR, "integration", "install", "--help"],
+                             capture_output=True, text=True, timeout=30).stdout
+        m = re.search(r"possible values:\s*\[?([^\]]+)", out)
+        if m:
+            vals = [v.strip() for v in m.group(1).split(",") if v.strip()]
+            if vals:
+                return vals
+    except Exception:  # noqa: BLE001 — help parse is best-effort
+        pass
+    return list(INTEGRATION_AGENTS)
 
 
 BIN = {"codex": "codex", "claude": "claude", "opencode": "opencode",
@@ -163,7 +186,7 @@ for i, row in enumerate(rows):
                        "PASS" if ok else "FAIL",
                        "" if ok else "base ref does not exist in a fresh repo")
             elif name == "integration_install":
-                valid = a["agent"] in ("hermes", "codex", "opencode", "claude")
+                valid = a["agent"] in integration_agents()
                 record(i, q, f"integration_install({a['agent']})",
                        "PASS" if valid else "FAIL")
             else:

@@ -1,6 +1,6 @@
 # Herdr expert: LFM2-350M LoRA
 
-Fine-tune **LiquidAI/LFM2-350M** (PEFT LoRA) to be an expert on the **Herdr**
+Fine-tune **LiquidAI/LFM2-350M** (PEFT LoRA) to be an expert on the **[Herdr](https://herdr.dev)**
 terminal multiplexer, so a main agent can ask it in natural language for the
 right Herdr operation and run the result.
 
@@ -12,7 +12,7 @@ comparison — deepseek flash 56.1%, GLM 5.3 flash 73.2% — was scored on the p
 98-row v5 holdout; the v8 frontier run is pending.)*
 
 **Current state:** the tuned adapter is `adapters/lfm2_herdr_lora` (the "v7"
-run), published on Hugging Face Hub as **`agney/lfm2-herdr-lora`** (weights
+run), published on Hugging Face Hub as **[`agney/lfm2-herdr-lora`](https://huggingface.co/agney/lfm2-herdr-lora)** (weights
 are not committed to git; `make fetch` pulls them into `adapters/`). Current
 dataset is 804 rows (98 off-topic — 12.2%) across all 25 Herdr ops. The
 canonical holdout is now `runs/results/eval_v8_holdout.json` (120 rows, 17
@@ -34,7 +34,7 @@ from herdr_tools import SCHEMAS                      # the 25 Herdr tool schemas
 tok = AutoTokenizer.from_pretrained("LiquidAI/LFM2-350M")
 model = AutoModelForCausalLM.from_pretrained(
     "LiquidAI/LFM2-350M", dtype=torch.bfloat16, device_map="auto")
-model = PeftModel.from_pretrained(model, "agney/lfm2-herdr-lora").eval()  # weights pulled from HF Hub
+model = PeftModel.from_pretrained(model, "agney/lfm2-herdr-lora").eval()  # weights pulled from https://huggingface.co/agney/lfm2-herdr-lora
 
 prompt = tok.apply_chat_template(
     [{"role": "system", "content":
@@ -90,7 +90,7 @@ so the three sets are provably disjoint.
 | `eval_pi.mjs` | Same holdout via pi's `ModelRuntime` for any catalog model (deepseek flash, GLM 5.3 flash); `--holdout` selects the pin; records tokens + cost. |
 | `pin_holdout.py` | Persists the eval holdout (keyed by query) so re-eval stays comparable as the dataset grows. |
 | `validate_dataset.py` | Live-validates dataset labels against a real `herdr` server. |
-| `adapters/lfm2_herdr_lora/` | **Current tuned adapter (v7).** Weights are not committed to git — published as `agney/lfm2-herdr-lora` on Hugging Face Hub; `scripts/fetch_adapter.py` / [`make fetch`](#fetch) pulls them in. Older runs are archived alongside (`_v1`, `_v3`, `_v4`, `_v6`). |
+| `adapters/lfm2_herdr_lora/` | **Current tuned adapter (v7).** Weights are not committed to git — published as [`agney/lfm2-herdr-lora`](https://huggingface.co/agney/lfm2-herdr-lora) on Hugging Face Hub; `scripts/fetch_adapter.py` / [`make fetch`](#fetch) pulls them in. Older runs are archived alongside (`_v1`, `_v3`, `_v4`, `_v6`). |
 | `reference/` | Herdr tool schemas, captured CLI help (`cli_help/`), API schema, skill doc. |
 | `scripts/` | Colab glue (`setup_lfm2_colab.py`, `fix_torchao.py`, `run_detached_*.py`), `fetch_adapter.py` (pulls the tuned adapter from HF Hub), one-off probes (`probe_*`), and `make_eval_graph.py` (renders `docs/eval_comparison.*`). |
 | `runs/results/` | Durable results: per-version `eval_v*_summary.md`, holdout JSONs, raw `eval_*` outputs, and [`runs/results/caveats.md`](runs/results/caveats.md) (compatibility/caveats doc). Regenerable checkpoints/logs live under `runs/checkpoints/` and `runs/logs/` (gitignored). |
@@ -98,7 +98,7 @@ so the three sets are provably disjoint.
 | `Makefile` | `make data` / `make eval` / `make validate`; `make train` prints the Colab recipe. |
 
 The pipeline chain is: `make data` -> train on Colab -> `make fetch`
-(pulls `agney/lfm2-herdr-lora` into `adapters/lfm2_herdr_lora/`) -> `make eval`.
+(pulls [`agney/lfm2-herdr-lora`](https://huggingface.co/agney/lfm2-herdr-lora) into `adapters/lfm2_herdr_lora/`) -> `make eval`.
 
 ## Training (Google Colab)
 
@@ -118,7 +118,7 @@ colab upload -s NAME runs/results/eval_v8_holdout.json /content/eval_v8_holdout.
 Current recipe (v6/v7): epochs 12, batch 1, grad-accum 8, lr 1e-4, LoRA
 r=16 alpha=32 on `q/k/v` + `w1/w3/w2`. The Colab scripts write the adapter flat
 at `/content/lfm2_herdr_lora`; once trained, `make fetch` (or upload the adapter
-to `agney/lfm2-herdr-lora`) publishes it so a fresh clone can use it. Train with
+to [`agney/lfm2-herdr-lora`](https://huggingface.co/agney/lfm2-herdr-lora)) publishes it so a fresh clone can use it. Train with
 `--env HOLDOUT=/content/eval_v8_holdout.json` so the 120 eval rows never leak
 into training. The LFM2 target-map gotcha, the Drive-mirror / VM-reap lifecycle,
 and the exact `run_detached_dump.py` flow are in
@@ -190,10 +190,13 @@ on the v8 120-row holdout the same adapter still scored **96.1% exact** and
 - **Two tools are below 100% grounding** — `pane_split` 4/5 and `pane_current`
   1/3 on exact args; the other 16 tools ground at 100%.
 
-Beyond the holdout, `validate_dataset.py` replays against a live `herdr` server
-and reports **23 FAIL** (22× `integration_install` for agent kinds the CLI
-doesn't recognize yet — cursor/copilot/devin/droid/kilo — plus 1×
-`worktree_create` with `base='develop'`).
+Beyond the holdout, `validate_dataset.py` replays against a live `herdr` server.
+Its `integration_install` check previously used a stale 4-agent whitelist, which
+produced **22 false FAILs** — the installed CLI (v0.8.2) *accepts* those agents
+(`herdr integration install --help` lists cursor/copilot/devin/droid/kilo among
+its possible values), and the model is trained on valid calls. That check now
+validates against the CLI's accepted set. The remaining known validate failure is
+1× `worktree_create` with `base='develop'` (the scratch repo has no such branch).
 
 This is a **narrow specialist**, not a general model: it plans the 25 Herdr ops
 and refuses off-topic prompts; it does not do general chat, code, or reasoning.
